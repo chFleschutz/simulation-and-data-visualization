@@ -23,16 +23,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="src\simulationanddatavisualization.qrc">
+    <QtRcc Include="src\mainwindow.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="src\simulationanddatavisualization.ui">
+    <QtUic Include="src\mainwindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="src\simulationanddatavisualization.h">
+    <QtMoc Include="src\mainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="src\simulationanddatavisualization.cpp">
+    <ClCompile Include="src\mainwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

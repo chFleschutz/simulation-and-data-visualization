@@ -1,8 +1,8 @@
 <UI version="4.0" >
- <class>simulationanddatavisualizationClass</class>
- <widget class="QMainWindow" name="simulationanddatavisualizationClass" >
+ <class>MainWindowClass</class>
+ <widget class="QMainWindow" name="MainWindowClass" >
   <property name="objectName" >
-   <string notr="true">simulationanddatavisualizationClass</string>
+   <string notr="true">MainWindowClass</string>
   </property>
   <property name="geometry" >
    <rect>
@@ -13,7 +13,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>simulationanddatavisualization</string>
+   <string>MainWindow</string>
   </property>  <widget class="QMenuBar" name="menuBar" />
   <widget class="QToolBar" name="mainToolBar" />
   <widget class="QWidget" name="centralWidget" />
@@ -22,7 +22,7 @@
  <layoutDefault spacing="6" margin="11" />
  <pixmapfunction></pixmapfunction>
  <resources>
-   <include location="simulationanddatavisualization.qrc"/>
+   <include location="mainwindow.qrc"/>
  </resources>
  <connections/>
 </UI>
