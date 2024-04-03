@@ -2,14 +2,16 @@
 
 #include "imagevisualizer.h"
 
-class Shepard : public ImageVisualizer
+#include <algorithm>
+
+class ShepardFrankieLittle : public ImageVisualizer
 {
 public:
-	Shepard() = default;
-	virtual ~Shepard() = default;
+	ShepardFrankieLittle() = default;
+	virtual ~ShepardFrankieLittle() = default;
 
 protected:
-	void colorPixel(QImage& image, int x, int y, const std::vector<ControlPoint>& controlPoints) override
+	void colorPixel(QImage& image, int x, int y, const std::vector<ControlPoint>& controlPoints)
 	{
 		float r = 0.0f;
 		float g = 0.0f;
@@ -20,9 +22,9 @@ protected:
 		{
 			auto dx = point.pos.x() - x;
 			auto dy = point.pos.y() - y;
-			auto dist = sqrt(dx * dx + dy * dy); 
+			float dist = sqrt(dx * dx + dy * dy);
 
-			auto weight = 1.0f / dist;
+			auto weight = std::max(m_radius - dist, 0.0f) / (m_radius * dist);
 			totalWeight += weight;
 
 			r += weight * point.color.red();

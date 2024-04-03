@@ -18,6 +18,11 @@ public:
 	ImageVisualizer() = default;
 	virtual ~ImageVisualizer() = default;
 
+	void setRadius(int radius)
+	{
+		m_radius = radius;
+	}
+
 	virtual void paint(QImage& image, const std::vector<ControlPoint>& controlPoints)
 	{
 		if (controlPoints.empty())
@@ -37,4 +42,6 @@ public:
 
 protected:
 	virtual void colorPixel(QImage& image, int x, int y, const std::vector<ControlPoint>& controlPoints) = 0;
+
+	int m_radius = 100;
 };

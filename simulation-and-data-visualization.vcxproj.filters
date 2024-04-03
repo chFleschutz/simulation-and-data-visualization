@@ -70,5 +70,8 @@
     <ClInclude Include="src\mapvisualization\visualizer\shepard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\mapvisualization\visualizer\shepardfrankielittle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

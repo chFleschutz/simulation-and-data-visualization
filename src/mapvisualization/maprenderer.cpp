@@ -17,8 +17,7 @@ MapRenderer::MapRenderer(QWidget* parent)
 void MapRenderer::reset()
 {
 	m_controlPoints.clear();
-	m_image = m_originalImage.scaled(size(), Qt::AspectRatioMode::KeepAspectRatio);
-	update();
+	resetImage();
 }
 
 void MapRenderer::loadImage()
@@ -45,6 +44,15 @@ void MapRenderer::loadPreset(int index)
 		break;
 	default:
 		break;
+	}
+}
+
+void MapRenderer::setRadius(int radius)
+{
+	if (m_visualizer)
+	{
+		m_visualizer->setRadius(radius);
+		resetImage();
 	}
 }
 
@@ -78,9 +86,7 @@ void MapRenderer::resizeEvent(QResizeEvent* event)
 	if (size().height() == 0 || size().width() == 0)
 		return;
 
-	m_image = m_originalImage.scaled(size(), Qt::AspectRatioMode::KeepAspectRatio);
-
-	updateImage();
+	resetImage();
 }
 
 void MapRenderer::load(const QString& path)
@@ -92,12 +98,16 @@ void MapRenderer::load(const QString& path)
 	reset(); 
 }
 
+void MapRenderer::resetImage()
+{
+	m_image = m_originalImage.scaled(size(), Qt::AspectRatioMode::KeepAspectRatio);
+	updateImage(); // Trigger a repaint
+}
+
 void MapRenderer::updateImage()
 {
 	if (m_visualizer)
-	{
 		m_visualizer->paint(m_image, m_controlPoints);
-	}
 
 	update(); // Trigger a repaint
 }

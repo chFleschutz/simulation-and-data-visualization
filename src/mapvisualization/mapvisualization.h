@@ -4,6 +4,7 @@
 
 #include "visualizer/shepard.h"
 #include "visualizer/voronoi.h"
+#include "visualizer/shepardfrankielittle.h"
 
 #include <QWidget>
 
@@ -18,6 +19,7 @@ public:
 
 		connect(ui.voronoiButton, &QPushButton::clicked, this, &MapVisualization::setVoronoi);
 		connect(ui.shepardButton, &QPushButton::clicked, this, &MapVisualization::setShepard);
+		connect(ui.shepardFrankieLittleButton, &QPushButton::clicked, this, &MapVisualization::setShepardFrankieLittle);
 
 		ui.mapRenderer->setVisualizer<Voronoi>(); // Start with Voronoi
 	}
@@ -30,6 +32,11 @@ public:
 	void setShepard()
 	{
 		ui.mapRenderer->setVisualizer<Shepard>();
+	}
+
+	void setShepardFrankieLittle()
+	{
+		ui.mapRenderer->setVisualizer<ShepardFrankieLittle>();
 	}
 
 private:

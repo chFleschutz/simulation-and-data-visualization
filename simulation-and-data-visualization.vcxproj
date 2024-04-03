@@ -114,6 +114,7 @@
   <ItemGroup>
     <ClInclude Include="src\mapvisualization\visualizer\imagevisualizer.h" />
     <ClInclude Include="src\mapvisualization\visualizer\shepard.h" />
+    <ClInclude Include="src\mapvisualization\visualizer\shepardfrankielittle.h" />
     <ClInclude Include="src\mapvisualization\visualizer\voronoi.h" />
     <QtMoc Include="src\mapvisualization\mapvisualization.h" />
   </ItemGroup>
