@@ -99,11 +99,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\maprenderer.cpp" />
     <QtRcc Include="src\mainwindow.qrc" />
     <QtUic Include="src\mainwindow.ui" />
     <QtMoc Include="src\mainwindow.h" />
     <ClCompile Include="src\mainwindow.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <QtUic Include="src\maprenderer.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\maprenderer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
