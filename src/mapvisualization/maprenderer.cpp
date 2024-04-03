@@ -8,13 +8,28 @@ MapRenderer::MapRenderer(QWidget* parent)
 {
 	ui.setupUi(this);
 
-	QString imagePath = "assets/DEsmall.png";
-	if (!m_image.load(imagePath))
-		qFatal() << "Could not find image: " << imagePath;
+	loadImage();
 }
 
-MapRenderer::~MapRenderer()
+void MapRenderer::reset()
 {
+	m_controlPoints.clear();
+
+	loadImage();
+	updateImage();
+}
+
+void MapRenderer::mouseDoubleClickEvent(QMouseEvent* event)
+{
+	auto pos = event->position().toPoint();
+
+	auto r = QRandomGenerator::global()->generate() % 256;
+	auto g = QRandomGenerator::global()->generate() % 256;
+	auto b = QRandomGenerator::global()->generate() % 256;
+
+	m_controlPoints.emplace_back(pos, QColor(r, g, b));
+
+	updateImage();
 }
 
 void MapRenderer::paintEvent(QPaintEvent* event)
@@ -27,15 +42,20 @@ void MapRenderer::paintEvent(QPaintEvent* event)
 	m_painter.end();
 }
 
-void MapRenderer::mouseDoubleClickEvent(QMouseEvent* event)
+void MapRenderer::loadImage()
 {
-	auto pos = event->position().toPoint();
+	if (!m_image.load(m_imagePath))
+		qFatal() << "Could not find image: " << m_imagePath;
 
-	auto r = QRandomGenerator::global()->generate() % 256;
-	auto g = QRandomGenerator::global()->generate() % 256;
-	auto b = QRandomGenerator::global()->generate() % 256;
+	updateImage();
+}
 
-	m_controlPoints.emplace_back(pos, QColor(r, g, b));
+void MapRenderer::updateImage()
+{
+	if (m_visualizer)
+	{
+		m_visualizer->paint(m_image, m_controlPoints);
+	}
 
 	update(); // Trigger a repaint
 }

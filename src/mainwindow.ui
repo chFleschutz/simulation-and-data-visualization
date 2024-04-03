@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
+    <width>604</width>
     <height>400</height>
    </rect>
   </property>
@@ -17,17 +17,20 @@
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QTabWidget" name="tabWidget">
-      <widget class="QWidget" name="tab_3">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab_1">
        <attribute name="title">
         <string>Tab 1</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="MapRenderer" name="widget" native="true"/>
+         <widget class="MapVisualization" name="mapVis" native="true"/>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_4">
+      <widget class="QWidget" name="tab_2">
        <attribute name="title">
         <string>Tab 2</string>
        </attribute>
@@ -41,7 +44,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>576</width>
+     <width>604</width>
      <height>22</height>
     </rect>
    </property>
@@ -59,9 +62,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>MapRenderer</class>
+   <class>MapVisualization</class>
    <extends>QWidget</extends>
-   <header>maprenderer.h</header>
+   <header>mapvisualization/mapvisualization.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

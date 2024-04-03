@@ -99,16 +99,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\maprenderer.cpp" />
+    <ClCompile Include="src\mapvisualization\maprenderer.cpp" />
     <QtRcc Include="src\mainwindow.qrc" />
     <QtUic Include="src\mainwindow.ui" />
     <QtMoc Include="src\mainwindow.h" />
     <ClCompile Include="src\mainwindow.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <QtUic Include="src\maprenderer.ui" />
+    <QtUic Include="src\mapvisualization\maprenderer.ui" />
+    <QtUic Include="src\mapvisualization\mapvisualization.ui" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\maprenderer.h" />
+    <QtMoc Include="src\mapvisualization\maprenderer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\mapvisualization\visualizer\imagevisualizer.h" />
+    <ClInclude Include="src\mapvisualization\visualizer\shepard.h" />
+    <ClInclude Include="src\mapvisualization\visualizer\voronoi.h" />
+    <QtMoc Include="src\mapvisualization\mapvisualization.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
