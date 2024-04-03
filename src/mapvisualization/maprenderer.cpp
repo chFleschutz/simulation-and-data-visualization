@@ -2,21 +2,39 @@
 
 #include <QMouseEvent>
 #include <QRandomGenerator>
+#include <QFileDialog>
 
 MapRenderer::MapRenderer(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	setContentsMargins(0, 0, 0, 0);
+	setMinimumSize(512, 512);
 
-	loadImage();
+	if (!m_originalImage.load("assets/DEsmall.png"))
+		qFatal() << "Could not find image: " << "assets/DEsmall.png";
+
+	reset();
 }
 
 void MapRenderer::reset()
 {
 	m_controlPoints.clear();
 
-	loadImage();
+	m_image = m_originalImage.scaled(size(), Qt::AspectRatioMode::KeepAspectRatio);
 	updateImage();
+}
+
+void MapRenderer::loadImage()
+{
+	auto path = QFileDialog::getOpenFileName(this, "Open Image", QString(), "Images (*.png *.jpg *.bmp)");
+	if (path.isEmpty())
+		return;
+
+	if (!m_originalImage.load(path))
+		qFatal() << "Could not find image: " << path;
+
+	reset();
 }
 
 void MapRenderer::mouseDoubleClickEvent(QMouseEvent* event)
@@ -36,16 +54,20 @@ void MapRenderer::paintEvent(QPaintEvent* event)
 {
 	m_painter.begin(this);
 
-	m_painter.drawImage(0, 0, m_image.scaledToHeight(height()));
+	m_painter.drawImage(0, 0, m_image);
 	drawPoints();
 
 	m_painter.end();
 }
 
-void MapRenderer::loadImage()
+void MapRenderer::resizeEvent(QResizeEvent* event)
 {
-	if (!m_image.load(m_imagePath))
-		qFatal() << "Could not find image: " << m_imagePath;
+	QWidget::resizeEvent(event);
+
+	if (size().height() == 0 || size().width() == 0)
+		return;
+
+	m_image = m_originalImage.scaled(size(), Qt::AspectRatioMode::KeepAspectRatio);
 
 	updateImage();
 }

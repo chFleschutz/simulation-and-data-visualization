@@ -24,23 +24,30 @@ public:
 		updateImage();
 	}
 
+	/// @brief Clears the control points and resets the image to the original image 
 	void reset();
+
+	/// @brief Opens a file dialog to load an image
+	void loadImage();
 
 protected:
 	virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
 	virtual void paintEvent(QPaintEvent* event) override;
+	virtual void resizeEvent(QResizeEvent* event) override;
 
 private:
-	void loadImage();
+	/// @brief Colors the image using the visualizer
 	void updateImage();
+
+	/// @brief Draws all control points 
 	void drawPoints();
 
 	Ui::MapRendererClass ui;
 
-	QString m_imagePath = "assets/DEsmall.png";
-	QImage m_image;
-	QPainter m_painter;
+	QImage m_originalImage; // Original unscaled image
+	QImage m_image;			// Scaled and colored image
 
+	QPainter m_painter;
 	float m_pointSize = 10.0f;
 	std::vector<ControlPoint> m_controlPoints;
 

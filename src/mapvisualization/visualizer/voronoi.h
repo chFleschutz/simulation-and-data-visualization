@@ -10,21 +10,7 @@ public:
 	Voronoi() = default;
 	virtual ~Voronoi() = default;
 
-	virtual void paint(QImage& image, const std::vector<ControlPoint>& controlPoints) override
-	{
-		for (int x = 0; x < image.width(); x++)
-		{
-			for (int y = 0; y < image.height(); y++)
-			{
-				if (image.pixelColor(x, y).alpha() == 0)
-					continue;
-
-				colorPixel(image, x, y, controlPoints);
-			}
-		}
-	}
-
-private:
+protected:
 	void colorPixel(QImage& image, int x, int y, const std::vector<ControlPoint>& controlPoints)
 	{
 		float minDist = std::numeric_limits<float>::max();

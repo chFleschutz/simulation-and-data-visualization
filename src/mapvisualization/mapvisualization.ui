@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>607</width>
+    <height>371</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,6 +20,13 @@
    <item>
     <widget class="QWidget" name="widget_2" native="true">
      <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="text">
+         <string>Load Image</string>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QPushButton" name="pushButton">
         <property name="text">
@@ -80,6 +87,7 @@
    <container>1</container>
    <slots>
     <slot>reset()</slot>
+    <slot>loadImage()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -92,12 +100,28 @@
    <slot>reset()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>355</x>
-     <y>34</y>
+     <x>359</x>
+     <y>64</y>
     </hint>
     <hint type="destinationlabel">
      <x>207</x>
      <y>59</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>mapRenderer</receiver>
+   <slot>loadImage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>374</x>
+     <y>29</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>261</x>
+     <y>30</y>
     </hint>
    </hints>
   </connection>
