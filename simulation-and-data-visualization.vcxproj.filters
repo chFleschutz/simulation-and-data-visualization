@@ -23,7 +23,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="src\mainwindow.qrc">
+    <QtRcc Include="ressources.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
     <QtUic Include="src\mainwindow.ui">
@@ -40,5 +40,38 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\mapvisualization\maprenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\mapvisualization\maprenderer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\mapvisualization\mapvisualization.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\mapvisualization\maprenderer.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\mapvisualization\mapvisualization.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\mapvisualization\visualizer\voronoi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mapvisualization\visualizer\imagevisualizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mapvisualization\visualizer\shepard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mapvisualization\visualizer\shepardfrankielittle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

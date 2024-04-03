@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/images/DEsmall.png</file>
+        <file>assets/images/AUbig.png</file>
+        <file>assets/images/USA.png</file>
+        <file>assets/images/favicon.ico</file>
+    </qresource>
+</RCC>

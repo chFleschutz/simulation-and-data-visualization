@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MapVisualizationClass</class>
+ <widget class="QWidget" name="MapVisualizationClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>658</width>
+    <height>427</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MapVisualization</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="MapRenderer" name="mapRenderer" native="true">
+     <property name="toolTipDuration">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="controls" native="true">
+     <property name="maximumSize">
+      <size>
+       <width>400</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
+         <string>Image</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QComboBox" name="imagePresets">
+             <item>
+              <property name="text">
+               <string>Germany</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>USA</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Australia</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="loadImageButton">
+             <property name="text">
+              <string>Load Image</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QPushButton" name="resetButton">
+           <property name="text">
+            <string>Reset Image</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="modes">
+        <property name="title">
+         <string>Mode</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QRadioButton" name="voronoiButton">
+           <property name="text">
+            <string>Voronoi</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="shepardButton">
+           <property name="text">
+            <string>Shepard Standard</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="shepardFrankieLittleButton">
+           <property name="text">
+            <string>Shepard Frankie Little</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Radius</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinBox">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="maximum">
+              <number>1000</number>
+             </property>
+             <property name="value">
+              <number>100</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>MapRenderer</class>
+   <extends>QWidget</extends>
+   <header>maprenderer.h</header>
+   <container>1</container>
+   <slots>
+    <slot>reset()</slot>
+    <slot>loadImage()</slot>
+    <slot>loadPreset(int)</slot>
+    <slot>setRadius(int)</slot>
+    <slot>updateImage()</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>resetButton</sender>
+   <signal>clicked()</signal>
+   <receiver>mapRenderer</receiver>
+   <slot>reset()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>397</x>
+     <y>99</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>18</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>loadImageButton</sender>
+   <signal>clicked()</signal>
+   <receiver>mapRenderer</receiver>
+   <slot>loadImage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>621</x>
+     <y>68</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>18</x>
+     <y>187</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>imagePresets</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>mapRenderer</receiver>
+   <slot>loadPreset(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>437</x>
+     <y>67</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>18</x>
+     <y>150</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>mapRenderer</receiver>
+   <slot>setRadius(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>518</x>
+     <y>235</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>267</x>
+     <y>278</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox</sender>
+   <signal>editingFinished()</signal>
+   <receiver>mapRenderer</receiver>
+   <slot>updateImage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>558</x>
+     <y>230</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>293</x>
+     <y>333</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>setVoronoi()</slot>
+  <slot>setShepard()</slot>
+ </slots>
+</ui>
