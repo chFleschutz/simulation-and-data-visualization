@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>607</width>
-    <height>371</height>
+    <width>603</width>
+    <height>427</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,17 +18,40 @@
     <widget class="MapRenderer" name="mapRenderer" native="true"/>
    </item>
    <item>
-    <widget class="QWidget" name="widget_2" native="true">
+    <widget class="QWidget" name="controls" native="true">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="text">
-         <string>Load Image</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QComboBox" name="imagePresets">
+          <item>
+           <property name="text">
+            <string>Germany</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>USA</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Australia</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="loadImageButton">
+          <property name="text">
+           <string>Load Image</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="resetButton">
         <property name="text">
          <string>Reset Image</string>
         </property>
@@ -88,40 +111,57 @@
    <slots>
     <slot>reset()</slot>
     <slot>loadImage()</slot>
+    <slot>loadPreset(int)</slot>
    </slots>
   </customwidget>
  </customwidgets>
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton</sender>
+   <sender>resetButton</sender>
    <signal>clicked()</signal>
    <receiver>mapRenderer</receiver>
    <slot>reset()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>359</x>
-     <y>64</y>
+     <x>544</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>207</x>
-     <y>59</y>
+     <x>209</x>
+     <y>231</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_2</sender>
+   <sender>loadImageButton</sender>
    <signal>clicked()</signal>
    <receiver>mapRenderer</receiver>
    <slot>loadImage()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>374</x>
-     <y>29</y>
+     <x>467</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
-     <x>261</x>
-     <y>30</y>
+     <x>213</x>
+     <y>187</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>imagePresets</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>mapRenderer</receiver>
+   <slot>loadPreset(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>400</x>
+     <y>41</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>196</x>
+     <y>150</y>
     </hint>
    </hints>
   </connection>

@@ -100,7 +100,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\mapvisualization\maprenderer.cpp" />
-    <QtRcc Include="src\mainwindow.qrc" />
+    <QtRcc Include="ressources.qrc" />
     <QtUic Include="src\mainwindow.ui" />
     <QtMoc Include="src\mainwindow.h" />
     <ClCompile Include="src\mainwindow.cpp" />

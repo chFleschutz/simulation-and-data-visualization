@@ -24,11 +24,15 @@ public:
 		updateImage();
 	}
 
+public slots:
 	/// @brief Clears the control points and resets the image to the original image 
 	void reset();
 
 	/// @brief Opens a file dialog to load an image
 	void loadImage();
+
+	/// @brief Loads a preset image
+	void loadPreset(int index);
 
 protected:
 	virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
@@ -36,6 +40,8 @@ protected:
 	virtual void resizeEvent(QResizeEvent* event) override;
 
 private:
+	void load(const QString& path);
+
 	/// @brief Colors the image using the visualizer
 	void updateImage();
 

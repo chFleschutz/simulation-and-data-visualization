@@ -23,7 +23,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="src\mainwindow.qrc">
+    <QtRcc Include="ressources.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
     <QtUic Include="src\mainwindow.ui">

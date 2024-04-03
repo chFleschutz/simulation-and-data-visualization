@@ -11,18 +11,14 @@ MapRenderer::MapRenderer(QWidget* parent)
 	setContentsMargins(0, 0, 0, 0);
 	setMinimumSize(512, 512);
 
-	if (!m_originalImage.load("assets/DEsmall.png"))
-		qFatal() << "Could not find image: " << "assets/DEsmall.png";
-
-	reset();
+	loadPreset(0);
 }
 
 void MapRenderer::reset()
 {
 	m_controlPoints.clear();
-
 	m_image = m_originalImage.scaled(size(), Qt::AspectRatioMode::KeepAspectRatio);
-	updateImage();
+	update();
 }
 
 void MapRenderer::loadImage()
@@ -31,10 +27,25 @@ void MapRenderer::loadImage()
 	if (path.isEmpty())
 		return;
 
-	if (!m_originalImage.load(path))
-		qFatal() << "Could not find image: " << path;
+	load(path);
+}
 
-	reset();
+void MapRenderer::loadPreset(int index)
+{
+	switch (index)
+	{
+	case 0:
+		load(":/assets/images/DEsmall.png");
+		break;
+	case 1:
+		load(":/assets/images/USA.png");
+		break;
+	case 2:
+		load(":/assets/images/AUbig.png");
+		break;
+	default:
+		break;
+	}
 }
 
 void MapRenderer::mouseDoubleClickEvent(QMouseEvent* event)
@@ -70,6 +81,15 @@ void MapRenderer::resizeEvent(QResizeEvent* event)
 	m_image = m_originalImage.scaled(size(), Qt::AspectRatioMode::KeepAspectRatio);
 
 	updateImage();
+}
+
+void MapRenderer::load(const QString& path)
+{
+	if (!m_originalImage.load(path))
+		qFatal() << "Could not find image: " << path;
+
+	// Reset the control points and image
+	reset(); 
 }
 
 void MapRenderer::updateImage()
