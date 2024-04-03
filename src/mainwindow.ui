@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Simulation and Data Visualization</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../ressources.qrc">
+    <normaloff>:/assets/images/favicon.ico</normaloff>:/assets/images/favicon.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
