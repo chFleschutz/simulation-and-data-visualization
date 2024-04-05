@@ -1,52 +1,73 @@
 #include "flowfieldwidget.h"
 
-FlowFieldWidget::FlowFieldWidget(QWidget *parent)
+FlowFieldWidget::FlowFieldWidget(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	if (!m_originalMap.load(":/assets/images/FlowfieldMap.png"))
-		qFatal() << "Failed to load image";
-
-	m_map = m_originalMap.scaled(size(), Qt::AspectRatioMode::KeepAspectRatio);
-
-	m_cellField.initialize(m_map, 50, 50);
+	setMap(0);
 }
-
-FlowFieldWidget::~FlowFieldWidget()
-{}
 
 void FlowFieldWidget::changeFlowFieldWidth(int width)
 {
-	m_cellField.initialize(m_originalMap, width, m_cellField.height());
+	m_fieldWidth = width;
+	m_cellField.initialize(m_imageRenderer.originalImage(), m_fieldWidth, m_fieldHeight);
 	update();
 }
-
 
 void FlowFieldWidget::changeFlowFieldHeight(int height)
 {
-	m_cellField.initialize(m_originalMap, m_cellField.width(), height);
+	m_fieldHeight = height;
+	m_cellField.initialize(m_imageRenderer.originalImage(), m_fieldWidth, m_fieldHeight);
 	update();
 }
 
-void FlowFieldWidget::paintEvent(QPaintEvent * event)
+void FlowFieldWidget::showCells(bool show)
 {
-	m_painter.begin(this);
-	m_painter.drawImage(0, 0, m_map);
-	drawCellValues();
-	m_painter.end();
+	m_showCells = show;
+	update();
+}
+
+void FlowFieldWidget::setCellSize(int size)
+{
+	m_cellSize = size / 100.0f;
+	update();
+}
+
+void FlowFieldWidget::setMap(int mapIndex)
+{
+	switch (mapIndex)
+	{
+	case 0:
+		m_imageRenderer.load(":/assets/images/FlowfieldMap.png", size());
+		break;
+	default:
+		break;
+	}
+
+	m_cellField.initialize(m_imageRenderer.originalImage(), m_fieldWidth, m_fieldHeight);
+	update();
+}
+
+void FlowFieldWidget::paintEvent(QPaintEvent* event)
+{
+	QPainter painter(this);
+	m_imageRenderer.draw(painter);
+
+	if (m_showCells)
+		drawCellValues(painter);
 }
 
 void FlowFieldWidget::resizeEvent(QResizeEvent* event)
 {
-	m_map = m_originalMap.scaled(size(), Qt::AspectRatioMode::KeepAspectRatio);
-	m_cellField.initialize(m_originalMap, m_cellField.width(), m_cellField.height());
+	m_imageRenderer.resize(size());
+	update();
 }
 
-void FlowFieldWidget::drawCellValues()
+void FlowFieldWidget::drawCellValues(QPainter& painter)
 {
-	auto pixelPerCellX = static_cast<float>(m_map.width()) / static_cast<float>(m_cellField.width());
-	auto pixelPerCellY = static_cast<float>(m_map.height()) / static_cast<float>(m_cellField.height());
+	auto pixelPerCellX = static_cast<float>(m_imageRenderer.size().width()) / static_cast<float>(m_cellField.width());
+	auto pixelPerCellY = static_cast<float>(m_imageRenderer.size().height()) / static_cast<float>(m_cellField.height());
 	auto offsetX = pixelPerCellX / 2.0f;
 	auto offsetY = pixelPerCellY / 2.0f;
 
@@ -57,9 +78,11 @@ void FlowFieldWidget::drawCellValues()
 			auto& cell = m_cellField.cell(x, y);
 			QColor color(cell.value, cell.value, cell.value);
 
-			QRectF pointShape(-5.0f, -5.0f, 5.0f, 5.0f);
+			auto shapeWidth = pixelPerCellX * m_cellSize;
+			auto shapeHeight = pixelPerCellY * m_cellSize;
+			QRectF pointShape(-0.5f * shapeWidth, -0.5f * shapeHeight, shapeWidth, shapeHeight);
 
-			QPen pen(Qt::blue);
+			QPen pen(Qt::GlobalColor::darkCyan);
 			pen.setWidth(1);
 			pen.setStyle(Qt::PenStyle::SolidLine);
 
@@ -67,17 +90,15 @@ void FlowFieldWidget::drawCellValues()
 			brush.setStyle(Qt::BrushStyle::SolidPattern);
 			brush.setColor(color);
 
-			m_painter.setPen(pen);
-			m_painter.setBrush(brush);
-
-			m_painter.save();
+			painter.setPen(pen);
+			painter.setBrush(brush);
+			painter.save();
 
 			auto posX = (x * pixelPerCellX) + offsetX;
 			auto posY = (y * pixelPerCellY) + offsetY;
-			m_painter.translate(posX, posY);
-
-			m_painter.drawEllipse(pointShape);
-			m_painter.restore();
+			painter.translate(posX, posY);
+			painter.drawEllipse(pointShape);
+			painter.restore();
 		}
 	}
 }

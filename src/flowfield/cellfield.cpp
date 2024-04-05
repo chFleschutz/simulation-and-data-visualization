@@ -10,8 +10,8 @@ void CellField::initialize(QImage& image, uint32_t cellCountX, uint32_t cellCoun
 	for (auto& column : m_field)
 		column.resize(cellCountY);
 
-	auto pixelPerCellX = image.width() / m_width;
-	auto pixelPerCellY = image.height() / m_height;
+	auto pixelPerCellX = static_cast<float>(image.width()) / static_cast<float>(m_width);
+	auto pixelPerCellY = static_cast<float>(image.height()) / static_cast<float>(m_height);
 
 	for (uint32_t cellY = 0; cellY < m_height; cellY++)
 	{
@@ -33,9 +33,4 @@ void CellField::initialize(QImage& image, uint32_t cellCountX, uint32_t cellCoun
 			cell.value = maxValue;
 		}
 	}
-}
-
-void CellField::sampleImage(QImage& image)
-{
-	
 }

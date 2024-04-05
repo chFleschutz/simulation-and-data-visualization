@@ -23,8 +23,6 @@ public:
 	Cell& cell(uint32_t x, uint32_t y) { return m_field[x][y]; }
 
 private:
-	void sampleImage(QImage& image);
-
 	uint32_t m_width = 0;
 	uint32_t m_height = 0;
 	std::vector<std::vector<Cell>> m_field;
