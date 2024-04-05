@@ -8,8 +8,6 @@ MapRenderer::MapRenderer(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-	setContentsMargins(0, 0, 0, 0);
-	setMinimumSize(512, 512);
 
 	loadPreset(0);
 }
@@ -63,7 +61,6 @@ void MapRenderer::mouseDoubleClickEvent(QMouseEvent* event)
 	auto r = QRandomGenerator::global()->generate() % 256;
 	auto g = QRandomGenerator::global()->generate() % 256;
 	auto b = QRandomGenerator::global()->generate() % 256;
-
 	m_controlPoints.emplace_back(pos, QColor(r, g, b));
 
 	updateImage();
@@ -71,12 +68,9 @@ void MapRenderer::mouseDoubleClickEvent(QMouseEvent* event)
 
 void MapRenderer::paintEvent(QPaintEvent* event)
 {
-	m_painter.begin(this);
-
-	m_painter.drawImage(0, 0, m_image);
-	drawPoints();
-
-	m_painter.end();
+	QPainter painter(this);
+	m_imageRenderer.draw(painter);
+	drawPoints(painter);
 }
 
 void MapRenderer::resizeEvent(QResizeEvent* event)
@@ -91,30 +85,30 @@ void MapRenderer::resizeEvent(QResizeEvent* event)
 
 void MapRenderer::load(const QString& path)
 {
-	if (!m_originalImage.load(path))
-		qFatal() << "Could not find image: " << path;
-
+	m_imageRenderer.load(path, size());
 	// Reset the control points and image
 	reset(); 
 }
 
 void MapRenderer::resetImage()
 {
-	m_image = m_originalImage.scaled(size(), Qt::AspectRatioMode::KeepAspectRatio);
+	m_imageRenderer.resize(size());
 	updateImage(); // Trigger a repaint
 }
 
 void MapRenderer::updateImage()
 {
 	if (m_visualizer)
-		m_visualizer->paint(m_image, m_controlPoints);
+	{
+		m_visualizer->paint(m_imageRenderer.image(), m_controlPoints);
+	}
 
 	update(); // Trigger a repaint
 }
 
-void MapRenderer::drawPoints()
+void MapRenderer::drawPoints(QPainter& painter)
 {
-	m_painter.setRenderHint(QPainter::Antialiasing);
+	painter.setRenderHint(QPainter::Antialiasing);
 
 	for (auto& point : m_controlPoints)
 	{
@@ -128,12 +122,12 @@ void MapRenderer::drawPoints()
 		brush.setStyle(Qt::BrushStyle::SolidPattern);
 		brush.setColor(point.color);
 
-		m_painter.setPen(pen);
-		m_painter.setBrush(brush);
+		painter.setPen(pen);
+		painter.setBrush(brush);
 
-		m_painter.save();
-		m_painter.translate(point.pos);
-		m_painter.drawEllipse(pointShape);
-		m_painter.restore();
+		painter.save();
+		painter.translate(point.pos);
+		painter.drawEllipse(pointShape);
+		painter.restore();
 	}
 }

@@ -66,6 +66,8 @@ void FlowFieldWidget::resizeEvent(QResizeEvent* event)
 
 void FlowFieldWidget::drawCellValues(QPainter& painter)
 {
+	painter.setRenderHint(QPainter::Antialiasing, true);
+
 	auto pixelPerCellX = static_cast<float>(m_imageRenderer.size().width()) / static_cast<float>(m_cellField.width());
 	auto pixelPerCellY = static_cast<float>(m_imageRenderer.size().height()) / static_cast<float>(m_cellField.height());
 	auto offsetX = pixelPerCellX / 2.0f;

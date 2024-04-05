@@ -10,6 +10,8 @@
 
 #include <memory>
 
+#include "imagerenderer.h"
+
 class MapRenderer : public QWidget
 {
 	Q_OBJECT
@@ -53,14 +55,12 @@ private:
 	void resetImage();
 
 	/// @brief Draws all control points 
-	void drawPoints();
+	void drawPoints(QPainter& painter);
 
 	Ui::MapRendererClass ui;
 
-	QImage m_originalImage; // Original unscaled image
-	QImage m_image;			// Scaled and colored image
+	ImageRenderer m_imageRenderer;
 
-	QPainter m_painter;
 	float m_pointSize = 10.0f;
 	std::vector<ControlPoint> m_controlPoints;
 
