@@ -22,7 +22,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="mapVisTab">
        <attribute name="title">
@@ -34,10 +34,90 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="flowFieldTab">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Flow Field</string>
        </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+        <item>
+         <widget class="FlowFieldWidget" name="widget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>Flow Field Settings</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <layout class="QGridLayout" name="gridLayout">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Width</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Height</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QSpinBox" name="spinBox">
+               <property name="minimum">
+                <number>10</number>
+               </property>
+               <property name="maximum">
+                <number>150</number>
+               </property>
+               <property name="singleStep">
+                <number>10</number>
+               </property>
+               <property name="value">
+                <number>50</number>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QSpinBox" name="spinBox_2">
+               <property name="minimum">
+                <number>10</number>
+               </property>
+               <property name="maximum">
+                <number>150</number>
+               </property>
+               <property name="singleStep">
+                <number>10</number>
+               </property>
+               <property name="value">
+                <number>50</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -71,9 +151,52 @@
    <header>mapvisualization/mapvisualization.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>FlowFieldWidget</class>
+   <extends>QWidget</extends>
+   <header>flowfield/flowfieldwidget.h</header>
+   <container>1</container>
+   <slots>
+    <slot>changeFlowFieldWidth(int)</slot>
+    <slot>changeFlowFieldHeight(int)</slot>
+   </slots>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../ressources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>widget</receiver>
+   <slot>changeFlowFieldWidth(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>546</x>
+     <y>216</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>345</x>
+     <y>201</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>widget</receiver>
+   <slot>changeFlowFieldHeight(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>533</x>
+     <y>240</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>414</x>
+     <y>240</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
