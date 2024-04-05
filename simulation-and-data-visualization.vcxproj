@@ -61,8 +61,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -99,8 +101,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\flowfield\cellfield.cpp" />
+    <ClCompile Include="src\flowfield\flowfieldwidget.cpp" />
     <ClCompile Include="src\mapvisualization\maprenderer.cpp" />
     <QtRcc Include="ressources.qrc" />
+    <QtUic Include="src\flowfield\flowfieldwidget.ui" />
     <QtUic Include="src\mainwindow.ui" />
     <QtMoc Include="src\mainwindow.h" />
     <ClCompile Include="src\mainwindow.cpp" />
@@ -112,6 +117,9 @@
     <QtMoc Include="src\mapvisualization\maprenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\flowfield\flowfieldwidget.h" />
+    <ClInclude Include="src\flowfield\cellfield.h" />
+    <ClInclude Include="src\imagerenderer.h" />
     <ClInclude Include="src\mapvisualization\visualizer\imagevisualizer.h" />
     <ClInclude Include="src\mapvisualization\visualizer\shepard.h" />
     <ClInclude Include="src\mapvisualization\visualizer\shepardfrankielittle.h" />
