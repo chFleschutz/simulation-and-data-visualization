@@ -101,10 +101,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\debug\debugoutputdialog.cpp" />
     <ClCompile Include="src\flowfield\cellfield.cpp" />
     <ClCompile Include="src\flowfield\flowfieldwidget.cpp" />
     <ClCompile Include="src\mapvisualization\maprenderer.cpp" />
     <QtRcc Include="ressources.qrc" />
+    <QtUic Include="src\debug\debugoutputdialog.ui" />
     <QtUic Include="src\flowfield\flowfieldwidget.ui" />
     <QtUic Include="src\mainwindow.ui" />
     <QtMoc Include="src\mainwindow.h" />
@@ -117,7 +119,9 @@
     <QtMoc Include="src\mapvisualization\maprenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\utils\drawshape.h" />
     <QtMoc Include="src\flowfield\flowfieldwidget.h" />
+    <QtMoc Include="src\debug\debugoutputdialog.h" />
     <ClInclude Include="src\flowfield\cellfield.h" />
     <ClInclude Include="src\imagerenderer.h" />
     <ClInclude Include="src\mapvisualization\visualizer\imagevisualizer.h" />

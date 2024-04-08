@@ -1,10 +1,17 @@
 #include "mainwindow.h"
 
+#include "debug/debugoutputdialog.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
 }
 
-MainWindow::~MainWindow()
-{}
+void MainWindow::onShowDebugOutput()
+{
+    DebugOutputDialog* dialog = new DebugOutputDialog(this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
+}
+
