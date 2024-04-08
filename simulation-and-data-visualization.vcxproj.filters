@@ -43,6 +43,15 @@
     <ClCompile Include="src\mapvisualization\maprenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\flowfield\cellfield.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\flowfield\flowfieldwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\debug\debugoutputdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\mapvisualization\maprenderer.h">
@@ -51,12 +60,24 @@
     <QtMoc Include="src\mapvisualization\mapvisualization.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\flowfield\flowfieldwidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\debug\debugoutputdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\mapvisualization\maprenderer.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\mapvisualization\mapvisualization.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\flowfield\flowfieldwidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\debug\debugoutputdialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -71,6 +92,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\mapvisualization\visualizer\shepardfrankielittle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\flowfield\cellfield.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imagerenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\drawshape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
