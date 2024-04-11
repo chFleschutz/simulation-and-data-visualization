@@ -101,12 +101,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\debug\debugoutputdialog.cpp" />
     <ClCompile Include="src\flowfield\cellfield.cpp" />
     <ClCompile Include="src\flowfield\flowfieldwidget.cpp" />
     <ClCompile Include="src\mapvisualization\maprenderer.cpp" />
+    <ClCompile Include="src\utils\debugoutputdialog.cpp" />
     <QtRcc Include="ressources.qrc" />
-    <QtUic Include="src\debug\debugoutputdialog.ui" />
     <QtUic Include="src\flowfield\flowfieldwidget.ui" />
     <QtUic Include="src\mainwindow.ui" />
     <QtMoc Include="src\mainwindow.h" />
@@ -114,14 +113,15 @@
     <ClCompile Include="src\main.cpp" />
     <QtUic Include="src\mapvisualization\maprenderer.ui" />
     <QtUic Include="src\mapvisualization\mapvisualization.ui" />
+    <QtUic Include="src\utils\debugoutputdialog.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\mapvisualization\maprenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\utils\debugoutputdialog.h" />
     <ClInclude Include="src\utils\drawshape.h" />
     <QtMoc Include="src\flowfield\flowfieldwidget.h" />
-    <QtMoc Include="src\debug\debugoutputdialog.h" />
     <ClInclude Include="src\flowfield\cellfield.h" />
     <ClInclude Include="src\imagerenderer.h" />
     <ClInclude Include="src\mapvisualization\visualizer\imagevisualizer.h" />
