@@ -49,7 +49,7 @@
     <ClCompile Include="src\flowfield\flowfieldwidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\debug\debugoutputdialog.cpp">
+    <ClCompile Include="src\utils\debugoutputdialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,7 +63,7 @@
     <QtMoc Include="src\flowfield\flowfieldwidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\debug\debugoutputdialog.h">
+    <QtMoc Include="src\utils\debugoutputdialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -77,7 +77,7 @@
     <QtUic Include="src\flowfield\flowfieldwidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\debug\debugoutputdialog.ui">
+    <QtUic Include="src\utils\debugoutputdialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

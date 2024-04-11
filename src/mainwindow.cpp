@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 
-#include "debug/debugoutputdialog.h"
+#include "utils/debugoutputdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
