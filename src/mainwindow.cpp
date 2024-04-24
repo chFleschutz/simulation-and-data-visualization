@@ -2,6 +2,7 @@
 
 #include "utils/debugoutputdialog.h"
 #include "mapvisualization/mapvisualization.h"
+#include "pandemic_sim/pandemicsimwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,6 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::onMapVisualization()
 {
     setCentralWidget(new MapVisualization(this));
+}
+
+void MainWindow::onPandemicSimulation()
+{
+    setCentralWidget(new PandemicSimWidget(this));
 }
 
 void MainWindow::onShowDebugOutput()

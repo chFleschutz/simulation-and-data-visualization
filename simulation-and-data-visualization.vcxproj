@@ -102,6 +102,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\mapvisualization\maprenderer.cpp" />
+    <ClCompile Include="src\pandemic_sim\crowdSim.cpp" />
+    <ClCompile Include="src\pandemic_sim\crowdsimwidget.cpp" />
+    <ClCompile Include="src\pandemic_sim\pandemicsimwidget.cpp" />
     <ClCompile Include="src\utils\debugoutputdialog.cpp" />
     <QtRcc Include="ressources.qrc" />
     <QtUic Include="src\mainwindow.ui" />
@@ -110,6 +113,8 @@
     <ClCompile Include="src\main.cpp" />
     <QtUic Include="src\mapvisualization\maprenderer.ui" />
     <QtUic Include="src\mapvisualization\mapvisualization.ui" />
+    <QtUic Include="src\pandemic_sim\crowdsimwidget.ui" />
+    <QtUic Include="src\pandemic_sim\pandemicsimwidget.ui" />
     <QtUic Include="src\utils\debugoutputdialog.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +122,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\utils\debugoutputdialog.h" />
+    <QtMoc Include="src\pandemic_sim\pandemicsimwidget.h" />
+    <QtMoc Include="src\pandemic_sim\crowdsimwidget.h" />
+    <ClInclude Include="src\pandemic_sim\crowdSim.h" />
     <ClInclude Include="src\utils\drawshape.h" />
     <ClInclude Include="src\imagerenderer.h" />
     <ClInclude Include="src\mapvisualization\visualizer\imagevisualizer.h" />
