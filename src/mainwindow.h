@@ -13,6 +13,7 @@ public:
 
 public slots:
 	void onShowDebugOutput();
+	void onMapVisualization();
 
 private:
 	Ui::MainWindowClass ui;
