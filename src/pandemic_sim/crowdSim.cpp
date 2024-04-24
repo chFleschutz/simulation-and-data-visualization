@@ -56,6 +56,11 @@ void CrowdSim::update(float timeDelta)
 	}
 }
 
+void CrowdSim::clearAgents()
+{
+	m_agents.clear();
+}
+
 void CrowdSim::checkBounds(Agent& agent)
 {
 	if (agent.position.x() < 0 || agent.position.x() > m_width)

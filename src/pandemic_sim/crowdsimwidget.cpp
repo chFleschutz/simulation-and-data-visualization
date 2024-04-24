@@ -10,24 +10,54 @@ CrowdSimWidget::CrowdSimWidget(QWidget* parent)
 	setMinimumSize(200, 200);
 
 	QTimer* timer = new QTimer(this);
-	connect(timer, &QTimer::timeout, this, &CrowdSimWidget::updateSimulation);
+	connect(timer, &QTimer::timeout, this, &CrowdSimWidget::onUpdateSimulation);
 	timer->start(1000 / 60); // 60 FPS
 
 	m_timer.start();
 }
 
-void CrowdSimWidget::startSimulation()
+void CrowdSimWidget::onStartSimulation()
 {
-	m_crowdSim.spawnAgents(100);
+	m_crowdSim.spawnAgents(m_agentCount);
+	update();
 }
 
-void CrowdSimWidget::updateSimulation()
+void CrowdSimWidget::onStopSimulation()
+{
+	m_crowdSim.clearAgents();
+	update();
+}
+
+void CrowdSimWidget::onUpdateSimulation()
 {
 	auto time = m_timer.restart() / 1000.0f;
 	emit FPSChanged(1.0f / time);
 
-	m_crowdSim.update(time);
-	update();
+	if (!m_freeze)
+	{
+		m_crowdSim.update(time);
+		update();
+	}
+}
+
+void CrowdSimWidget::onAgentCountChanged(int count)
+{
+	m_agentCount = count;
+}
+
+void CrowdSimWidget::onInfectionDistanceChanged(int distance)
+{
+	m_crowdSim.setCollisionDistance(distance);
+}
+
+void CrowdSimWidget::onAgentSpeedChanged(int speed)
+{
+	m_crowdSim.setAgentSpeed(speed);
+}
+
+void CrowdSimWidget::onFreezeChanged(bool freeze)
+{
+	m_freeze = freeze;
 }
 
 void CrowdSimWidget::paintEvent(QPaintEvent* event)

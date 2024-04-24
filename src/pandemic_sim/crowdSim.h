@@ -35,11 +35,15 @@ public:
 	void setBounds(int width, int height);
 
 	void spawnAgents(int count);
+	void clearAgents();
 
 	void update(float timeDelta);
 
 	const std::vector<Agent>& agents() const { return m_agents; }
 	auto agentCount() const { return m_agents.size(); }
+
+	void setCollisionDistance(float distance) { m_params.collisionDistance = distance; }
+	void setAgentSpeed(float speed) { m_params.agentSpeed = speed; }
 
 private:
 	void checkBounds(Agent& agent);

@@ -30,6 +30,95 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="infection_spinBox">
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="minimum">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="agentCount_label">
+          <property name="text">
+           <string>Agent Count</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="infection_label">
+          <property name="text">
+           <string>Infection Distance</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="agentCount_spinBox">
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="minimum">
+           <number>10</number>
+          </property>
+          <property name="maximum">
+           <number>500</number>
+          </property>
+          <property name="singleStep">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="agentSpeed_label">
+          <property name="text">
+           <string>Agent Speed</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="agentSpeed_spinBox">
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="minimum">
+           <number>10</number>
+          </property>
+          <property name="maximum">
+           <number>300</number>
+          </property>
+          <property name="singleStep">
+           <number>10</number>
+          </property>
+          <property name="value">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Freeze Simulation</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="start_button">
         <property name="text">
          <string>Start Sim</string>
@@ -37,20 +126,24 @@
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="agentSettings_box">
-        <property name="title">
-         <string>Agent Settings</string>
+       <widget class="QPushButton" name="stop_button">
+        <property name="text">
+         <string>Stop Sim</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QPushButton" name="pushButton">
-           <property name="text">
-            <string>Spawn Agents</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -102,7 +195,12 @@
    <header>pandemic_sim/crowdsimwidget.h</header>
    <container>1</container>
    <slots>
-    <slot>startSimulation()</slot>
+    <slot>onStartSimulation()</slot>
+    <slot>onAgentCountChanged(int)</slot>
+    <slot>onInfectionDistanceChanged(int)</slot>
+    <slot>onAgentSpeedChanged(int)</slot>
+    <slot>onFreezeChanged(bool)</slot>
+    <slot>onStopSimulation()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -112,15 +210,95 @@
    <sender>start_button</sender>
    <signal>clicked()</signal>
    <receiver>crowdSimWidget</receiver>
-   <slot>startSimulation()</slot>
+   <slot>onStartSimulation()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>805</x>
-     <y>43</y>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
-     <x>697</x>
-     <y>51</y>
+     <x>655</x>
+     <y>163</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>agentCount_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onAgentCountChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>846</x>
+     <y>47</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>683</x>
+     <y>47</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>infection_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onInfectionDistanceChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>851</x>
+     <y>103</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>687</x>
+     <y>106</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>agentSpeed_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onAgentSpeedChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>843</x>
+     <y>76</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>696</x>
+     <y>78</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onFreezeChanged(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>727</x>
+     <y>131</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>661</x>
+     <y>130</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stop_button</sender>
+   <signal>clicked()</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onStopSimulation()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>740</x>
+     <y>188</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>670</x>
+     <y>188</y>
     </hint>
    </hints>
   </connection>
