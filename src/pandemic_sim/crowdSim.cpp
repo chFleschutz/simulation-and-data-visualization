@@ -6,6 +6,11 @@
 #include <numbers>
 #include <cmath>
 
+CrowdSim::CrowdSim()
+{
+	m_agentStateCount.resize(static_cast<int>(Agent::State::MaxEnum), 0);
+}
+
 void CrowdSim::setBounds(int width, int height)
 {
 	m_width = width;
@@ -40,19 +45,31 @@ void CrowdSim::spawnAgents(int count)
 	}
 
 	m_agents[0].state = Agent::State::Infected;
+
+	// Reset agent state count
+	std::fill(m_agentStateCount.begin(), m_agentStateCount.end(), 0);
+	m_agentStateCount[static_cast<int>(Agent::State::Healthy)] = count - 1;
+	m_agentStateCount[static_cast<int>(Agent::State::Infected)] = 1;
 }
 
 void CrowdSim::update(float timeDelta)
 {
+	// Reset agent state count
+	std::fill(m_agentStateCount.begin(), m_agentStateCount.end(), 0);
+
 	// Update agents
 	for (auto& agent : m_agents)
 	{
 		// Check bounds and bounce back
 		checkBounds(agent);
 		checkCollisions(agent);
+		checkState(agent, timeDelta);
 		
 		// Move agent
 		agent.position += agent.velocity * timeDelta;
+
+		// Update agent state count
+		++m_agentStateCount[static_cast<int>(agent.state)];
 	}
 }
 
@@ -113,4 +130,14 @@ void CrowdSim::checkCollisions(Agent& agent)
 			}
 		}
 	}
+}
+
+void CrowdSim::checkState(Agent& agent, float timeDelta)
+{
+	if (agent.state != Agent::State::Infected)
+		return;
+
+	agent.timeInfected += timeDelta;
+	if (agent.timeInfected > m_params.recoveryTime)
+		agent.state = Agent::State::Recovered;
 }

@@ -5,6 +5,8 @@ PandemicSimWidget::PandemicSimWidget(QWidget *parent)
 {
 	ui.setupUi(this);
 
+	ui.statistics_widget->setCrowdSimWidget(ui.crowdSimWidget);
+
 	connect(ui.crowdSimWidget, &CrowdSimWidget::FPSChanged, this, &PandemicSimWidget::onUpdateFPS);
 }
 

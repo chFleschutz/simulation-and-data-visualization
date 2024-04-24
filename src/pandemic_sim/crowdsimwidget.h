@@ -2,8 +2,6 @@
 
 #include "crowdSim.h"
 
-#include "ui_crowdsimwidget.h"
-
 #include <QWidget>
 #include <QElapsedTimer>
 
@@ -15,8 +13,18 @@ public:
 	CrowdSimWidget(QWidget* parent = nullptr);
 	~CrowdSimWidget() = default;
 
+	CrowdSim& crowdSim() { return m_crowdSim; }
+
+	// Returns true if the simulation is currently running
+	bool isSimulationRunning() const { return m_simulationRunning; }
+
+	// Returns the current simulation time in seconds
+	float simulationTime() const { return m_simulationTimer.elapsed() / 1000.0f; }
+
 signals:
 	void FPSChanged(float fps);
+	void simulationStarted();
+	void simulationStopped();
 
 public slots:
 	void onStartSimulation();
@@ -34,12 +42,12 @@ protected:
 private:
 	void drawAgents(QPainter& painter);
 
-	Ui::CrowdSimWidgetClass ui;
-
 	CrowdSim m_crowdSim;
-	QElapsedTimer m_timer;
+	QElapsedTimer m_FPSTimer;
+	QElapsedTimer m_simulationTimer;
 
 	float m_agentSize = 10.0f;
 	int m_agentCount = 100;
 	bool m_freeze = false;
+	bool m_simulationRunning = false;
 };

@@ -6,31 +6,38 @@
 CrowdSimWidget::CrowdSimWidget(QWidget* parent)
 	: QWidget(parent)
 {
-	ui.setupUi(this);
 	setMinimumSize(200, 200);
 
 	QTimer* timer = new QTimer(this);
 	connect(timer, &QTimer::timeout, this, &CrowdSimWidget::onUpdateSimulation);
 	timer->start(1000 / 60); // 60 FPS
 
-	m_timer.start();
+	m_FPSTimer.start();
 }
 
 void CrowdSimWidget::onStartSimulation()
 {
 	m_crowdSim.spawnAgents(m_agentCount);
+	m_simulationTimer.start();
+	m_simulationRunning = true;
+
+	emit simulationStarted();
 	update();
 }
 
 void CrowdSimWidget::onStopSimulation()
 {
 	m_crowdSim.clearAgents();
+	m_simulationTimer.invalidate();
+	m_simulationRunning = false;
+	
+	emit simulationStopped();
 	update();
 }
 
 void CrowdSimWidget::onUpdateSimulation()
 {
-	auto time = m_timer.restart() / 1000.0f;
+	auto time = m_FPSTimer.restart() / 1000.0f;
 	emit FPSChanged(1.0f / time);
 
 	if (!m_freeze)
@@ -84,16 +91,16 @@ void CrowdSimWidget::drawAgents(QPainter& painter)
 		switch (agent.state)
 		{
 		case CrowdSim::Agent::State::Healthy:
-			color = Qt::green;
+			color = QColor(0, 255, 0, 140);
 			break;
 		case CrowdSim::Agent::State::Infected:
-			color = Qt::red;
+			color = QColor(255, 0, 0, 140);
 			break;
 		case CrowdSim::Agent::State::Recovered:
-			color = Qt::blue;
+			color = QColor(0, 0, 255, 140);
 			break;
 		case CrowdSim::Agent::State::Dead:
-			color = Qt::black;
+			color = QColor(50, 50, 50, 140);
 			break;
 		}
 

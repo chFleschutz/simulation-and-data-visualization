@@ -55,6 +55,9 @@
     <ClCompile Include="src\pandemic_sim\crowdSim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\pandemic_sim\pandemicstatisticswidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\mapvisualization\maprenderer.h">
@@ -72,6 +75,9 @@
     <QtMoc Include="src\pandemic_sim\crowdsimwidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\pandemic_sim\pandemicstatisticswidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\mapvisualization\maprenderer.ui">
@@ -86,7 +92,7 @@
     <QtUic Include="src\pandemic_sim\pandemicsimwidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\pandemic_sim\crowdsimwidget.ui">
+    <QtUic Include="src\pandemic_sim\pandemicstatisticswidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
