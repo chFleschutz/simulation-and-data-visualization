@@ -10,16 +10,22 @@ CrowdSimWidget::CrowdSimWidget(QWidget* parent)
 
 	QTimer* timer = new QTimer(this);
 	connect(timer, &QTimer::timeout, this, &CrowdSimWidget::onUpdateSimulation);
-	timer->start(1000 / 60); // 60 FPS
+	timer->start(1000.0f / 60.0f); // 60 FPS
 
 	m_FPSTimer.start();
+}
+
+float CrowdSimWidget::simulationTime() const
+{
+	return m_simTimer.elapsedTime();
 }
 
 void CrowdSimWidget::onStartSimulation()
 {
 	m_crowdSim.spawnAgents(m_agentCount);
-	m_simulationTimer.start();
 	m_simulationRunning = true;
+
+	m_simTimer.start();
 
 	emit simulationStarted();
 	update();
@@ -28,11 +34,22 @@ void CrowdSimWidget::onStartSimulation()
 void CrowdSimWidget::onStopSimulation()
 {
 	m_crowdSim.clearAgents();
-	m_simulationTimer.invalidate();
 	m_simulationRunning = false;
-	
+
+	m_simTimer.reset();
+
 	emit simulationStopped();
 	update();
+}
+
+void CrowdSimWidget::onFreezeChanged(bool freeze)
+{
+	m_freeze = freeze;
+
+	if (m_freeze)
+		m_simTimer.pause();
+	else
+		m_simTimer.start();
 }
 
 void CrowdSimWidget::onUpdateSimulation()
@@ -62,16 +79,11 @@ void CrowdSimWidget::onAgentSpeedChanged(int speed)
 	m_crowdSim.setAgentSpeed(speed);
 }
 
-void CrowdSimWidget::onFreezeChanged(bool freeze)
-{
-	m_freeze = freeze;
-}
-
 void CrowdSimWidget::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
 	painter.setRenderHint(QPainter::Antialiasing, true);
-	painter.setPen(Qt::black);
+	painter.setPen(Qt::white);
 	painter.setBrush(Qt::white);
 	painter.drawRect(0, 0, width(), height());
 
@@ -85,6 +97,8 @@ void CrowdSimWidget::resizeEvent(QResizeEvent* event)
 
 void CrowdSimWidget::drawAgents(QPainter& painter)
 {
+	painter.setPen(QColor(50, 50, 50, 255));
+
 	for (const auto& agent : m_crowdSim.agents())
 	{
 		QColor color;

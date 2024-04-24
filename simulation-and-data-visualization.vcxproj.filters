@@ -118,5 +118,8 @@
     <ClInclude Include="src\pandemic_sim\crowdSim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\utils\stopwatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -15,7 +15,7 @@ class PandemicStatisticsWidget : public QWidget
 
 public:
 	PandemicStatisticsWidget(QWidget* parent = nullptr);
-	~PandemicStatisticsWidget();
+	~PandemicStatisticsWidget() = default;
 
 	void setCrowdSimWidget(CrowdSimWidget* crowdSimWidget) { m_crowdSimWidget = crowdSimWidget; }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "crowdSim.h"
+#include "utils/stopwatch.h"
 
 #include <QWidget>
 #include <QElapsedTimer>
@@ -18,8 +19,11 @@ public:
 	// Returns true if the simulation is currently running
 	bool isSimulationRunning() const { return m_simulationRunning; }
 
+	// Returns true if the simulation is currently frozen
+	bool isFrozen() const { return m_freeze; }
+
 	// Returns the current simulation time in seconds
-	float simulationTime() const { return m_simulationTimer.elapsed() / 1000.0f; }
+	float simulationTime() const;
 
 signals:
 	void FPSChanged(float fps);
@@ -29,11 +33,11 @@ signals:
 public slots:
 	void onStartSimulation();
 	void onStopSimulation();
+	void onFreezeChanged(bool freeze);
 	void onUpdateSimulation();
 	void onAgentCountChanged(int count);
 	void onInfectionDistanceChanged(int distance);
 	void onAgentSpeedChanged(int speed);
-	void onFreezeChanged(bool freeze);
 
 protected:
 	void paintEvent(QPaintEvent* event) override;
@@ -42,9 +46,11 @@ protected:
 private:
 	void drawAgents(QPainter& painter);
 
-	CrowdSim m_crowdSim;
 	QElapsedTimer m_FPSTimer;
-	QElapsedTimer m_simulationTimer;
+
+	CrowdSim m_crowdSim;
+	StopWatch m_simTimer;
+	float m_simTimeOffset = 0.0f; // Correction for time when simulation is paused
 
 	float m_agentSize = 10.0f;
 	int m_agentCount = 100;

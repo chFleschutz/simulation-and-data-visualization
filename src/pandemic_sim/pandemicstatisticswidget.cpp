@@ -12,7 +12,6 @@ PandemicStatisticsWidget::PandemicStatisticsWidget(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-	setContentsMargins(0, 0, 0, 0);
 
 	setupAreaChart();
 	setupPieChart();
@@ -22,20 +21,16 @@ PandemicStatisticsWidget::PandemicStatisticsWidget(QWidget* parent)
 	timer->start(100);
 }
 
-PandemicStatisticsWidget::~PandemicStatisticsWidget()
-{
-}
-
 void PandemicStatisticsWidget::onStartSimulation()
 {
 	clearStatistics();
 
+	// Set initial values at time 0 so the chart starts correctly
 	if (m_crowdSimWidget == nullptr)
 		return;
 
-	// Set initial values at 0.0
 	auto& sim = m_crowdSimWidget->crowdSim();
-	int healthy = sim.agentCount(); // (Almost) All agents (should be) healthy at the beginning
+	int healthy = sim.agentCount(CrowdSim::Agent::State::Healthy);
 	int infected = sim.agentCount(CrowdSim::Agent::State::Infected);
 	int recovered = sim.agentCount(CrowdSim::Agent::State::Recovered);
 	int dead = sim.agentCount(CrowdSim::Agent::State::Dead);
@@ -61,11 +56,12 @@ void PandemicStatisticsWidget::setupPieChart()
 	m_pieSeries->append(m_infectedSlice);
 	m_pieSeries->append(m_recoveredSlice);
 	m_pieSeries->append(m_deadSlice);
-	m_pieSeries->setLabelsVisible();
+	m_pieSeries->setLabelsVisible(true);
 	m_pieSeries->setLabelsPosition(QPieSlice::LabelOutside);
 
 	m_pieChart.addSeries(m_pieSeries);
 	m_pieChart.legend()->hide();
+	m_pieChart.setTitle("Population Distribution");
 
 	ui.pie_chartView->setChart(&m_pieChart);
 	ui.pie_chartView->setRenderHint(QPainter::Antialiasing);
@@ -113,7 +109,7 @@ void PandemicStatisticsWidget::onUpdateStatistics()
 	if (m_crowdSimWidget == nullptr)
 		return;
 
-	if (!m_crowdSimWidget->isSimulationRunning())
+	if (!m_crowdSimWidget->isSimulationRunning() || m_crowdSimWidget->isFrozen())
 		return;
 
 	auto& sim = m_crowdSimWidget->crowdSim();
@@ -129,6 +125,22 @@ void PandemicStatisticsWidget::onUpdateStatistics()
 	m_deadSlice->setValue(dead);
 
 	auto time = m_crowdSimWidget->simulationTime();
+	static float lastTime = 0.0f;
+	if (time <= lastTime)
+	{
+		qDebug() << "Time is not increasing!";
+		qDebug() << "Current time: " << time;
+		qDebug() << "Last time: " << lastTime;
+	}
+	if (time < lastTime + 0.1f)
+	{
+		qDebug() << "Time is wrong!";
+		qDebug() << "Current time: " << time;
+		qDebug() << "Last time: " << lastTime;
+	}
+
+	lastTime = time;
+
 	fillAreaChart(time, healthy, infected, recovered, dead);
 
 	m_areaChart.axisX()->setRange(0, time);

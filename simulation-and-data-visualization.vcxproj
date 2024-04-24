@@ -122,6 +122,7 @@
     <QtMoc Include="src\mapvisualization\maprenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\utils\stopwatch.h" />
     <QtMoc Include="src\utils\debugoutputdialog.h" />
     <QtMoc Include="src\pandemic_sim\pandemicsimwidget.h" />
     <QtMoc Include="src\pandemic_sim\crowdsimwidget.h" />
