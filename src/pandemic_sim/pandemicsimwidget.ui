@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PandemicSimWidgetClass</class>
+ <widget class="QWidget" name="PandemicSimWidgetClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>888</width>
+    <height>668</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PandemicSimWidget</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="CrowdSimWidget" name="crowdSimWidget" native="true"/>
+   </item>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="settings_box">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Simulation Settings</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="0">
+         <widget class="QLabel" name="initialInfected_label">
+          <property name="text">
+           <string>Initial Infected</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="initialInfected_spinBox">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>3</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="recovery_label">
+          <property name="text">
+           <string>Recovery Time</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="agentSpeed_label">
+          <property name="text">
+           <string>Agent Speed</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="agentSpeed_spinBox">
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="minimum">
+           <number>10</number>
+          </property>
+          <property name="maximum">
+           <number>300</number>
+          </property>
+          <property name="singleStep">
+           <number>10</number>
+          </property>
+          <property name="value">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="recovery_spinBox">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>99</number>
+          </property>
+          <property name="value">
+           <number>5</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="agentCount_spinBox">
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="minimum">
+           <number>10</number>
+          </property>
+          <property name="maximum">
+           <number>500</number>
+          </property>
+          <property name="singleStep">
+           <number>10</number>
+          </property>
+          <property name="value">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="infection_label">
+          <property name="text">
+           <string>Infection Distance</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="agentCount_label">
+          <property name="text">
+           <string>Agent Count</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="infection_spinBox">
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="minimum">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Death Probability %</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QSpinBox" name="spinBox">
+          <property name="value">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Freeze Simulation</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="start_button">
+        <property name="text">
+         <string>Start Sim</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="stop_button">
+        <property name="text">
+         <string>Stop Sim</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="fps_label">
+          <property name="text">
+           <string>FPS</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="fps_counter_label">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="PandemicStatisticsWidget" name="statistics_widget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>100</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>300</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>CrowdSimWidget</class>
+   <extends>QWidget</extends>
+   <header>pandemic_sim/crowdsimwidget.h</header>
+   <container>1</container>
+   <slots>
+    <signal>simulationStopped()</signal>
+    <signal>simulationStarted()</signal>
+    <slot>onStartSimulation()</slot>
+    <slot>onAgentCountChanged(int)</slot>
+    <slot>onInfectionDistanceChanged(int)</slot>
+    <slot>onAgentSpeedChanged(int)</slot>
+    <slot>onFreezeChanged(bool)</slot>
+    <slot>onStopSimulation()</slot>
+    <slot>onInitalInfectedChanged(int)</slot>
+    <slot>onRecoveryTimeChanged(int)</slot>
+    <slot>onDeathRateChanged(int)</slot>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>PandemicStatisticsWidget</class>
+   <extends>QWidget</extends>
+   <header>pandemic_sim/pandemicstatisticswidget.h</header>
+   <container>1</container>
+   <slots>
+    <slot>onStartSimulation()</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>start_button</sender>
+   <signal>clicked()</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onStartSimulation()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>796</x>
+     <y>242</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>629</x>
+     <y>242</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>agentCount_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onAgentCountChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>846</x>
+     <y>47</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>683</x>
+     <y>47</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>infection_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onInfectionDistanceChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>851</x>
+     <y>132</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>684</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>agentSpeed_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onAgentSpeedChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>843</x>
+     <y>104</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>690</x>
+     <y>104</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onFreezeChanged(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>718</x>
+     <y>213</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>213</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stop_button</sender>
+   <signal>clicked()</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onStopSimulation()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>731</x>
+     <y>271</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>652</x>
+     <y>271</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crowdSimWidget</sender>
+   <signal>simulationStarted()</signal>
+   <receiver>statistics_widget</receiver>
+   <slot>onStartSimulation()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>589</x>
+     <y>466</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>587</x>
+     <y>603</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>initialInfected_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onInitalInfectedChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>839</x>
+     <y>77</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>690</x>
+     <y>77</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>recovery_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onRecoveryTimeChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>842</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>158</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onDeathRateChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>832</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>650</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

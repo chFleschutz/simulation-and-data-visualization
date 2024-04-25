@@ -33,7 +33,7 @@
     <property name="title">
      <string>Debug</string>
     </property>
-    <addaction name="actionShowDebugOutput"/>
+    <addaction name="actionDebug"/>
    </widget>
    <widget class="QMenu" name="menuMap_Visualization">
     <property name="title">
@@ -41,7 +41,14 @@
     </property>
     <addaction name="actionMap"/>
    </widget>
+   <widget class="QMenu" name="menuCrowd_Simulation">
+    <property name="title">
+     <string>Crowd Simulation</string>
+    </property>
+    <addaction name="actionPandemic"/>
+   </widget>
    <addaction name="menuMap_Visualization"/>
+   <addaction name="menuCrowd_Simulation"/>
    <addaction name="menuDebug"/>
   </widget>
   <action name="actionShow_Output">
@@ -49,7 +56,7 @@
     <string>Show Output</string>
    </property>
   </action>
-  <action name="actionShowDebugOutput">
+  <action name="actionDebug">
    <property name="text">
     <string>Show Output</string>
    </property>
@@ -59,6 +66,11 @@
     <string>Map</string>
    </property>
   </action>
+  <action name="actionPandemic">
+   <property name="text">
+    <string>Pandemic Simulation</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
@@ -66,7 +78,7 @@
  </resources>
  <connections>
   <connection>
-   <sender>actionShowDebugOutput</sender>
+   <sender>actionDebug</sender>
    <signal>triggered()</signal>
    <receiver>MainWindowClass</receiver>
    <slot>onShowDebugOutput()</slot>
@@ -88,8 +100,24 @@
    <slot>onMapVisualization()</slot>
    <hints>
     <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
      <x>285</x>
      <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPandemic</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>onPandemicSimulation()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>285</x>
@@ -101,5 +129,6 @@
  <slots>
   <slot>onShowDebugOutput()</slot>
   <slot>onMapVisualization()</slot>
+  <slot>onPandemicSimulation()</slot>
  </slots>
 </ui>

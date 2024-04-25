@@ -19,6 +19,4 @@ private:
 	static QTextEdit* s_displayText;
 
 	QtMessageHandler m_originalHandler = nullptr;
-
-	
 };

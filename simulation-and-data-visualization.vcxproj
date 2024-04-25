@@ -38,12 +38,12 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>6.6.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;charts</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.6.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;charts</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -102,6 +102,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\mapvisualization\maprenderer.cpp" />
+    <ClCompile Include="src\pandemic_sim\crowdSim.cpp" />
+    <ClCompile Include="src\pandemic_sim\crowdsimwidget.cpp" />
+    <ClCompile Include="src\pandemic_sim\pandemicsimwidget.cpp" />
+    <ClCompile Include="src\pandemic_sim\pandemicstatisticswidget.cpp" />
     <ClCompile Include="src\utils\debugoutputdialog.cpp" />
     <QtRcc Include="ressources.qrc" />
     <QtUic Include="src\mainwindow.ui" />
@@ -110,13 +114,20 @@
     <ClCompile Include="src\main.cpp" />
     <QtUic Include="src\mapvisualization\maprenderer.ui" />
     <QtUic Include="src\mapvisualization\mapvisualization.ui" />
+    <QtUic Include="src\pandemic_sim\pandemicsimwidget.ui" />
+    <QtUic Include="src\pandemic_sim\pandemicstatisticswidget.ui" />
     <QtUic Include="src\utils\debugoutputdialog.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\mapvisualization\maprenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\utils\stopwatch.h" />
     <QtMoc Include="src\utils\debugoutputdialog.h" />
+    <QtMoc Include="src\pandemic_sim\pandemicsimwidget.h" />
+    <QtMoc Include="src\pandemic_sim\crowdsimwidget.h" />
+    <ClInclude Include="src\pandemic_sim\crowdSim.h" />
+    <QtMoc Include="src\pandemic_sim\pandemicstatisticswidget.h" />
     <ClInclude Include="src\utils\drawshape.h" />
     <ClInclude Include="src\imagerenderer.h" />
     <ClInclude Include="src\mapvisualization\visualizer\imagevisualizer.h" />
