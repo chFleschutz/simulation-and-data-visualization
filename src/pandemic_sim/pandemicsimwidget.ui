@@ -31,8 +31,39 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="0">
+         <widget class="QLabel" name="initialInfected_label">
+          <property name="text">
+           <string>Initial Infected</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="initialInfected_spinBox">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>3</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="recovery_label">
+          <property name="text">
+           <string>Recovery Time</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="agentSpeed_label">
+          <property name="text">
+           <string>Agent Speed</string>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="1">
-         <widget class="QSpinBox" name="infection_spinBox">
+         <widget class="QSpinBox" name="agentSpeed_spinBox">
           <property name="minimumSize">
            <size>
             <width>50</width>
@@ -42,19 +73,27 @@
           <property name="minimum">
            <number>10</number>
           </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="agentCount_label">
-          <property name="text">
-           <string>Agent Count</string>
+          <property name="maximum">
+           <number>300</number>
+          </property>
+          <property name="singleStep">
+           <number>10</number>
+          </property>
+          <property name="value">
+           <number>100</number>
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="infection_label">
-          <property name="text">
-           <string>Infection Distance</string>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="recovery_spinBox">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>99</number>
+          </property>
+          <property name="value">
+           <number>5</number>
           </property>
          </widget>
         </item>
@@ -80,15 +119,22 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="agentSpeed_label">
+        <item row="3" column="0">
+         <widget class="QLabel" name="infection_label">
           <property name="text">
-           <string>Agent Speed</string>
+           <string>Infection Distance</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QSpinBox" name="agentSpeed_spinBox">
+        <item row="0" column="0">
+         <widget class="QLabel" name="agentCount_label">
+          <property name="text">
+           <string>Agent Count</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="infection_spinBox">
           <property name="minimumSize">
            <size>
             <width>50</width>
@@ -98,14 +144,19 @@
           <property name="minimum">
            <number>10</number>
           </property>
-          <property name="maximum">
-           <number>300</number>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Death Probability %</string>
           </property>
-          <property name="singleStep">
-           <number>10</number>
-          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QSpinBox" name="spinBox">
           <property name="value">
-           <number>100</number>
+           <number>1</number>
           </property>
          </widget>
         </item>
@@ -212,6 +263,9 @@
     <slot>onAgentSpeedChanged(int)</slot>
     <slot>onFreezeChanged(bool)</slot>
     <slot>onStopSimulation()</slot>
+    <slot>onInitalInfectedChanged(int)</slot>
+    <slot>onRecoveryTimeChanged(int)</slot>
+    <slot>onDeathRateChanged(int)</slot>
    </slots>
   </customwidget>
   <customwidget>
@@ -233,12 +287,12 @@
    <slot>onStartSimulation()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>805</x>
-     <y>163</y>
+     <x>796</x>
+     <y>242</y>
     </hint>
     <hint type="destinationlabel">
-     <x>655</x>
-     <y>163</y>
+     <x>629</x>
+     <y>242</y>
     </hint>
    </hints>
   </connection>
@@ -266,11 +320,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>851</x>
-     <y>103</y>
+     <y>132</y>
     </hint>
     <hint type="destinationlabel">
-     <x>687</x>
-     <y>106</y>
+     <x>684</x>
+     <y>132</y>
     </hint>
    </hints>
   </connection>
@@ -282,11 +336,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>843</x>
-     <y>76</y>
+     <y>104</y>
     </hint>
     <hint type="destinationlabel">
-     <x>696</x>
-     <y>78</y>
+     <x>690</x>
+     <y>104</y>
     </hint>
    </hints>
   </connection>
@@ -297,12 +351,12 @@
    <slot>onFreezeChanged(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>727</x>
-     <y>131</y>
+     <x>718</x>
+     <y>213</y>
     </hint>
     <hint type="destinationlabel">
-     <x>661</x>
-     <y>130</y>
+     <x>639</x>
+     <y>213</y>
     </hint>
    </hints>
   </connection>
@@ -313,12 +367,12 @@
    <slot>onStopSimulation()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>740</x>
-     <y>188</y>
+     <x>731</x>
+     <y>271</y>
     </hint>
     <hint type="destinationlabel">
-     <x>670</x>
-     <y>188</y>
+     <x>652</x>
+     <y>271</y>
     </hint>
    </hints>
   </connection>
@@ -335,6 +389,54 @@
     <hint type="destinationlabel">
      <x>587</x>
      <y>603</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>initialInfected_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onInitalInfectedChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>839</x>
+     <y>77</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>690</x>
+     <y>77</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>recovery_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onRecoveryTimeChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>842</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>655</x>
+     <y>158</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>crowdSimWidget</receiver>
+   <slot>onDeathRateChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>832</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>650</x>
+     <y>188</y>
     </hint>
    </hints>
   </connection>

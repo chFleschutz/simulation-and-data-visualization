@@ -5,8 +5,10 @@
 #include <random>
 #include <numbers>
 #include <cmath>
+#include <algorithm>
 
 CrowdSim::CrowdSim()
+	: m_gen(std::random_device()())
 {
 	m_agentStateCount.resize(static_cast<int>(Agent::State::MaxEnum), 0);
 }
@@ -17,39 +19,36 @@ void CrowdSim::setBounds(int width, int height)
 	m_height = height;
 }
 
-void CrowdSim::spawnAgents(int count)
+void CrowdSim::initialize()
 {
-	if (count <= 0)
-	{
-		qWarning() << "Invalid agent count";
-		return;
-	}
-
-	// Init random number generator
-	std::random_device rd;
-	std::mt19937 gen(rd());
+	// Spawn agents
 	std::uniform_real_distribution<float> disX(0, m_width);
 	std::uniform_real_distribution<float> disY(0, m_height);
-
 	std::uniform_real_distribution<float> moveAngle(0.0f, 2.0f * std::numbers::pi);
 
-	// Spawn agents
 	m_agents.clear();
-	m_agents.resize(count);
+	m_agents.resize(m_params.agentCount);
 	for (auto& agent : m_agents)
 	{
-		agent.position = QVector2D(disX(gen), disY(gen));
+		agent.position = QVector2D(disX(m_gen), disY(m_gen));
 
-		auto angle = moveAngle(gen);
+		auto angle = moveAngle(m_gen);
 		agent.velocity = QVector2D(cos(angle), sin(angle)) * m_params.agentSpeed;
 	}
 
-	m_agents[0].state = Agent::State::Infected;
+	// Infect initial agents
+	auto infected = std::min(m_params.initialInfected, static_cast<int>(m_agents.size()));
+	for (int i = 0; i < infected; ++i)
+	{
+		m_agents[i].state = Agent::State::Infected;
+	}
 
 	// Reset agent state count
 	std::fill(m_agentStateCount.begin(), m_agentStateCount.end(), 0);
-	m_agentStateCount[static_cast<int>(Agent::State::Healthy)] = count - 1;
-	m_agentStateCount[static_cast<int>(Agent::State::Infected)] = 1;
+	m_agentStateCount[static_cast<int>(Agent::State::Healthy)] = m_params.agentCount - infected;
+	m_agentStateCount[static_cast<int>(Agent::State::Infected)] = infected;
+
+	m_timer.start();
 }
 
 void CrowdSim::update(float timeDelta)
@@ -57,19 +56,27 @@ void CrowdSim::update(float timeDelta)
 	// Reset agent state count
 	std::fill(m_agentStateCount.begin(), m_agentStateCount.end(), 0);
 
+	bool checkDeath = m_timer.elapsed() > 1000;
+	if (checkDeath)
+		m_timer.restart();
+
 	// Update agents
 	for (auto& agent : m_agents)
 	{
+		// Update agent state count
+		++m_agentStateCount[static_cast<int>(agent.state)];
+
+		// Skip dead agents
+		if (agent.state == Agent::State::Dead)
+			continue;
+
 		// Check bounds and bounce back
 		checkBounds(agent);
 		checkCollisions(agent);
-		checkState(agent, timeDelta);
-		
+		checkState(agent, timeDelta, checkDeath);
+
 		// Move agent
 		agent.position += agent.velocity * timeDelta;
-
-		// Update agent state count
-		++m_agentStateCount[static_cast<int>(agent.state)];
 	}
 }
 
@@ -132,12 +139,24 @@ void CrowdSim::checkCollisions(Agent& agent)
 	}
 }
 
-void CrowdSim::checkState(Agent& agent, float timeDelta)
+void CrowdSim::checkState(Agent& agent, float timeDelta, bool checkDeath)
 {
 	if (agent.state != Agent::State::Infected)
 		return;
 
+	// Check for recovery
 	agent.timeInfected += timeDelta;
 	if (agent.timeInfected > m_params.recoveryTime)
+	{
 		agent.state = Agent::State::Recovered;
+		return;
+	}
+
+	if (!checkDeath)
+		return;
+
+	// Check for death
+	std::uniform_real_distribution<float> deathDis(0.0f, 100.0f);
+	if (deathDis(m_gen) < m_params.deathProbability)
+		agent.state = Agent::State::Dead;
 }

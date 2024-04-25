@@ -22,7 +22,7 @@ float CrowdSimWidget::simulationTime() const
 
 void CrowdSimWidget::onStartSimulation()
 {
-	m_crowdSim.spawnAgents(m_agentCount);
+	m_crowdSim.initialize();
 	m_simulationRunning = true;
 
 	m_simTimer.start();
@@ -66,7 +66,7 @@ void CrowdSimWidget::onUpdateSimulation()
 
 void CrowdSimWidget::onAgentCountChanged(int count)
 {
-	m_agentCount = count;
+	m_crowdSim.setAgentCount(count);
 }
 
 void CrowdSimWidget::onInfectionDistanceChanged(int distance)
@@ -77,6 +77,21 @@ void CrowdSimWidget::onInfectionDistanceChanged(int distance)
 void CrowdSimWidget::onAgentSpeedChanged(int speed)
 {
 	m_crowdSim.setAgentSpeed(speed);
+}
+
+void CrowdSimWidget::onInitalInfectedChanged(int infected)
+{
+	m_crowdSim.setInitialInfected(infected);
+}
+
+void CrowdSimWidget::onRecoveryTimeChanged(int time)
+{
+	m_crowdSim.setRecoveryTime(time);
+}
+
+void CrowdSimWidget::onDeathRateChanged(int rate)
+{
+	m_crowdSim.setDeathRate(rate);
 }
 
 void CrowdSimWidget::paintEvent(QPaintEvent* event)

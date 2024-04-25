@@ -38,6 +38,9 @@ public slots:
 	void onAgentCountChanged(int count);
 	void onInfectionDistanceChanged(int distance);
 	void onAgentSpeedChanged(int speed);
+	void onInitalInfectedChanged(int infected);
+	void onRecoveryTimeChanged(int time);
+	void onDeathRateChanged(int rate);
 
 protected:
 	void paintEvent(QPaintEvent* event) override;
@@ -53,7 +56,6 @@ private:
 	float m_simTimeOffset = 0.0f; // Correction for time when simulation is paused
 
 	float m_agentSize = 10.0f;
-	int m_agentCount = 100;
 	bool m_freeze = false;
 	bool m_simulationRunning = false;
 };
