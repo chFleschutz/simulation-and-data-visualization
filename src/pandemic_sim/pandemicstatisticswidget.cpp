@@ -125,22 +125,6 @@ void PandemicStatisticsWidget::onUpdateStatistics()
 	m_deadSlice->setValue(dead);
 
 	auto time = m_crowdSimWidget->simulationTime();
-	static float lastTime = 0.0f;
-	if (time <= lastTime)
-	{
-		qDebug() << "Time is not increasing!";
-		qDebug() << "Current time: " << time;
-		qDebug() << "Last time: " << lastTime;
-	}
-	if (time < lastTime + 0.1f)
-	{
-		qDebug() << "Time is wrong!";
-		qDebug() << "Current time: " << time;
-		qDebug() << "Last time: " << lastTime;
-	}
-
-	lastTime = time;
-
 	fillAreaChart(time, healthy, infected, recovered, dead);
 
 	m_areaChart.axisX()->setRange(0, time);

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VolumeDataWidgetClass</class>
+ <widget class="QWidget" name="VolumeDataWidgetClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>VolumeDataWidget</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="1">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QPushButton" name="load_button">
+     <property name="text">
+      <string>Load File</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QWidget" name="widget" native="true"/>
+   </item>
+   <item row="1" column="2">
+    <widget class="QChartView" name="histogram"/>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QGraphicsView</extends>
+   <header>QtCharts</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>load_button</sender>
+   <signal>clicked()</signal>
+   <receiver>VolumeDataWidgetClass</receiver>
+   <slot>onLoadVolumeData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>412</x>
+     <y>206</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>416</x>
+     <y>117</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onLoadVolumeData()</slot>
+ </slots>
+</ui>

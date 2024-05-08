@@ -15,6 +15,7 @@ public slots:
 	void onShowDebugOutput();
 	void onMapVisualization();
 	void onPandemicSimulation();
+	void onVolumeDataVisualization();
 
 private:
 	Ui::MainWindowClass ui;

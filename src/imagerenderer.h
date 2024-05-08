@@ -14,6 +14,8 @@ public:
 	{
 		if (!m_originalImage.load(path))
 		{
+			QMessageBox::critical(nullptr, "Error", "Failed to load image");
+			return;
 		}
 
 		m_image = m_originalImage;

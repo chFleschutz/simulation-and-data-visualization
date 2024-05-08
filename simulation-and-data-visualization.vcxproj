@@ -107,6 +107,7 @@
     <ClCompile Include="src\pandemic_sim\pandemicsimwidget.cpp" />
     <ClCompile Include="src\pandemic_sim\pandemicstatisticswidget.cpp" />
     <ClCompile Include="src\utils\debugoutputdialog.cpp" />
+    <ClCompile Include="src\volume_data\volumedatawidget.cpp" />
     <QtRcc Include="ressources.qrc" />
     <QtUic Include="src\mainwindow.ui" />
     <QtMoc Include="src\mainwindow.h" />
@@ -117,12 +118,16 @@
     <QtUic Include="src\pandemic_sim\pandemicsimwidget.ui" />
     <QtUic Include="src\pandemic_sim\pandemicstatisticswidget.ui" />
     <QtUic Include="src\utils\debugoutputdialog.ui" />
+    <QtUic Include="src\volume_data\volumedatawidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\mapvisualization\maprenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\utils\stopwatch.h" />
+    <ClInclude Include="src\volume_data\VolumeData.h" />
+    <ClInclude Include="src\volume_data\volumedatamanager.h" />
+    <QtMoc Include="src\volume_data\volumedatawidget.h" />
     <QtMoc Include="src\utils\debugoutputdialog.h" />
     <QtMoc Include="src\pandemic_sim\pandemicsimwidget.h" />
     <QtMoc Include="src\pandemic_sim\crowdsimwidget.h" />
