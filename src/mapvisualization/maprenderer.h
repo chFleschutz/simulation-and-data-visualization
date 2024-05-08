@@ -10,7 +10,7 @@
 
 #include <memory>
 
-#include "imagerenderer.h"
+#include "utils/imagerenderer.h"
 
 class MapRenderer : public QWidget
 {

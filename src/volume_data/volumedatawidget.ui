@@ -14,13 +14,6 @@
    <string>VolumeDataWidget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="2">
     <widget class="QPushButton" name="load_button">
      <property name="text">
@@ -28,20 +21,31 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QWidget" name="widget" native="true"/>
+   <item row="1" column="1" colspan="2">
+    <widget class="ImageRendererWidget" name="histogram" native="true"/>
    </item>
-   <item row="1" column="2">
-    <widget class="QChartView" name="histogram"/>
+   <item row="0" column="1">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>QChartView</class>
-   <extends>QGraphicsView</extends>
-   <header>QtCharts</header>
+   <class>ImageRendererWidget</class>
+   <extends>QWidget</extends>
+   <header>utils/imagerendererwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

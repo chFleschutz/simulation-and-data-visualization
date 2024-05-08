@@ -17,6 +17,8 @@ public slots:
 	void onLoadVolumeData();
 
 private:
+	void createHistogram();
+
 	Ui::VolumeDataWidgetClass ui;
 
 	VolumeDataManager m_volumeDataManager;

@@ -14,7 +14,7 @@
    <string>Simulation and Data Visualization</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../ressources.qrc">
+   <iconset>
     <normaloff>:/assets/images/favicon.ico</normaloff>:/assets/images/favicon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -101,7 +101,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>339</x>
-     <y>304</y>
+     <y>255</y>
     </hint>
    </hints>
   </connection>
@@ -117,7 +117,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>285</x>
-     <y>304</y>
+     <y>255</y>
     </hint>
    </hints>
   </connection>
@@ -133,7 +133,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>285</x>
-     <y>304</y>
+     <y>255</y>
     </hint>
    </hints>
   </connection>
@@ -149,7 +149,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>285</x>
-     <y>304</y>
+     <y>255</y>
     </hint>
    </hints>
   </connection>
