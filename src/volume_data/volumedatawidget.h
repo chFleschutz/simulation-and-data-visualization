@@ -18,8 +18,12 @@ public slots:
 
 private:
 	void createHistogram();
+	void drawHistogram(const Histogram<uint16_t>& histogram, QImage& image);
 
 	Ui::VolumeDataWidgetClass ui;
 
 	VolumeDataManager m_volumeDataManager;
+
+	QColor m_linearColor = QColor(150, 150, 150);
+	QColor m_logarithmicColor = QColor(200, 200, 200);
 };

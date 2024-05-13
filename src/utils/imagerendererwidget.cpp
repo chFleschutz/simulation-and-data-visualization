@@ -1,11 +1,17 @@
 #include "imagerendererwidget.h"
 
-ImageRendererWidget::ImageRendererWidget(QWidget *parent)
+ImageRendererWidget::ImageRendererWidget(QWidget* parent)
 	: QWidget(parent)
 {
 }
 
-void ImageRendererWidget::paintEvent(QPaintEvent * event)
+void ImageRendererWidget::updateSize()
+{
+	m_imageRenderer.resize(size());
+	update();
+}
+
+void ImageRendererWidget::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
 	m_imageRenderer.draw(painter);
@@ -15,8 +21,7 @@ void ImageRendererWidget::paintEvent(QPaintEvent * event)
 
 void ImageRendererWidget::resizeEvent(QResizeEvent* event)
 {
-	m_imageRenderer.resize(size());
-	update();
+	updateSize();
 
 	emit onResized(event);
 }

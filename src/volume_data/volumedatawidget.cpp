@@ -12,29 +12,39 @@ VolumeDataWidget::VolumeDataWidget(QWidget* parent)
 
 void VolumeDataWidget::createHistogram()
 {
-	const auto& histogram = m_volumeDataManager.histogram();
 	auto& imageRenderer = ui.histogram->renderer();
+	imageRenderer.create(QSize(1024, 512));
+	imageRenderer.originalImage().fill(Qt::white);
 
-	auto width = 1024;
-	auto height = 512;
-	imageRenderer.create(QSize(width, height));
+	drawHistogram(m_volumeDataManager.histogram(), imageRenderer.originalImage());
 
-	float maxValue = m_volumeDataManager.maxValue();
-	float maxCount = m_volumeDataManager.maxCount();
-	auto& image = imageRenderer.originalImage();
-	for (auto [key, value] : histogram)
-	{
-		auto x = static_cast<float>(key) / maxValue * width;
-		auto y = static_cast<float>(value) / maxCount * height;
-
-		for (auto i = 0; i < y; ++i)
-		{
-			image.setPixel(x, height - i, qRgb(255, 0, 0));
-		}
-	}
-
-	imageRenderer.update();
+	ui.histogram->updateSize();
 	update();
+}
+
+void VolumeDataWidget::drawHistogram(const Histogram<uint16_t>& histogram, QImage& image)
+{
+	QPainter painter(&image);
+
+	auto maxValue = histogram.maxValue;
+	auto maxCount = histogram.maxCount;
+
+	for (auto [key, value] : histogram.data)
+	{
+		auto percentX = static_cast<float>(key) / static_cast<float>(maxValue);
+		auto percentY = static_cast<float>(value) / static_cast<float>(maxCount);
+		auto logPercentY = std::log(value) / std::log(maxCount);
+
+		auto x = percentX * image.width();
+		auto linearY = percentY * image.height();
+		auto logY = logPercentY * image.height();
+
+		painter.setPen(QPen(m_linearColor, 1));
+		painter.drawLine(x, image.height(), x, image.height() - linearY);
+
+		painter.setPen(QPen(m_logarithmicColor, 1));
+		painter.drawLine(x, image.height() - linearY, x, image.height() - logY);
+	}
 }
 
 void VolumeDataWidget::onLoadVolumeData()

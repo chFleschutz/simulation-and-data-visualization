@@ -18,6 +18,8 @@ public:
 	int imageWidth() const { return m_imageRenderer.width(); }
 	int imageHeight() const { return m_imageRenderer.height(); }
 
+	void updateSize();
+
 signals:
 	void onPaintEvent(QPainter& painter);
 	void onDoubleClicked(QMouseEvent* event);
