@@ -38,12 +38,12 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>6.6.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets;charts</QtModules>
+    <QtModules>core;gui;widgets;opengl;charts</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.6.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets;charts</QtModules>
+    <QtModules>core;gui;widgets;opengl;charts</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -109,6 +109,7 @@
     <ClCompile Include="src\utils\debugoutputdialog.cpp" />
     <ClCompile Include="src\utils\imagerendererwidget.cpp" />
     <ClCompile Include="src\volume_data\histogramwidget.cpp" />
+    <ClCompile Include="src\volume_data\sliceviewerwidget.cpp" />
     <ClCompile Include="src\volume_data\volumedatawidget.cpp" />
     <QtRcc Include="ressources.qrc" />
     <QtUic Include="src\mainwindow.ui" />
@@ -130,6 +131,7 @@
     <QtMoc Include="src\utils\imagerendererwidget.h" />
     <ClInclude Include="src\utils\stopwatch.h" />
     <QtMoc Include="src\volume_data\histogramwidget.h" />
+    <QtMoc Include="src\volume_data\sliceviewerwidget.h" />
     <ClInclude Include="src\volume_data\VolumeData.h" />
     <ClInclude Include="src\volume_data\volumedatamanager.h" />
     <QtMoc Include="src\volume_data\volumedatawidget.h" />

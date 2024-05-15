@@ -27,18 +27,6 @@ void VolumeDataWidget::onUpdateWindowWidth(float width)
 	ui.windowWidth_slider->setValue(width * 100);
 }
 
-void VolumeDataWidget::createHistogram()
-{
-	auto& imageRenderer = ui.histogram->renderer();
-	imageRenderer.create(QSize(1024, 512));
-	imageRenderer.originalImage().fill(Qt::white);
-
-	drawHistogram(m_volumeDataManager.histogram(), imageRenderer.originalImage());
-
-	ui.histogram->updateSize();
-	update();
-}
-
 void VolumeDataWidget::drawHistogram(const Histogram<uint16_t>& histogram, QImage& image)
 {
 	QPainter painter(&image);
@@ -77,10 +65,9 @@ void VolumeDataWidget::onLoadVolumeData()
 	}
 	catch (const std::exception& e)
 	{
-		auto errorMsg = QString("Failed to load volume data") + e.what();
-		QMessageBox::warning(this, "Error", errorMsg);
+		QMessageBox::warning(this, "Error", QString("Failed to load volume data") + e.what());
+		return;
 	}
 
 	ui.histogram_widget->load(m_volumeDataManager.histogram());
-	//createHistogram();
 }

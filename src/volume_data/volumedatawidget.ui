@@ -14,6 +14,16 @@
    <string>VolumeDataWidget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="0" colspan="3">
+    <widget class="HistogramWidget" name="histogram_widget" native="true">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>200</height>
+      </size>
+     </property>
+    </widget>
+   </item>
    <item row="4" column="0">
     <widget class="QLabel" name="level_label">
      <property name="sizePolicy">
@@ -27,8 +37,21 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="3">
+   <item row="4" column="1" colspan="2">
+    <widget class="QSlider" name="windowLevel_slider">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
     <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Settings</string>
      </property>
@@ -57,43 +80,20 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="4">
-    <widget class="HistogramWidget" name="histogram_widget" native="true">
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>200</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="3">
-    <widget class="ImageRendererWidget" name="histogram" native="true"/>
-   </item>
-   <item row="4" column="1" colspan="3">
-    <widget class="QSlider" name="windowLevel_slider">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1" colspan="3">
+   <item row="5" column="1" colspan="2">
     <widget class="QSlider" name="windowWidth_slider">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="SliceViewerWidget" name="sliceViewer"/>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
-  <customwidget>
-   <class>ImageRendererWidget</class>
-   <extends>QWidget</extends>
-   <header>utils/imagerendererwidget.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>HistogramWidget</class>
    <extends>QWidget</extends>
@@ -104,6 +104,11 @@
     <slot>setWindowWidth(int)</slot>
     <slot>setShowWindowing(bool)</slot>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>SliceViewerWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header>volume_data/sliceviewerwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
