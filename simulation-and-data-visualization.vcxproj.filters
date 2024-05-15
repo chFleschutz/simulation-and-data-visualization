@@ -58,7 +58,16 @@
     <ClCompile Include="src\pandemic_sim\pandemicstatisticswidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\volume_data\volumedatawidget.cpp">
+    <ClCompile Include="src\slice_viewer\volumedatawidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\imagerendererwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\slice_viewer\histogramwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\slice_viewer\sliceviewerwidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -81,7 +90,16 @@
     <QtMoc Include="src\pandemic_sim\pandemicstatisticswidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\volume_data\volumedatawidget.h">
+    <QtMoc Include="src\slice_viewer\volumedatawidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\utils\imagerendererwidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\slice_viewer\histogramwidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\slice_viewer\sliceviewerwidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -101,7 +119,7 @@
     <QtUic Include="src\pandemic_sim\pandemicstatisticswidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\volume_data\volumedatawidget.ui">
+    <QtUic Include="src\slice_viewer\volumedatawidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -118,9 +136,6 @@
     <ClInclude Include="src\mapvisualization\visualizer\shepardfrankielittle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\imagerenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\utils\drawshape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -128,6 +143,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\stopwatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\imagerenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\slice_viewer\volumedata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\slice_viewer\volumedatamanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

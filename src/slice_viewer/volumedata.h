@@ -35,7 +35,7 @@ public:
 			data.dimensions.push_back(dimSize);
 		}
 
-		auto rawFilename = filename.parent_path() / metadata["ElementDataFile"].toStdString();
+		std::string rawFilename = filename.parent_path().string() + "/" + metadata["ElementDataFile"].toStdString();
 		if (metadata["ElementType"] == "MET_UCHAR")
 		{
 			loadRaw<unsigned char>(rawFilename, data, elementCount);
@@ -75,7 +75,7 @@ public:
 		QFile file(filename);
 		if (!file.open(QIODevice::ReadOnly))
 		{
-			throw std::runtime_error("Could not open file");
+			throw std::runtime_error("Could not open file: " + filename.string());
 		}
 
 		std::unordered_map<QString, QString> metadata;
@@ -100,13 +100,13 @@ public:
 	static void checkMhd(const std::unordered_map<QString, QString>& metadata)
 	{
 		if (!metadata.contains("NDims"))
-			throw std::runtime_error("Invalid header file! \nMissing NDims");
+			throw std::runtime_error("Invalid header file: Missing NDims");
 
 		if (!metadata.contains("DimSize"))
-			throw std::runtime_error("Invalid header file! \nMissing DimSize");
+			throw std::runtime_error("Invalid header file: Missing DimSize");
 
 		if (!metadata.contains("ElementDataFile"))
-			throw std::runtime_error("Invalid header file! \nMissing ElementDataFile");
+			throw std::runtime_error("Invalid header file: Missing ElementDataFile");
 	}
 
 	template<typename T>
@@ -115,7 +115,7 @@ public:
 		QFile rawFile(filename);
 		if (!rawFile.open(QIODevice::ReadOnly))
 		{
-			throw std::runtime_error("Could not open file");
+			throw std::runtime_error("Could not open file: " + filename.string());
 		}
 
 		QDataStream stream(&rawFile);

@@ -45,6 +45,9 @@ public:
 
 	void resize(const QSize& size)
 	{
+		if (m_originalImage.isNull())
+			return;
+
 		m_image = m_originalImage.scaled(size, m_aspectRatioMode);
 	}
 

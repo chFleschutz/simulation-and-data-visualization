@@ -5,5 +5,10 @@
         <file>assets/images/USA.png</file>
         <file>assets/images/favicon.ico</file>
         <file>assets/images/FlowfieldMap.png</file>
+        <file>shaders/slice_viewer.frag</file>
+        <file>shaders/slice_viewer.vert</file>
+        <file>assets/images/painting.png</file>
+        <file>assets/volume/smallHeart.mhd</file>
+        <file>assets/volume/smallHeart.raw</file>
     </qresource>
 </RCC>

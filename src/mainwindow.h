@@ -11,6 +11,8 @@ public:
 	MainWindow(QWidget* parent = nullptr);
 	~MainWindow() = default;
 
+	static void messageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg);
+
 public slots:
 	void onShowDebugOutput();
 	void onMapVisualization();
