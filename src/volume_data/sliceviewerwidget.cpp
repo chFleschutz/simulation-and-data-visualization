@@ -5,11 +5,11 @@
 
 
 // Macro to check for OpenGL errors
-#define CHECK_GL_ERROR() checkOpenGLError(__FILE__, __LINE__)
+#define CHECK_GL_ERROR() checkOpenGLError(__FUNCSIG__, __LINE__)
 
 
 SliceViewerWidget::SliceViewerWidget(QWidget* parent)
-	: QOpenGLWidget(parent)
+	: QOpenGLWidget(parent), m_texture(QOpenGLTexture::Target2D)
 {
 }
 
@@ -19,6 +19,7 @@ SliceViewerWidget::~SliceViewerWidget()
 
 	m_vbo.destroy();
 	m_vao.destroy();
+	m_texture.destroy();
 
 	doneCurrent();
 }
@@ -31,29 +32,29 @@ void SliceViewerWidget::initializeGL()
 
 	setupShaders();
 	setupGeometry();
+
+	setupTexture();
 }
 
 void SliceViewerWidget::resizeGL(int w, int h)
 {
 	m_glFunctions->glViewport(0, 0, w, h);
-
-	m_projectionMatrix.setToIdentity();
-	m_projectionMatrix.perspective(45.0f, w / float(h), 0.1f, 100.0f);
 }
 
 void SliceViewerWidget::paintGL()
 {
 	m_glFunctions->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_glFunctions->glActiveTexture(GL_TEXTURE0);
 
+	m_texture.bind();
 	m_program.bind();
-	m_program.setUniformValue(0, m_projectionMatrix);
-
 	m_vao.bind();
 
-	m_glFunctions->glDrawArrays(GL_TRIANGLES, 0, 3);
-
+	m_glFunctions->glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	
 	m_vao.release();
 	m_program.release();
+	m_texture.release();
 
 	CHECK_GL_ERROR();
 }
@@ -75,10 +76,11 @@ void SliceViewerWidget::setupShaders()
 
 void SliceViewerWidget::setupGeometry()
 {
-	std::vector<QVector3D> vertices{
-		{ -0.5, -0.5, -1.0f },
-		{  0.5, -0.5, -1.0f },
-		{  0.0,  0.5, -1.0f },
+	std::vector<Vertex> vertices{
+		{{ -1.0, -1.0, -1.0f }, { 0.0f, 0.0f }},
+		{{  1.0, -1.0, -1.0f }, { 1.0f, 0.0f }},
+		{{ -1.0,  1.0, -1.0f }, { 0.0f, 1.0f }},
+		{{  1.0,  1.0, -1.0f }, { 1.0f, 1.0f }},
 	};
 
 	m_vao.create();
@@ -86,13 +88,48 @@ void SliceViewerWidget::setupGeometry()
 
 	m_vbo.create();
 	m_vbo.bind();
-	m_vbo.allocate(vertices.data(), vertices.size() * sizeof(QVector3D));
+	m_vbo.allocate(vertices.data(), vertices.size() * sizeof(Vertex));
 
-	m_glFunctions->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(QVector3D), nullptr);
+	// Position
+	m_glFunctions->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, position)));
 	m_glFunctions->glEnableVertexAttribArray(0);
+
+	// Texture coordinates
+	m_glFunctions->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, texCoord)));
+	m_glFunctions->glEnableVertexAttribArray(1);
 
 	m_vbo.release();
 	m_vao.release();
+
+	CHECK_GL_ERROR();
+}
+
+void SliceViewerWidget::setupTexture()
+{
+	QImage image(":/assets/images/painting.png");
+	if (image.isNull())
+	{
+		qWarning() << "Failed to load image";
+		return;
+	}
+
+	image = image.convertToFormat(QImage::Format_RGBA8888);
+	image = image.mirrored();
+
+	m_texture.create();
+	m_texture.setWrapMode(QOpenGLTexture::ClampToEdge);
+	m_texture.setMinificationFilter(QOpenGLTexture::Linear);
+	m_texture.setMagnificationFilter(QOpenGLTexture::Linear);
+	
+	m_texture.setFormat(QOpenGLTexture::RGBA8_UNorm);
+	m_texture.setSize(image.width(), image.height());
+	m_texture.allocateStorage();
+	m_texture.setData(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, image.constBits());
+
+	if (!m_texture.isCreated())
+		qWarning() << "Failed to create texture";
+	else
+		qDebug() << "Texture created:" << m_texture.width() << "x" << m_texture.height();
 
 	CHECK_GL_ERROR();
 }
@@ -130,6 +167,6 @@ void SliceViewerWidget::checkOpenGLError(const char* file, int line)
 			break;
 		}
 
-		qDebug() << "OpenGL Error:" << error << "in" << file << "at line" << line;
+		qWarning() << "OpenGL Error:" << error << "in" << file << "at line" << line;
 	}
 }

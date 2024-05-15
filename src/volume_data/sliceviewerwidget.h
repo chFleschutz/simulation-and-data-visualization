@@ -5,13 +5,21 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLShaderProgram>
-#include <QMatrix4x4>
+#include <QOpenGLTexture>
+
+#include <memory>
 
 class SliceViewerWidget : public QOpenGLWidget
 {
 	Q_OBJECT
 
 public:
+	struct Vertex
+	{
+		QVector3D position;
+		QVector2D texCoord;
+	};
+
 	SliceViewerWidget(QWidget* parent = 0);
 	~SliceViewerWidget();
 
@@ -23,6 +31,7 @@ protected:
 private:
 	void setupShaders();
 	void setupGeometry();
+	void setupTexture();
 	void checkOpenGLError(const char* file, int line);
 
 	QOpenGLFunctions* m_glFunctions = nullptr;
@@ -31,5 +40,5 @@ private:
 	QOpenGLBuffer m_vbo;
 	QOpenGLVertexArrayObject m_vao;
 
-	QMatrix4x4 m_projectionMatrix;
+	QOpenGLTexture m_texture;
 };
