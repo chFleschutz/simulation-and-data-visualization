@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>572</width>
-    <height>609</height>
+    <width>766</width>
+    <height>256</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Simulation and Data Visualization</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../ressources.qrc">
+   <iconset>
     <normaloff>:/assets/images/favicon.ico</normaloff>:/assets/images/favicon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -25,7 +25,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>572</width>
+     <width>766</width>
      <height>22</height>
     </rect>
    </property>
@@ -37,7 +37,7 @@
    </widget>
    <widget class="QMenu" name="menuMap_Visualization">
     <property name="title">
-     <string>Map Visualization</string>
+     <string>2D Visualization</string>
     </property>
     <addaction name="actionMap"/>
    </widget>
@@ -47,7 +47,14 @@
     </property>
     <addaction name="actionPandemic"/>
    </widget>
+   <widget class="QMenu" name="menu3D_Visualization">
+    <property name="title">
+     <string>3D-Visualization</string>
+    </property>
+    <addaction name="actionVolume_Data"/>
+   </widget>
    <addaction name="menuMap_Visualization"/>
+   <addaction name="menu3D_Visualization"/>
    <addaction name="menuCrowd_Simulation"/>
    <addaction name="menuDebug"/>
   </widget>
@@ -71,6 +78,11 @@
     <string>Pandemic Simulation</string>
    </property>
   </action>
+  <action name="actionVolume_Data">
+   <property name="text">
+    <string>Volume Data</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
@@ -89,7 +101,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>339</x>
-     <y>304</y>
+     <y>255</y>
     </hint>
    </hints>
   </connection>
@@ -105,7 +117,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>285</x>
-     <y>304</y>
+     <y>255</y>
     </hint>
    </hints>
   </connection>
@@ -121,7 +133,23 @@
     </hint>
     <hint type="destinationlabel">
      <x>285</x>
-     <y>304</y>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionVolume_Data</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>onVolumeDataVisualization()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>255</y>
     </hint>
    </hints>
   </connection>
@@ -130,5 +158,6 @@
   <slot>onShowDebugOutput()</slot>
   <slot>onMapVisualization()</slot>
   <slot>onPandemicSimulation()</slot>
+  <slot>onVolumeDataVisualization()</slot>
  </slots>
 </ui>
