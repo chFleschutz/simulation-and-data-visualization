@@ -9,7 +9,6 @@ HistogramWidget::HistogramWidget(QWidget* parent)
 	: QWidget(parent)
 {
 	m_image.setAspectRatioMode(Qt::IgnoreAspectRatio);
-	m_image.load(":/assets/images/AUbig.png");
 }
 
 void HistogramWidget::load(const Histogram& histogram)
@@ -46,19 +45,22 @@ void HistogramWidget::load(const Histogram& histogram)
 
 void HistogramWidget::setShowWindowing(bool enable)
 {
-	m_showWindow = enable;
+	m_windowEnabled = enable;
+	emit windowingChanged(m_windowEnabled);
 	update();
 }
 
 void HistogramWidget::setWindowLevel(int level)
 {
 	m_windowLevel = level / 100.0f;
+	emit windowLevelChanged(m_windowLevel);
 	update();
 }
 
 void HistogramWidget::setWindowWidth(int width)
 {
 	m_windowWidth = width / 100.0f;
+	emit windowWidthChanged(m_windowWidth);
 	update();
 }
 
@@ -70,11 +72,11 @@ void HistogramWidget::paintEvent(QPaintEvent* event)
 	m_image.draw(painter);
 
 	// Draw windowing
-	if (m_showWindow)
+	if (m_windowEnabled)
 	{
 		auto windowCenterX = m_image.width() * m_windowLevel;
 		auto windowWidth = m_image.width() * m_windowWidth;
-		painter.setPen(Qt::transparent); 
+		painter.setPen(Qt::transparent);
 		painter.setBrush(QBrush(QColor(0, 200, 0, 100)));
 		painter.drawRect(windowCenterX - (windowWidth * 0.5f), 0, windowWidth, m_image.height());
 	}
@@ -88,6 +90,9 @@ void HistogramWidget::resizeEvent(QResizeEvent* event)
 
 void HistogramWidget::mousePressEvent(QMouseEvent* event)
 {
+	if (!m_windowEnabled)
+		return;
+
 	m_dragging = true;
 	m_windowLevel = static_cast<float>(event->pos().x()) / static_cast<float>(m_image.width());
 	emit windowLevelChanged(m_windowLevel);
@@ -111,6 +116,9 @@ void HistogramWidget::mouseReleaseEvent(QMouseEvent* event)
 
 void HistogramWidget::wheelEvent(QWheelEvent* event)
 {
+	if (!m_windowEnabled)
+		return;
+
 	auto delta = event->angleDelta().y();
 	if (delta > 0)
 	{

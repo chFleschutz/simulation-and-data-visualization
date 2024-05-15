@@ -14,11 +14,17 @@ public:
 	~VolumeDataWidget() = default;
 
 public slots:
-	void onLoadVolumeData();
 	void onUpdateWindowLevel(float level);
 	void onUpdateWindowWidth(float width);
+	void onSliceLevelChanged(float level);
+	void onUpdateWindowing(bool enable);
+	
+	void onLoadVolumeData();
+	void onLoadDefaultFile(int index);
 
 private:
+	void loadFile(const std::filesystem::path& mhdFile);
+
 	Ui::VolumeDataWidgetClass ui;
 
 	VolumeDataManager m_volumeDataManager;

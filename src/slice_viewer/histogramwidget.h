@@ -15,17 +15,22 @@ public:
 
 	void load(const Histogram& histogram);
 
-	bool showWindowing() const { return m_showWindow; }
+	bool showWindowing() const { return m_windowEnabled; }
+	/// @brief Returns the window level as a fraction [0, 1].
 	float windowLevel() const { return m_windowLevel; }
+	/// @brief Returns the window width as a fraction [0, 1].
 	float windowWidth() const { return m_windowWidth; }
 
 signals:
+	void windowingChanged(bool enable);
 	void windowLevelChanged(float level);
 	void windowWidthChanged(float width);
 
 public slots:
 	void setShowWindowing(bool enable);
+	/// @brief Set the window level as a percentage [0, 100].
 	void setWindowLevel(int level);
+	/// @brief Set the window width as a percentage [0, 100].
 	void setWindowWidth(int width);
 
 protected:
@@ -39,7 +44,7 @@ protected:
 private:
 	ImageRenderer m_image;
 
-	bool m_showWindow = false;
+	bool m_windowEnabled = false;
 	float m_windowLevel = 0.5f;
 	float m_windowWidth = 1.0f;
 

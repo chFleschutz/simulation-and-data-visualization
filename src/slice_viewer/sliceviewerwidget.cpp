@@ -1,8 +1,9 @@
 #include "sliceviewerwidget.h"
 
-#include <vector>
+#include <QMouseEvent>
 #include <QVector3D>
 
+#include <vector>
 
 // Macro to check for OpenGL errors
 #define CHECK_GL_ERROR() checkOpenGLError(__FUNCSIG__, __LINE__)
@@ -22,6 +23,60 @@ SliceViewerWidget::~SliceViewerWidget()
 	m_texture.destroy();
 
 	doneCurrent();
+}
+
+void SliceViewerWidget::load(const VolumeData& volume)
+{
+	// Convert the data to floats and normalize to [0, 1]
+	std::vector<float> data(volume.data.size());
+	for (size_t i = 0; i < volume.data.size(); i++)
+		data[i] = volume.data[i] / 4095.0f; 
+
+	// Set Dimensions
+	int width = 1;
+	int height = 1;
+	int depth = 1;
+	if (volume.dimensions.size() >= 1)
+		width = volume.dimensions[0];
+	if (volume.dimensions.size() >= 2)
+		height = volume.dimensions[1];
+	if (volume.dimensions.size() >= 3)
+		depth = volume.dimensions[2];
+
+	if (m_texture.isCreated())
+		m_texture.destroy();
+
+	m_texture.create();
+	m_texture.setWrapMode(QOpenGLTexture::ClampToEdge);
+	m_texture.setMinificationFilter(QOpenGLTexture::Linear);
+	m_texture.setMagnificationFilter(QOpenGLTexture::Linear);
+
+	m_texture.setFormat(QOpenGLTexture::R32F);
+	m_texture.setSize(width, height, depth);
+	m_texture.allocateStorage();
+	m_texture.setData(QOpenGLTexture::Red, QOpenGLTexture::Float32, data.data());
+
+	CHECK_GL_ERROR();
+
+	update();
+}
+
+void SliceViewerWidget::setWindowLevel(float level)
+{
+	m_windowLevel = level;
+	update();
+}
+
+void SliceViewerWidget::setWindowWidth(float width)
+{
+	m_windowWidth = width;
+	update();
+}
+
+void SliceViewerWidget::setWindowing(bool enabled)
+{
+	m_windowing = enabled;
+	update();
 }
 
 void SliceViewerWidget::initializeGL()
@@ -47,16 +102,44 @@ void SliceViewerWidget::paintGL()
 	m_glFunctions->glActiveTexture(GL_TEXTURE0);
 
 	m_texture.bind();
+
 	m_program.bind();
+	m_program.setUniformValue("slice", m_sliceLevel);
+	m_program.setUniformValue("windowLevel", m_windowLevel);
+	m_program.setUniformValue("windowWidth", m_windowWidth);
+	m_program.setUniformValue("enableWindowing", m_windowing);
+
 	m_vao.bind();
 
 	m_glFunctions->glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	
+
 	m_vao.release();
 	m_program.release();
 	m_texture.release();
 
 	CHECK_GL_ERROR();
+}
+
+void SliceViewerWidget::wheelEvent(QWheelEvent* event)
+{
+	auto delta = event->angleDelta().y();
+	if (delta > 0)
+	{
+		m_sliceLevel = std::min(1.0f, m_sliceLevel + 0.01f);
+	}
+	else
+	{
+		m_sliceLevel = std::max(0.0f, m_sliceLevel - 0.01f);
+	}
+
+	emit sliceLevelChanged(m_sliceLevel * m_texture.depth());
+	update();
+}
+
+void SliceViewerWidget::resizeEvent(QResizeEvent* event)
+{
+	int size = qMin(event->size().width(), event->size().height());
+	resize(size, size);
 }
 
 void SliceViewerWidget::setupShaders()
@@ -106,30 +189,11 @@ void SliceViewerWidget::setupGeometry()
 
 void SliceViewerWidget::setupTexture()
 {
-	QImage image(":/assets/images/painting.png");
-	if (image.isNull())
-	{
-		qWarning() << "Failed to load image";
-		return;
-	}
-
-	image = image.convertToFormat(QImage::Format_RGBA8888);
-	image = image.mirrored();
-
+	// Create empty texture to avoid GL errors at startup
 	m_texture.create();
 	m_texture.setWrapMode(QOpenGLTexture::ClampToEdge);
 	m_texture.setMinificationFilter(QOpenGLTexture::Linear);
 	m_texture.setMagnificationFilter(QOpenGLTexture::Linear);
-	
-	m_texture.setFormat(QOpenGLTexture::RGBA8_UNorm);
-	m_texture.setSize(image.width(), image.height());
-	m_texture.allocateStorage();
-	m_texture.setData(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, image.constBits());
-
-	if (!m_texture.isCreated())
-		qWarning() << "Failed to create texture";
-	else
-		qDebug() << "Texture created:" << m_texture.width() << "x" << m_texture.height();
 
 	CHECK_GL_ERROR();
 }

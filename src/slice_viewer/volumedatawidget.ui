@@ -6,48 +6,124 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>694</width>
-    <height>520</height>
+    <width>868</width>
+    <height>731</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>VolumeDataWidget</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="0" colspan="3">
-    <widget class="HistogramWidget" name="histogram_widget" native="true">
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>200</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="level_label">
+  <layout class="QGridLayout" name="gridLayout_4">
+   <item row="1" column="2">
+    <widget class="QGroupBox" name="histogram_groupBox">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="text">
-      <string>Level</string>
+     <property name="title">
+      <string>Histogram</string>
      </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0" colspan="2">
+       <widget class="HistogramWidget" name="histogram_widget" native="true"/>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="4" column="1" colspan="2">
-    <widget class="QSlider" name="windowLevel_slider">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="slice_groupBox">
+     <property name="title">
+      <string>Slice Viewer</string>
      </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="SliceViewerWidget" name="sliceViewer">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="2" column="2">
+   <item row="0" column="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Stats</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_5">
+      <item row="2" column="0">
+       <widget class="QLabel" name="windowLevelStat_label">
+        <property name="text">
+         <string>Window Level</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" colspan="2">
+       <widget class="QLabel" name="windowWidth_label">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="sliceLevelStat_Label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Slice Level</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QLabel" name="windowLevel_label">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" colspan="2">
+       <widget class="QLabel" name="sliceLevel_label">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="windowWidthStat_label">
+        <property name="text">
+         <string>Window Width</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="settings_groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -56,6 +132,13 @@
       <string>Settings</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="windowing_checkBox">
+        <property name="text">
+         <string>Enable Windowing</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QPushButton" name="load_button">
         <property name="text">
@@ -63,32 +146,20 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QCheckBox" name="windowing_checkBox">
-        <property name="text">
-         <string>Enable Windowing</string>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="file_comboBox">
+        <property name="currentIndex">
+         <number>-1</number>
         </property>
+        <item>
+         <property name="text">
+          <string>Small Heart</string>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
     </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="width_label">
-     <property name="text">
-      <string>Width</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1" colspan="2">
-    <widget class="QSlider" name="windowWidth_slider">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="SliceViewerWidget" name="sliceViewer"/>
    </item>
   </layout>
  </widget>
@@ -100,6 +171,9 @@
    <header>slice_viewer/histogramwidget.h</header>
    <container>1</container>
    <slots>
+    <signal>windowingChanged(bool)</signal>
+    <signal>windowLevelChanged(float)</signal>
+    <signal>windowWidthChanged(float)</signal>
     <slot>setWindowLevel(int)</slot>
     <slot>setWindowWidth(int)</slot>
     <slot>setShowWindowing(bool)</slot>
@@ -109,6 +183,9 @@
    <class>SliceViewerWidget</class>
    <extends>QOpenGLWidget</extends>
    <header>slice_viewer/sliceviewerwidget.h</header>
+   <slots>
+    <signal>sliceLevelChanged(float)</signal>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -120,44 +197,12 @@
    <slot>onLoadVolumeData()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>674</x>
-     <y>109</y>
+     <x>140</x>
+     <y>680</y>
     </hint>
     <hint type="destinationlabel">
-     <x>416</x>
-     <y>117</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>windowLevel_slider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>histogram_widget</receiver>
-   <slot>setWindowLevel(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>125</x>
-     <y>472</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>143</x>
-     <y>413</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>windowWidth_slider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>histogram_widget</receiver>
-   <slot>setWindowWidth(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>199</x>
-     <y>502</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>419</y>
+     <x>434</x>
+     <y>613</y>
     </hint>
    </hints>
   </connection>
@@ -168,17 +213,102 @@
    <slot>setShowWindowing(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>552</x>
-     <y>179</y>
+     <x>117</x>
+     <y>695</y>
     </hint>
     <hint type="destinationlabel">
-     <x>557</x>
-     <y>283</y>
+     <x>149</x>
+     <y>609</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sliceViewer</sender>
+   <signal>sliceLevelChanged(float)</signal>
+   <receiver>VolumeDataWidgetClass</receiver>
+   <slot>onSliceLevelChanged(float)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>848</x>
+     <y>68</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>433</x>
+     <y>68</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>histogram_widget</sender>
+   <signal>windowLevelChanged(float)</signal>
+   <receiver>VolumeDataWidgetClass</receiver>
+   <slot>onUpdateWindowLevel(float)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>114</x>
+     <y>208</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>434</x>
+     <y>209</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>histogram_widget</sender>
+   <signal>windowWidthChanged(float)</signal>
+   <receiver>VolumeDataWidgetClass</receiver>
+   <slot>onUpdateWindowWidth(float)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>124</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>432</x>
+     <y>172</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>histogram_widget</sender>
+   <signal>windowingChanged(bool)</signal>
+   <receiver>VolumeDataWidgetClass</receiver>
+   <slot>onUpdateWindowing(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>88</x>
+     <y>243</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>243</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>file_comboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>VolumeDataWidgetClass</receiver>
+   <slot>onLoadDefaultFile(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>328</x>
+     <y>672</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>640</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
   <slot>onLoadVolumeData()</slot>
+  <slot>onSliceLevelChanged(float)</slot>
+  <slot>onUpdateWindowLevel(float)</slot>
+  <slot>onUpdateWindowWidth(float)</slot>
+  <slot>onUpdateWindowing(bool)</slot>
+  <slot>onLoadDefaultFile(int)</slot>
  </slots>
 </ui>
