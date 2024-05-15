@@ -8,6 +8,23 @@ VolumeDataWidget::VolumeDataWidget(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
+	ui.windowLevel_slider->setValue(ui.histogram_widget->windowLevel() * 100);
+	ui.windowWidth_slider->setValue(ui.histogram_widget->windowWidth() * 100);
+	ui.windowing_checkBox->setChecked(ui.histogram_widget->showWindowing());
+
+	connect(ui.histogram_widget, &HistogramWidget::windowLevelChanged, this, &VolumeDataWidget::onUpdateWindowLevel);
+	connect(ui.histogram_widget, &HistogramWidget::windowWidthChanged, this, &VolumeDataWidget::onUpdateWindowWidth);
+}
+
+void VolumeDataWidget::onUpdateWindowLevel(float level)
+{
+	ui.windowLevel_slider->setValue(level * 100);
+}
+
+void VolumeDataWidget::onUpdateWindowWidth(float width)
+{
+	ui.windowWidth_slider->setValue(width * 100);
 }
 
 void VolumeDataWidget::createHistogram()
@@ -64,5 +81,6 @@ void VolumeDataWidget::onLoadVolumeData()
 		QMessageBox::warning(this, "Error", errorMsg);
 	}
 
-	createHistogram();
+	ui.histogram_widget->load(m_volumeDataManager.histogram());
+	//createHistogram();
 }

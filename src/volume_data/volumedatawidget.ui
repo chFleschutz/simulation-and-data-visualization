@@ -6,36 +6,83 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>694</width>
+    <height>520</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>VolumeDataWidget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="4" column="0">
+    <widget class="QLabel" name="level_label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="0">
-    <widget class="QPushButton" name="load_button">
      <property name="text">
-      <string>Load File</string>
+      <string>Level</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="3">
+   <item row="2" column="3">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Settings</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QPushButton" name="load_button">
+        <property name="text">
+         <string>Load File</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="windowing_checkBox">
+        <property name="text">
+         <string>Enable Windowing</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="width_label">
+     <property name="text">
+      <string>Width</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="4">
+    <widget class="HistogramWidget" name="histogram_widget" native="true">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>200</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="3">
     <widget class="ImageRendererWidget" name="histogram" native="true"/>
+   </item>
+   <item row="4" column="1" colspan="3">
+    <widget class="QSlider" name="windowLevel_slider">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1" colspan="3">
+    <widget class="QSlider" name="windowWidth_slider">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -47,6 +94,17 @@
    <header>utils/imagerendererwidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>HistogramWidget</class>
+   <extends>QWidget</extends>
+   <header>volume_data/histogramwidget.h</header>
+   <container>1</container>
+   <slots>
+    <slot>setWindowLevel(int)</slot>
+    <slot>setWindowWidth(int)</slot>
+    <slot>setShowWindowing(bool)</slot>
+   </slots>
+  </customwidget>
  </customwidgets>
  <resources/>
  <connections>
@@ -57,12 +115,60 @@
    <slot>onLoadVolumeData()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>412</x>
-     <y>206</y>
+     <x>674</x>
+     <y>109</y>
     </hint>
     <hint type="destinationlabel">
      <x>416</x>
      <y>117</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>windowLevel_slider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>histogram_widget</receiver>
+   <slot>setWindowLevel(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>125</x>
+     <y>472</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>143</x>
+     <y>413</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>windowWidth_slider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>histogram_widget</receiver>
+   <slot>setWindowWidth(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>502</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>419</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>windowing_checkBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>histogram_widget</receiver>
+   <slot>setShowWindowing(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>552</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>557</x>
+     <y>283</y>
     </hint>
    </hints>
   </connection>

@@ -15,6 +15,8 @@ public:
 
 public slots:
 	void onLoadVolumeData();
+	void onUpdateWindowLevel(float level);
+	void onUpdateWindowWidth(float width);
 
 private:
 	void createHistogram();
