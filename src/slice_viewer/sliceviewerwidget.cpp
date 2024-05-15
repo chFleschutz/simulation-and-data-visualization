@@ -9,7 +9,7 @@
 
 
 SliceViewerWidget::SliceViewerWidget(QWidget* parent)
-	: QOpenGLWidget(parent), m_texture(QOpenGLTexture::Target2D)
+	: QOpenGLWidget(parent)
 {
 }
 

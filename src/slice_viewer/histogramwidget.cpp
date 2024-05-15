@@ -12,7 +12,7 @@ HistogramWidget::HistogramWidget(QWidget* parent)
 	m_image.load(":/assets/images/AUbig.png");
 }
 
-void HistogramWidget::load(const Histogram<uint16_t>& histogram)
+void HistogramWidget::load(const Histogram& histogram)
 {
 	m_image.create(QSize(1024, 512));
 	auto& image = m_image.originalImage();
@@ -66,10 +66,6 @@ void HistogramWidget::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
 
-	// Draw border
-	painter.setPen(QPen(Qt::black, 1));
-	painter.drawRect(0, 0, width() - 1, height() - 1);
-
 	// Draw histogram
 	m_image.draw(painter);
 
@@ -78,7 +74,7 @@ void HistogramWidget::paintEvent(QPaintEvent* event)
 	{
 		auto windowCenterX = m_image.width() * m_windowLevel;
 		auto windowWidth = m_image.width() * m_windowWidth;
-		painter.setPen(QPen(Qt::black, 1));
+		painter.setPen(Qt::transparent); 
 		painter.setBrush(QBrush(QColor(0, 200, 0, 100)));
 		painter.drawRect(windowCenterX - (windowWidth * 0.5f), 0, windowWidth, m_image.height());
 	}
@@ -118,11 +114,11 @@ void HistogramWidget::wheelEvent(QWheelEvent* event)
 	auto delta = event->angleDelta().y();
 	if (delta > 0)
 	{
-		m_windowWidth = std::min(1.0f, m_windowWidth + 0.1f);
+		m_windowWidth = std::min(1.0f, m_windowWidth + 0.05f);
 	}
 	else
 	{
-		m_windowWidth = std::max(0.0f, m_windowWidth - 0.1f);
+		m_windowWidth = std::max(0.0f, m_windowWidth - 0.05f);
 	}
 
 	emit windowWidthChanged(m_windowWidth);

@@ -14,7 +14,7 @@
    <string>Simulation and Data Visualization</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../ressources.qrc">
     <normaloff>:/assets/images/favicon.ico</normaloff>:/assets/images/favicon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -43,7 +43,7 @@
    </widget>
    <widget class="QMenu" name="menuCrowd_Simulation">
     <property name="title">
-     <string>Crowd Simulation</string>
+     <string>Simulation</string>
     </property>
     <addaction name="actionPandemic"/>
    </widget>
@@ -80,7 +80,7 @@
   </action>
   <action name="actionVolume_Data">
    <property name="text">
-    <string>Volume Data</string>
+    <string>Slice Viewer</string>
    </property>
   </action>
  </widget>

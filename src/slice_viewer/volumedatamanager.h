@@ -1,13 +1,12 @@
 #pragma once
 
-#include "volume_data/VolumeData.h"
+#include "slice_viewer/volumedata.h"
 
-template <typename T>
 struct Histogram
 {
-	std::unordered_map<T, int> data;
-	T minValue = std::numeric_limits<T>::max();
-	T maxValue = std::numeric_limits<T>::min();
+	std::unordered_map<uint16_t, int> data;
+	uint16_t minValue = std::numeric_limits<uint16_t>::max();
+	uint16_t maxValue = std::numeric_limits<uint16_t>::min();
 	int maxCount = 0;
 };
 
@@ -23,12 +22,14 @@ public:
 	}
 
 	const VolumeData& data() const { return m_data; }
-	const Histogram<uint16_t>& histogram() const { return m_histogram; }
+	const Histogram& histogram() const { return m_histogram; }
 
 private:
 	void updateHistogram()
 	{
-		m_histogram.data.clear();
+		// Reset the histogram
+		m_histogram = Histogram{}; 
+
 		for (const auto value : m_data.data)
 		{
 			if (value < m_histogram.minValue)
@@ -45,5 +46,5 @@ private:
 	}
 
 	VolumeData m_data;
-	Histogram<uint16_t> m_histogram;
+	Histogram m_histogram;
 };

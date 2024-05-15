@@ -40,5 +40,5 @@ private:
 	QOpenGLBuffer m_vbo;
 	QOpenGLVertexArrayObject m_vao;
 
-	QOpenGLTexture m_texture;
+	QOpenGLTexture m_texture = QOpenGLTexture(QOpenGLTexture::Target2D);
 };

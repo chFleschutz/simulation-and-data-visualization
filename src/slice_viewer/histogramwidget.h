@@ -13,7 +13,7 @@ public:
 	HistogramWidget(QWidget *parent = nullptr);
 	~HistogramWidget() = default;
 
-	void load(const Histogram<uint16_t>& histogram);
+	void load(const Histogram& histogram);
 
 	bool showWindowing() const { return m_showWindow; }
 	float windowLevel() const { return m_windowLevel; }

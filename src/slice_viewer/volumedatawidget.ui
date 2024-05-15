@@ -97,7 +97,7 @@
   <customwidget>
    <class>HistogramWidget</class>
    <extends>QWidget</extends>
-   <header>volume_data/histogramwidget.h</header>
+   <header>slice_viewer/histogramwidget.h</header>
    <container>1</container>
    <slots>
     <slot>setWindowLevel(int)</slot>
@@ -108,7 +108,7 @@
   <customwidget>
    <class>SliceViewerWidget</class>
    <extends>QOpenGLWidget</extends>
-   <header>volume_data/sliceviewerwidget.h</header>
+   <header>slice_viewer/sliceviewerwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

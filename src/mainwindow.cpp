@@ -3,7 +3,7 @@
 #include "mapvisualization/mapvisualization.h"
 #include "pandemic_sim/pandemicsimwidget.h"
 #include "utils/debugoutputdialog.h"
-#include "volume_data/volumedatawidget.h"
+#include "slice_viewer/volumedatawidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

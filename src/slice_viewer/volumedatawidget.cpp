@@ -27,31 +27,6 @@ void VolumeDataWidget::onUpdateWindowWidth(float width)
 	ui.windowWidth_slider->setValue(width * 100);
 }
 
-void VolumeDataWidget::drawHistogram(const Histogram<uint16_t>& histogram, QImage& image)
-{
-	QPainter painter(&image);
-
-	auto maxValue = histogram.maxValue;
-	auto maxCount = histogram.maxCount;
-
-	for (auto [key, value] : histogram.data)
-	{
-		auto percentX = static_cast<float>(key) / static_cast<float>(maxValue);
-		auto percentY = static_cast<float>(value) / static_cast<float>(maxCount);
-		auto logPercentY = std::log(value) / std::log(maxCount);
-
-		auto x = percentX * image.width();
-		auto linearY = percentY * image.height();
-		auto logY = logPercentY * image.height();
-
-		painter.setPen(QPen(m_linearColor, 1));
-		painter.drawLine(x, image.height(), x, image.height() - linearY);
-
-		painter.setPen(QPen(m_logarithmicColor, 1));
-		painter.drawLine(x, image.height() - linearY, x, image.height() - logY);
-	}
-}
-
 void VolumeDataWidget::onLoadVolumeData()
 {
 	// Open the mhd file
