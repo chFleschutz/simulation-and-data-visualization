@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>731</width>
     <height>400</height>
    </rect>
   </property>
@@ -14,8 +14,67 @@
    <string>VolumeRendererWidget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="VolumeRenderer" name="openGLWidget"/>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="display_groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Display Mode</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="3" column="0">
+       <widget class="QRadioButton" name="texture_radioButton">
+        <property name="text">
+         <string>Texture</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="positions_radioButton">
+        <property name="text">
+         <string>Entry Positions</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QRadioButton" name="volume_radioButton">
+        <property name="text">
+         <string>Volume</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QRadioButton" name="radioButton">
+        <property name="text">
+         <string>Exit Positions</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="0" rowspan="2">
+    <widget class="VolumeRenderer" name="volume_renderer"/>
    </item>
   </layout>
  </widget>
@@ -28,5 +87,76 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>positions_radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>VolumeRendererWidgetClass</receiver>
+   <slot>onRenderModeEntryPoints()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>649</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>590</x>
+     <y>48</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>VolumeRendererWidgetClass</receiver>
+   <slot>onRenderModeExitPoints()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>636</x>
+     <y>77</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>591</x>
+     <y>78</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>texture_radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>VolumeRendererWidgetClass</receiver>
+   <slot>onRenderModeTexture()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>631</x>
+     <y>106</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>591</x>
+     <y>110</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>volume_radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>VolumeRendererWidgetClass</receiver>
+   <slot>onRenderModeVolume()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>634</x>
+     <y>134</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>592</x>
+     <y>138</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onRenderModeEntryPoints()</slot>
+  <slot>onRenderModeExitPoints()</slot>
+  <slot>onRenderModeTexture()</slot>
+  <slot>onRenderModeVolume()</slot>
+ </slots>
 </ui>

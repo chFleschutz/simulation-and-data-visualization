@@ -1,5 +1,7 @@
 #pragma once
 
+#include "slice_viewer/volumedatamanager.h"
+
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QOpenGLBuffer>
@@ -15,8 +17,18 @@ class VolumeRenderer : public QOpenGLWidget
 	Q_OBJECT
 
 public:
+	enum RenderMode
+	{
+		EntryPoints = 0,
+		ExitPoints = 1,
+		Texture = 2,
+		Volume = 3,
+	};
+
 	VolumeRenderer(QWidget* parent = nullptr);
 	~VolumeRenderer();
+
+	void setRenderMode(RenderMode mode) { m_renderMode = mode; }
 
 protected:
 	void initializeGL() override;
@@ -29,9 +41,11 @@ protected:
 	void wheelEvent(QWheelEvent* event) override;
 
 private:
+	void createExitPointFBO(int width, int height);
+	void loadVolumeData();
+	void setupVolumeTexture();
 	void setupShaders();
 	void setupGeometry();
-	void setupExitPointFBO();
 	QMatrix4x4 createViewMatrix() const;
 
 	void backFacePass();
@@ -45,6 +59,9 @@ private:
 	QOpenGLVertexArrayObject m_vao;
 	QOpenGLBuffer m_vbo = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 	QOpenGLBuffer m_ibo = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+
+	VolumeDataManager m_volumeData;
+	QOpenGLTexture m_volumeTexture = QOpenGLTexture(QOpenGLTexture::Target3D);
 
 	QMatrix4x4 m_model;
 	QMatrix4x4 m_view;
@@ -60,4 +77,6 @@ private:
 
 	bool m_mousePressed = false;
 	QPoint m_lastMousePos;
+
+	RenderMode m_renderMode = RenderMode::Volume;
 };
