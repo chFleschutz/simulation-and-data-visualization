@@ -70,6 +70,9 @@
     <ClCompile Include="src\slice_viewer\sliceviewerwidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\volume_rendering\volumerendererwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\mapvisualization\maprenderer.h">
@@ -102,6 +105,9 @@
     <QtMoc Include="src\slice_viewer\sliceviewerwidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\volume_rendering\volumerendererwidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\mapvisualization\maprenderer.ui">
@@ -120,6 +126,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\slice_viewer\volumedatawidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\volume_rendering\volumerendererwidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -2,8 +2,9 @@
 
 #include "mapvisualization/mapvisualization.h"
 #include "pandemic_sim/pandemicsimwidget.h"
-#include "utils/debugoutputdialog.h"
 #include "slice_viewer/volumedatawidget.h"
+#include "utils/debugoutputdialog.h"
+#include "volume_rendering/volumerendererwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -35,9 +36,14 @@ void MainWindow::onPandemicSimulation()
     setCentralWidget(new PandemicSimWidget(this));
 }
 
-void MainWindow::onVolumeDataVisualization()
+void MainWindow::onSliceViewer()
 {
     setCentralWidget(new VolumeDataWidget(this));
+}
+
+void MainWindow::onVolumeRendering()
+{
+    setCentralWidget(new VolumeRendererWidget(this));
 }
 
 void MainWindow::onShowDebugOutput()

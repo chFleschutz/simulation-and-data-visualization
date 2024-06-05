@@ -111,6 +111,7 @@
     <ClCompile Include="src\slice_viewer\histogramwidget.cpp" />
     <ClCompile Include="src\slice_viewer\sliceviewerwidget.cpp" />
     <ClCompile Include="src\slice_viewer\volumedatawidget.cpp" />
+    <ClCompile Include="src\volume_rendering\volumerendererwidget.cpp" />
     <QtRcc Include="ressources.qrc" />
     <QtUic Include="src\mainwindow.ui" />
     <QtMoc Include="src\mainwindow.h" />
@@ -122,12 +123,14 @@
     <QtUic Include="src\pandemic_sim\pandemicstatisticswidget.ui" />
     <QtUic Include="src\utils\debugoutputdialog.ui" />
     <QtUic Include="src\slice_viewer\volumedatawidget.ui" />
+    <QtUic Include="src\volume_rendering\volumerendererwidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\mapvisualization\maprenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\utils\imagerenderer.h" />
+    <QtMoc Include="src\volume_rendering\volumerendererwidget.h" />
     <QtMoc Include="src\utils\imagerendererwidget.h" />
     <ClInclude Include="src\utils\stopwatch.h" />
     <QtMoc Include="src\slice_viewer\histogramwidget.h" />
