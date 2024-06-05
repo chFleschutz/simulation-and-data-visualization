@@ -13,9 +13,7 @@ layout(location = 0) out vec4 outColor;
 
 float windowRemap(float value, float level, float width)
 {
-	float halfWidth = 0.5 * width;
-	float lower = level - halfWidth;
-	float upper = level + halfWidth;
+	float lower = level - (0.5 * width);
 	return clamp((value - lower) / width, 0.0, 1.0);
 }
 
