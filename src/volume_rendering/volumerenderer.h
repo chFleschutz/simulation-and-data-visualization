@@ -6,6 +6,9 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
+#include <QOpenGLFramebufferObject>
+
+#include <memory>
 
 class VolumeRenderer : public QOpenGLWidget
 {
@@ -28,9 +31,17 @@ protected:
 private:
 	void setupShaders();
 	void setupGeometry();
+	void setupExitPointFBO();
 	QMatrix4x4 createViewMatrix() const;
 
-	QOpenGLShaderProgram m_program;
+	void backFacePass();
+	void volumePass();
+
+	std::unique_ptr<QOpenGLFramebufferObject> m_exitPointFBO;
+
+	QOpenGLShaderProgram m_exitPointShader;
+	QOpenGLShaderProgram m_raycastShader;
+
 	QOpenGLVertexArrayObject m_vao;
 	QOpenGLBuffer m_vbo = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 	QOpenGLBuffer m_ibo = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
@@ -44,6 +55,8 @@ private:
 
 	float m_mouseSensitivity = 0.25f;
 	float m_zoomSensitivity = 0.005f;
+	float m_minZoom = 1.0f;
+	float m_maxZoom = 10.0f;
 
 	bool m_mousePressed = false;
 	QPoint m_lastMousePos;

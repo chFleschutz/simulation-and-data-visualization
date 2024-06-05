@@ -17,6 +17,8 @@ VolumeRenderer::~VolumeRenderer()
 	m_ibo.destroy();
 	m_vao.destroy();
 
+	m_exitPointFBO.reset();
+
 	doneCurrent();
 }
 
@@ -24,7 +26,9 @@ void VolumeRenderer::initializeGL()
 {
 	auto glFunctions = OpenGLUtils::initializeOpenGLFunctions();
 	glFunctions->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glFunctions->glEnable(GL_CULL_FACE);
 
+	m_exitPointFBO = std::make_unique<QOpenGLFramebufferObject>(width(), height());
 	setupShaders();
 	setupGeometry();
 
@@ -41,27 +45,19 @@ void VolumeRenderer::resizeGL(int w, int h)
 	m_projection.setToIdentity();
 	m_projection.perspective(45.0f, static_cast<float>(w) / static_cast<float>(h), 0.1f, 100.0f);
 
+	m_exitPointFBO = std::make_unique<QOpenGLFramebufferObject>(w, h);
+
 	CHECK_GL_ERROR();
 }
 
 void VolumeRenderer::paintGL()
 {
-	auto glFunctions = QOpenGLContext::currentContext()->functions();
-	glFunctions->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// Render back faces to get the exit points
+	backFacePass();
 
-	m_program.bind();
-	m_program.setUniformValue("model", m_model);
-	m_program.setUniformValue("view", m_view);
-	m_program.setUniformValue("projection", m_projection);
+	// Render the volume using ray casting
+	volumePass();
 
-	m_vao.bind();
-
-	glFunctions->glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-
-	m_vao.release();
-	m_program.release();
-
-	CHECK_GL_ERROR();
 	update();
 }
 
@@ -94,39 +90,39 @@ void VolumeRenderer::mouseReleaseEvent(QMouseEvent* event)
 void VolumeRenderer::wheelEvent(QWheelEvent* event)
 {
 	cameraPosition += QVector3D(0.0f, 0.0f, -event->angleDelta().y() * m_zoomSensitivity);
+	cameraPosition.setZ(std::max(m_minZoom, std::min(m_maxZoom, cameraPosition.z())));
 
 	m_view = createViewMatrix();
 }
 
 void VolumeRenderer::setupShaders()
 {
-	OpenGLUtils::initShaderProgram(m_program, ":/shaders/volume.vert", ":/shaders/volume.frag");
+	OpenGLUtils::initShaderProgram(m_exitPointShader, ":/shaders/exitpoints.vert", ":/shaders/exitpoints.frag");
+	OpenGLUtils::initShaderProgram(m_raycastShader, ":/shaders/raycasting.vert", ":/shaders/raycasting.frag");
 
 	CHECK_GL_ERROR();
 }
 
 void VolumeRenderer::setupGeometry()
 {
-	auto glFunctions = QOpenGLContext::currentContext()->functions();
-
 	std::vector<QVector3D> vertices{
-		{-0.5f, -0.5f, -0.5f},
-		{ 0.5f, -0.5f, -0.5f},
-		{ 0.5f,  0.5f, -0.5f},
-		{-0.5f,  0.5f, -0.5f},
-		{-0.5f, -0.5f,  0.5f},
-		{ 0.5f, -0.5f,  0.5f},
-		{ 0.5f,  0.5f,  0.5f},
-		{-0.5f,  0.5f,  0.5f}
+		{ -0.5f, -0.5f, -0.5f}, // Left bottom back
+		{ -0.5f, -0.5f,  0.5f}, // Left bottom front
+		{ -0.5f,  0.5f, -0.5f}, // Left top back
+		{ -0.5f,  0.5f,  0.5f}, // Left top front
+		{  0.5f, -0.5f, -0.5f}, // Right bottom back
+		{  0.5f, -0.5f,  0.5f}, // Right bottom front
+		{  0.5f,  0.5f, -0.5f}, // Right top back
+		{  0.5f,  0.5f,  0.5f}  // Right top front
 	};
 
 	std::vector<uint32_t> indices{
-		0, 1, 2, 2, 3, 0,    // Back face
-		4, 5, 6, 6, 7, 4,    // Front face
-		0, 1, 5, 5, 4, 0,    // Bottom face
-		2, 3, 7, 7, 6, 2,    // Top face
-		0, 3, 7, 7, 4, 0,    // Left face
-		1, 2, 6, 6, 5, 1     // Right face
+		0, 1, 2, 1, 3, 2,    // Left
+		0, 5, 1, 0, 4, 5,    // Bottom
+		0, 2, 6, 0, 6, 4,    // Back
+		2, 3, 7, 2, 7, 6,    // Top
+		1, 5, 7, 1, 7, 3,    // Front
+		4, 6, 5, 5, 6, 7     // Right
 	};
 
 	m_vao.create();
@@ -140,7 +136,7 @@ void VolumeRenderer::setupGeometry()
 	m_ibo.bind();
 	m_ibo.allocate(indices.data(), indices.size() * sizeof(uint32_t));
 
-	// Position
+	auto glFunctions = QOpenGLContext::currentContext()->functions();
 	glFunctions->glEnableVertexAttribArray(0);
 	glFunctions->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(QVector3D), nullptr);
 
@@ -159,4 +155,56 @@ QMatrix4x4 VolumeRenderer::createViewMatrix() const
 	view.rotate(cameraRotation.y(), QVector3D(0.0f, 1.0f, 0.0f));
 	view.rotate(cameraRotation.z(), QVector3D(0.0f, 0.0f, 1.0f));
 	return view;
+}
+
+void VolumeRenderer::backFacePass()
+{
+	m_exitPointFBO->bind();
+
+	auto glFunctions = QOpenGLContext::currentContext()->functions();
+	glFunctions->glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glFunctions->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glFunctions->glCullFace(GL_FRONT);
+
+	m_exitPointShader.bind();
+	m_exitPointShader.setUniformValue("model", m_model);
+	m_exitPointShader.setUniformValue("view", m_view);
+	m_exitPointShader.setUniformValue("projection", m_projection);
+
+	m_vao.bind();
+
+	glFunctions->glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
+
+	m_vao.release();
+	m_exitPointShader.release();
+	m_exitPointFBO->release();
+
+	CHECK_GL_ERROR();
+}
+
+void VolumeRenderer::volumePass()
+{
+	auto glFunctions = QOpenGLContext::currentContext()->functions();
+	glFunctions->glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebufferObject());
+	glFunctions->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glFunctions->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glFunctions->glCullFace(GL_BACK);
+
+	glFunctions->glActiveTexture(GL_TEXTURE0);
+	glFunctions->glBindTexture(GL_TEXTURE_2D, m_exitPointFBO->texture());
+
+	m_raycastShader.bind();
+	m_raycastShader.setUniformValue("model", m_model);
+	m_raycastShader.setUniformValue("view", m_view);
+	m_raycastShader.setUniformValue("projection", m_projection);
+	m_raycastShader.setUniformValue("screenSize", size());
+
+	m_vao.bind();
+
+	glFunctions->glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
+
+	m_vao.release();
+	m_raycastShader.release();
+
+	CHECK_GL_ERROR();
 }

@@ -48,7 +48,7 @@ private:
 
 	QOpenGLFunctions* m_glFunctions = nullptr;
 
-	QOpenGLShaderProgram m_program;
+	QOpenGLShaderProgram m_exitPointShader;
 	QOpenGLBuffer m_vbo;
 	QOpenGLVertexArrayObject m_vao;
 

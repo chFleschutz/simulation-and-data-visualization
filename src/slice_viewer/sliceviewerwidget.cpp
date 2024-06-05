@@ -103,18 +103,18 @@ void SliceViewerWidget::paintGL()
 
 	m_texture.bind();
 
-	m_program.bind();
-	m_program.setUniformValue("slice", m_sliceLevel);
-	m_program.setUniformValue("windowLevel", m_windowLevel);
-	m_program.setUniformValue("windowWidth", m_windowWidth);
-	m_program.setUniformValue("enableWindowing", m_windowing);
+	m_exitPointShader.bind();
+	m_exitPointShader.setUniformValue("slice", m_sliceLevel);
+	m_exitPointShader.setUniformValue("windowLevel", m_windowLevel);
+	m_exitPointShader.setUniformValue("windowWidth", m_windowWidth);
+	m_exitPointShader.setUniformValue("enableWindowing", m_windowing);
 
 	m_vao.bind();
 
 	m_glFunctions->glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	m_vao.release();
-	m_program.release();
+	m_exitPointShader.release();
 	m_texture.release();
 
 	CHECK_GL_ERROR();
@@ -150,9 +150,9 @@ void SliceViewerWidget::setupShaders()
 	vertexShader.compileSourceFile(":/shaders/slice_viewer.vert");
 	fragmentShader.compileSourceFile(":/shaders/slice_viewer.frag");
 
-	m_program.addShader(&vertexShader);
-	m_program.addShader(&fragmentShader);
-	m_program.link();
+	m_exitPointShader.addShader(&vertexShader);
+	m_exitPointShader.addShader(&fragmentShader);
+	m_exitPointShader.link();
 
 	CHECK_GL_ERROR();
 }
