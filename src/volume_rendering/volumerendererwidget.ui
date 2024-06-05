@@ -13,8 +13,20 @@
   <property name="windowTitle">
    <string>VolumeRendererWidget</string>
   </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="VolumeRenderer" name="openGLWidget"/>
+   </item>
+  </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>VolumeRenderer</class>
+   <extends>QOpenGLWidget</extends>
+   <header>volume_rendering/volumerenderer.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -73,6 +73,9 @@
     <ClCompile Include="src\volume_rendering\volumerendererwidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\volume_rendering\volumerenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\mapvisualization\maprenderer.h">
@@ -106,6 +109,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\volume_rendering\volumerendererwidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\volume_rendering\volumerenderer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -161,6 +167,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\slice_viewer\volumedatamanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\openglutils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
