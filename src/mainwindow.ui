@@ -51,7 +51,7 @@
     <property name="title">
      <string>3D Visualization</string>
     </property>
-    <addaction name="actionVolume_Data"/>
+    <addaction name="actionSlice_Viewer"/>
     <addaction name="actionVolume_Renderer"/>
    </widget>
    <addaction name="menuMap_Visualization"/>
@@ -79,7 +79,7 @@
     <string>Pandemic Simulation</string>
    </property>
   </action>
-  <action name="actionVolume_Data">
+  <action name="actionSlice_Viewer">
    <property name="text">
     <string>Slice Viewer</string>
    </property>
@@ -144,10 +144,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionVolume_Data</sender>
+   <sender>actionSlice_Viewer</sender>
    <signal>triggered()</signal>
    <receiver>MainWindowClass</receiver>
-   <slot>onVolumeDataVisualization()</slot>
+   <slot>onSliceViewer()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -180,7 +180,7 @@
   <slot>onShowDebugOutput()</slot>
   <slot>onMapVisualization()</slot>
   <slot>onPandemicSimulation()</slot>
-  <slot>onVolumeDataVisualization()</slot>
+  <slot>onSliceViewer()</slot>
   <slot>onVolumeRendering()</slot>
  </slots>
 </ui>
