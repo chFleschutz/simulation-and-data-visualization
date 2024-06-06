@@ -15,7 +15,8 @@ public slots:
 	void onRenderModeEntryPoints();
 	void onRenderModeExitPoints();
 	void onRenderModeTexture();
-	void onRenderModeVolume();
+	void onRenderModeVolumeMIP();
+	void onRenderModeVolumeDRR();
 
 private:
 	Ui::VolumeRendererWidgetClass ui;

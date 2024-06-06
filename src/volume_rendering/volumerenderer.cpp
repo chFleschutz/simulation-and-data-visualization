@@ -37,6 +37,7 @@ void VolumeRenderer::initializeGL()
 	loadVolumeData();
 
 	m_view.lookAt(cameraPosition, QVector3D(0.0f, 0.0f, 0.0f), QVector3D(0.0f, 1.0f, 0.0f));
+	m_model.translate(-0.5f, -0.5f, -0.5f);
 
 	CHECK_GL_ERROR();
 }
@@ -129,6 +130,7 @@ void VolumeRenderer::loadVolumeData()
 	if (volume.dimensions.size() >= 3)
 		depth = volume.dimensions[2];
 
+	m_volumeSize = QVector3D(width, height, depth);
 	m_volumeTexture.setFormat(QOpenGLTexture::R32F);
 	m_volumeTexture.setSize(width, height, depth);
 	m_volumeTexture.allocateStorage();
@@ -161,14 +163,14 @@ void VolumeRenderer::setupShaders()
 void VolumeRenderer::setupGeometry()
 {
 	std::vector<QVector3D> vertices{
-		{ -0.5f, -0.5f, -0.5f}, // Left bottom back
-		{ -0.5f, -0.5f,  0.5f}, // Left bottom front
-		{ -0.5f,  0.5f, -0.5f}, // Left top back
-		{ -0.5f,  0.5f,  0.5f}, // Left top front
-		{  0.5f, -0.5f, -0.5f}, // Right bottom back
-		{  0.5f, -0.5f,  0.5f}, // Right bottom front
-		{  0.5f,  0.5f, -0.5f}, // Right top back
-		{  0.5f,  0.5f,  0.5f}  // Right top front
+		{ 0.0f, 0.0f, 0.0f}, // Left bottom back
+		{ 0.0f, 0.0f, 1.0f}, // Left bottom front
+		{ 0.0f, 1.0f, 0.0f}, // Left top back
+		{ 0.0f, 1.0f, 1.0f}, // Left top front
+		{ 1.0f, 0.0f, 0.0f}, // Right bottom back
+		{ 1.0f, 0.0f, 1.0f}, // Right bottom front
+		{ 1.0f, 1.0f, 0.0f}, // Right top back
+		{ 1.0f, 1.0f, 1.0f}  // Right top front
 	};
 
 	std::vector<uint32_t> indices{
@@ -241,7 +243,7 @@ void VolumeRenderer::volumePass()
 {
 	auto glFunctions = QOpenGLContext::currentContext()->functions();
 	glFunctions->glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebufferObject());
-	glFunctions->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glFunctions->glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glFunctions->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glFunctions->glCullFace(GL_BACK);
 
@@ -250,9 +252,8 @@ void VolumeRenderer::volumePass()
 	m_raycastShader.setUniformValue("view", m_view);
 	m_raycastShader.setUniformValue("projection", m_projection);
 	m_raycastShader.setUniformValue("screenSize", size());
-	m_raycastShader.setUniformValue("stepSize", 0.01f);
 	m_raycastShader.setUniformValue("renderMode", m_renderMode);
-
+	m_raycastShader.setUniformValue("volumeSize", m_volumeSize);
 	m_vao.bind();
 
 	glFunctions->glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);

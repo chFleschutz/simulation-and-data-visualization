@@ -22,7 +22,8 @@ public:
 		EntryPoints = 0,
 		ExitPoints = 1,
 		Texture = 2,
-		Volume = 3,
+		VolumeMIP = 3,
+		VolumeDRR = 4
 	};
 
 	VolumeRenderer(QWidget* parent = nullptr);
@@ -66,6 +67,8 @@ private:
 	QMatrix4x4 m_model;
 	QMatrix4x4 m_view;
 	QMatrix4x4 m_projection;
+	float m_stepSize = 0.001f;
+	QVector3D m_volumeSize;
 
 	QVector3D cameraPosition = QVector3D(0.0f, 0.0f, 3.0f);
 	QVector3D cameraRotation = QVector3D(0.0f, 0.0f, 0.0f);
@@ -78,5 +81,5 @@ private:
 	bool m_mousePressed = false;
 	QPoint m_lastMousePos;
 
-	RenderMode m_renderMode = RenderMode::Volume;
+	RenderMode m_renderMode = RenderMode::VolumeMIP;
 };

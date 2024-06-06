@@ -21,7 +21,12 @@ void VolumeRendererWidget::onRenderModeTexture()
 	ui.volume_renderer->setRenderMode(VolumeRenderer::RenderMode::Texture);
 }
 
-void VolumeRendererWidget::onRenderModeVolume()
+void VolumeRendererWidget::onRenderModeVolumeMIP()
 {
-	ui.volume_renderer->setRenderMode(VolumeRenderer::RenderMode::Volume);
+	ui.volume_renderer->setRenderMode(VolumeRenderer::RenderMode::VolumeMIP);
+}
+
+void VolumeRendererWidget::onRenderModeVolumeDRR()
+{
+	ui.volume_renderer->setRenderMode(VolumeRenderer::RenderMode::VolumeDRR);
 }
