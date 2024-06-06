@@ -136,6 +136,9 @@ void VolumeRenderer::loadVolumeData()
 	m_volumeTexture.allocateStorage();
 	m_volumeTexture.setData(QOpenGLTexture::Red, QOpenGLTexture::Float32, data.data());
 
+	float maxDim = static_cast<float>(std::max({ width, height, depth }));
+	m_model.scale(QVector3D(width, height, depth) / maxDim);
+
 	CHECK_GL_ERROR();
 }
 

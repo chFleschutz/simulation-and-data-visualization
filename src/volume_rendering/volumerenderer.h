@@ -63,12 +63,11 @@ private:
 
 	VolumeDataManager m_volumeData;
 	QOpenGLTexture m_volumeTexture = QOpenGLTexture(QOpenGLTexture::Target3D);
+	QVector3D m_volumeSize;
 
 	QMatrix4x4 m_model;
 	QMatrix4x4 m_view;
 	QMatrix4x4 m_projection;
-	float m_stepSize = 0.001f;
-	QVector3D m_volumeSize;
 
 	QVector3D cameraPosition = QVector3D(0.0f, 0.0f, 3.0f);
 	QVector3D cameraRotation = QVector3D(0.0f, 0.0f, 0.0f);
