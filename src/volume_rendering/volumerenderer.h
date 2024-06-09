@@ -31,6 +31,9 @@ public:
 
 	void setRenderMode(RenderMode mode) { m_renderMode = mode; }
 
+public slots:
+	void setSinglePass(bool singlePass) { m_singlePass = singlePass; }
+
 protected:
 	void initializeGL() override;
 	void resizeGL(int w, int h) override;
@@ -81,4 +84,5 @@ private:
 	QPoint m_lastMousePos;
 
 	RenderMode m_renderMode = RenderMode::VolumeMIP;
+	bool m_singlePass = false;
 };

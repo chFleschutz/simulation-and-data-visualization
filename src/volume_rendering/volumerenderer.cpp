@@ -257,6 +257,7 @@ void VolumeRenderer::volumePass()
 	m_raycastShader.setUniformValue("screenSize", size());
 	m_raycastShader.setUniformValue("renderMode", m_renderMode);
 	m_raycastShader.setUniformValue("volumeSize", m_volumeSize);
+	m_raycastShader.setUniformValue("singlePass", m_singlePass);
 	m_vao.bind();
 
 	glFunctions->glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);

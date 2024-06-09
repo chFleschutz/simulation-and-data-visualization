@@ -29,13 +29,17 @@
       <string>Display Mode</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="4" column="0">
-       <widget class="QRadioButton" name="volume_radioButton">
+      <item row="3" column="0">
+       <widget class="QRadioButton" name="texture_radioButton">
         <property name="text">
-         <string>Volume MIP</string>
+         <string>Texture</string>
         </property>
-        <property name="checked">
-         <bool>true</bool>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QRadioButton" name="radioButton_2">
+        <property name="text">
+         <string>Volume DRR</string>
         </property>
        </widget>
       </item>
@@ -53,17 +57,20 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QRadioButton" name="texture_radioButton">
+      <item row="4" column="0">
+       <widget class="QRadioButton" name="volume_radioButton">
         <property name="text">
-         <string>Texture</string>
+         <string>Volume MIP</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QRadioButton" name="radioButton_2">
+      <item row="6" column="0">
+       <widget class="QCheckBox" name="checkBox">
         <property name="text">
-         <string>Volume DRR</string>
+         <string>Use Single Pass</string>
         </property>
        </widget>
       </item>
@@ -91,6 +98,9 @@
    <class>VolumeRenderer</class>
    <extends>QOpenGLWidget</extends>
    <header>volume_rendering/volumerenderer.h</header>
+   <slots>
+    <slot>setSinglePass(bool)</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -172,6 +182,22 @@
     <hint type="destinationlabel">
      <x>593</x>
      <y>165</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>volume_renderer</receiver>
+   <slot>setSinglePass(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>640</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>556</x>
+     <y>193</y>
     </hint>
    </hints>
   </connection>
