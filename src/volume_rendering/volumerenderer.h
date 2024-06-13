@@ -28,9 +28,10 @@ public:
 	VolumeRenderer(QWidget* parent = nullptr);
 	~VolumeRenderer();
 
+public slots:
 	void setRenderMode(RenderMode mode) { m_renderMode = mode; }
-
 	void setVolumeData(const VolumeData& volumeData);
+	void setTransferFunction(const QImage& transferFunction);
 
 signals:
 	void rendererReady();
@@ -46,7 +47,7 @@ protected:
 	void wheelEvent(QWheelEvent* event) override;
 
 private:
-	void setupVolumeTexture();
+	void setupTextures();
 	void setupShaders();
 	void setupGeometry();
 	QMatrix4x4 createViewMatrix() const;
@@ -59,6 +60,7 @@ private:
 
 	VolumeDataManager m_volumeManager;
 	QOpenGLTexture m_volumeTexture = QOpenGLTexture(QOpenGLTexture::Target3D);
+	QOpenGLTexture m_transferTexture = QOpenGLTexture(QOpenGLTexture::Target1D);
 
 	QMatrix4x4 m_model;
 	QMatrix4x4 m_view;

@@ -1,6 +1,7 @@
 #version 450
 
-uniform sampler3D volume;
+layout(binding = 0) uniform sampler3D volume;
+layout(binding = 1) uniform sampler1D transferFunction;
 
 uniform int renderMode;
 
@@ -27,6 +28,7 @@ void main()
 	{
 	case 0: // Entry points
 		outColor = vec4(inEntryPos, 1.0);
+		outColor = vec4(texture(transferFunction, inEntryPos.z).rrr + 0.1, 1.0);
 		break;
 	case 1: // Texture
 		outColor = vec4(texture(volume, inEntryPos).rrr, 1.0);
@@ -42,7 +44,7 @@ void main()
 
 vec3 raycastingMIP(vec3 entryPos, vec3 rayStep)
 {
-	vec3 color = vec3(0.0);
+	float value = 0.0;
 	for (int i = 0; i < MAX_STEPS; i++)
 	{
 		vec3 samplePos = inEntryPos + (rayStep * float(i));
@@ -50,16 +52,15 @@ vec3 raycastingMIP(vec3 entryPos, vec3 rayStep)
 			samplePos.y > 1.0 || samplePos.z < 0.0 || samplePos.z > 1.0)
 			break;
 
-		float value = texture(volume, samplePos).r;
-		color = vec3(max(color.r, value));
+		value = max(value, texture(volume, samplePos).r);
 	}
 
-	return color;
+	return texture(transferFunction, value).rgb;
 }
 
 vec3 raycastingDRR(vec3 entryPos, vec3 rayStep)
 {
-	vec3 color = vec3(0.0);
+	float value = 0.0;
 	int i;
 	for (i = 0; i < MAX_STEPS; i++)
 	{
@@ -68,10 +69,9 @@ vec3 raycastingDRR(vec3 entryPos, vec3 rayStep)
 			samplePos.y > 1.0 || samplePos.z < 0.0 || samplePos.z > 1.0)
 			break;
 
-		float value = texture(volume, samplePos).r;
-		color += vec3(value);
+		value += texture(volume, samplePos).r;
 	}
 
-	color /= float(i);
-	return color;
+	value /= float(i);
+	return texture(transferFunction, value).rgb;
 }

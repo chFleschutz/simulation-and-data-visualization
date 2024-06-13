@@ -8,17 +8,19 @@ VolumeRendererWidget::VolumeRendererWidget(QWidget* parent)
 	ui.setupUi(this);
 
 	connect(ui.volume_renderer, &VolumeRenderer::rendererReady, this, &VolumeRendererWidget::onRendererReady);
+	connect(ui.transferFunctionWidget, &TransferFunctionWidget::transferFunctionChanged, 
+		ui.volume_renderer, &VolumeRenderer::setTransferFunction, Qt::DirectConnection);
 }
 
 void VolumeRendererWidget::onRendererReady()
 {
+
 	auto path = QFileInfo(":/assets/volume/smallHeart.mhd").absoluteFilePath().toStdString();
 	VolumeFileLoader::load(path, m_volumeData);
-	
 	ui.volume_renderer->setVolumeData(m_volumeData);
-	
-	m_histogram.update(m_volumeData.data, 4096);
 
+	m_histogram.update(m_volumeData.data, 4096);
+	ui.transferFunctionWidget->initialize();
 	ui.transferFunctionWidget->setHistogram(m_histogram);
 }
 

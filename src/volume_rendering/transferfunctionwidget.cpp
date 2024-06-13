@@ -2,19 +2,25 @@
 
 #include <QPainter>
 #include <QMouseEvent>
+#include <QColorDialog>
 
 TransferFunctionWidget::TransferFunctionWidget(QWidget *parent)
 	: QWidget(parent)
 {
+}
+
+void TransferFunctionWidget::initialize()
+{
 	m_transferFunction.addControlPoint(0.0f, QColor::fromRgbF(0.0f, 0.0f, 0.0f));
 	m_transferFunction.addControlPoint(1.0f, QColor::fromRgbF(1.0f, 1.0f, 1.0f));
+	createTransferFunctionImage();
 }
 
 void TransferFunctionWidget::setHistogram(const Histogram& histogram)
 {
 	const auto& histogramData = histogram.data();
-	m_histogram = QImage(histogramData.size(), 256, QImage::Format_RGB32);
-	m_histogram.fill(Qt::white);
+	m_histogram = QImage(histogramData.size(), 256, QImage::Format_RGBA8888);
+	m_histogram.fill(Qt::transparent);
 
 	auto maxCount = histogram.maxCount();
 
@@ -47,6 +53,7 @@ void TransferFunctionWidget::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
 
+	painter.drawImage(0, 0, m_transferFunctionImage.scaled(size()));
 	painter.drawImage(0, 0, m_histogram.scaled(size()));
 
 	for (auto& [value, color] : m_transferFunction.controlPoints())
@@ -60,9 +67,13 @@ void TransferFunctionWidget::paintEvent(QPaintEvent* event)
 
 void TransferFunctionWidget::mouseDoubleClickEvent(QMouseEvent* event)
 {
-	float t = event->pos().x() / static_cast<float>(width());
+	QColor color = QColorDialog::getColor(Qt::white, this, "Select Color");
+	if (!color.isValid())
+		return;
 
-	m_transferFunction.addControlPoint(t, QColor(255, 0, 0));
+	float t = event->pos().x() / static_cast<float>(width());
+	m_transferFunction.addControlPoint(t, color);
+	createTransferFunctionImage();
 
 	update();
 }
@@ -75,5 +86,19 @@ void TransferFunctionWidget::mousePressEvent(QMouseEvent* event)
 	float t = event->pos().x() / static_cast<float>(width());
 
 	auto color = m_transferFunction.color(t);
-	qDebug() << "Color at" << t << ":" << color;
+}
+
+void TransferFunctionWidget::createTransferFunctionImage()
+{
+	m_transferFunctionImage = QImage(m_functionWidth, 1, QImage::Format_RGB32);
+
+	for (int x = 0; x < m_functionWidth; x++)
+	{
+		float t = x / static_cast<float>(m_functionWidth);
+		auto color = m_transferFunction.color(t);
+
+		m_transferFunctionImage.setPixelColor(x, 0, color);
+	}
+
+	emit transferFunctionChanged(m_transferFunctionImage);
 }

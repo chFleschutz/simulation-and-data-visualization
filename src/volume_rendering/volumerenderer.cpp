@@ -17,7 +17,9 @@ VolumeRenderer::~VolumeRenderer()
 	m_vbo.destroy();
 	m_ibo.destroy();
 	m_vao.destroy();
+
 	m_volumeTexture.destroy();
+	m_transferTexture.destroy();
 
 	CHECK_GL_ERROR();
 	doneCurrent();
@@ -41,6 +43,10 @@ void VolumeRenderer::setVolumeData(const VolumeData& volumeData)
 	if (volumeData.dimensions.size() >= 3)
 		depth = volumeData.dimensions[2];
 
+	if (m_volumeTexture.isCreated())
+		m_volumeTexture.destroy();
+
+	m_volumeTexture.create();
 	m_volumeTexture.setFormat(QOpenGLTexture::R32F);
 	m_volumeTexture.setSize(width, height, depth);
 	m_volumeTexture.allocateStorage();
@@ -48,6 +54,17 @@ void VolumeRenderer::setVolumeData(const VolumeData& volumeData)
 
 	float maxDim = static_cast<float>(std::max({ width, height, depth }));
 	m_model.scale(QVector3D(width, height, depth) / maxDim);
+
+	CHECK_GL_ERROR();
+}
+
+void VolumeRenderer::setTransferFunction(const QImage& transferFunction)
+{
+	if (m_transferTexture.isCreated())
+		m_transferTexture.destroy();
+
+	m_transferTexture.create();
+	m_transferTexture.setData(transferFunction, QOpenGLTexture::DontGenerateMipMaps);
 
 	CHECK_GL_ERROR();
 }
@@ -61,7 +78,7 @@ void VolumeRenderer::initializeGL()
 
 	setupShaders();
 	setupGeometry();
-	setupVolumeTexture();
+	setupTextures();
 
 	m_view.lookAt(cameraPosition, QVector3D(0.0f, 0.0f, 0.0f), QVector3D(0.0f, 1.0f, 0.0f));
 	m_model.translate(-0.5f, -0.5f, -0.5f);
@@ -87,6 +104,9 @@ void VolumeRenderer::paintGL()
 	auto glFunctions = QOpenGLContext::currentContext()->functions();
 	glFunctions->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	m_volumeTexture.bind(0);
+	m_transferTexture.bind(1);
+
 	m_raycastShader.bind();
 	m_raycastShader.setUniformValue("model", m_model);
 	m_raycastShader.setUniformValue("view", m_view);
@@ -98,6 +118,9 @@ void VolumeRenderer::paintGL()
 
 	m_vao.release();
 	m_raycastShader.release();
+
+	m_volumeTexture.release();
+	m_transferTexture.release();
 
 	CHECK_GL_ERROR();
 	update();
@@ -137,13 +160,15 @@ void VolumeRenderer::wheelEvent(QWheelEvent* event)
 	m_view = createViewMatrix();
 }
 
-void VolumeRenderer::setupVolumeTexture()
+void VolumeRenderer::setupTextures()
 {
-	m_volumeTexture.create();
 	m_volumeTexture.setWrapMode(QOpenGLTexture::ClampToEdge);
 	m_volumeTexture.setMinificationFilter(QOpenGLTexture::Linear);
 	m_volumeTexture.setMagnificationFilter(QOpenGLTexture::Linear);
-	m_volumeTexture.bind(0);
+
+	m_transferTexture.setWrapMode(QOpenGLTexture::ClampToEdge);
+	m_transferTexture.setMagnificationFilter(QOpenGLTexture::Linear);
+	m_transferTexture.setMinificationFilter(QOpenGLTexture::Linear);
 
 	CHECK_GL_ERROR();
 }
@@ -151,9 +176,6 @@ void VolumeRenderer::setupVolumeTexture()
 void VolumeRenderer::setupShaders()
 {
 	OpenGLUtils::initShaderProgram(m_raycastShader, ":/shaders/raycasting.vert", ":/shaders/raycasting.frag");
-
-	m_raycastShader.bind();
-	m_raycastShader.setUniformValue("volume", 0);
 
 	CHECK_GL_ERROR();
 }
