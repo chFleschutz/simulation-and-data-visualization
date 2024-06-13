@@ -20,19 +20,15 @@ public:
 	enum RenderMode
 	{
 		EntryPoints = 0,
-		ExitPoints = 1,
-		Texture = 2,
-		VolumeMIP = 3,
-		VolumeDRR = 4
+		Texture = 1,
+		VolumeMIP = 2,
+		VolumeDRR = 3,
 	};
 
 	VolumeRenderer(QWidget* parent = nullptr);
 	~VolumeRenderer();
 
 	void setRenderMode(RenderMode mode) { m_renderMode = mode; }
-
-public slots:
-	void setSinglePass(bool singlePass) { m_singlePass = singlePass; }
 
 protected:
 	void initializeGL() override;
@@ -45,19 +41,12 @@ protected:
 	void wheelEvent(QWheelEvent* event) override;
 
 private:
-	void createExitPointFBO(int width, int height);
 	void loadVolumeData();
 	void setupVolumeTexture();
 	void setupShaders();
 	void setupGeometry();
 	QMatrix4x4 createViewMatrix() const;
 
-	void backFacePass();
-	void volumePass();
-
-	std::unique_ptr<QOpenGLFramebufferObject> m_exitPointFBO;
-
-	QOpenGLShaderProgram m_exitPointShader;
 	QOpenGLShaderProgram m_raycastShader;
 
 	QOpenGLVertexArrayObject m_vao;
@@ -66,7 +55,6 @@ private:
 
 	VolumeDataManager m_volumeData;
 	QOpenGLTexture m_volumeTexture = QOpenGLTexture(QOpenGLTexture::Target3D);
-	QVector3D m_volumeSize;
 
 	QMatrix4x4 m_model;
 	QMatrix4x4 m_view;
@@ -84,5 +72,4 @@ private:
 	QPoint m_lastMousePos;
 
 	RenderMode m_renderMode = RenderMode::VolumeMIP;
-	bool m_singlePass = false;
 };

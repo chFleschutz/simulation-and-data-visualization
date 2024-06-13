@@ -13,7 +13,6 @@ public:
 
 public slots:
 	void onRenderModeEntryPoints();
-	void onRenderModeExitPoints();
 	void onRenderModeTexture();
 	void onRenderModeVolumeMIP();
 	void onRenderModeVolumeDRR();

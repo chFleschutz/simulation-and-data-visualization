@@ -12,8 +12,6 @@
     <qresource prefix="/shaders">
         <file alias="slice_viewer.frag">shaders/slice_viewer.frag</file>
         <file alias="slice_viewer.vert">shaders/slice_viewer.vert</file>
-        <file alias="exitpoints.frag">shaders/exitpoints.frag</file>
-        <file alias="exitpoints.vert">shaders/exitpoints.vert</file>
         <file alias="raycasting.frag">shaders/raycasting.frag</file>
         <file alias="raycasting.vert">shaders/raycasting.vert</file>
     </qresource>
