@@ -30,6 +30,11 @@ public:
 
 	void setRenderMode(RenderMode mode) { m_renderMode = mode; }
 
+	void setVolumeData(const VolumeData& volumeData);
+
+signals:
+	void rendererReady();
+
 protected:
 	void initializeGL() override;
 	void resizeGL(int w, int h) override;
@@ -41,7 +46,6 @@ protected:
 	void wheelEvent(QWheelEvent* event) override;
 
 private:
-	void loadVolumeData();
 	void setupVolumeTexture();
 	void setupShaders();
 	void setupGeometry();
@@ -53,7 +57,7 @@ private:
 	QOpenGLBuffer m_vbo = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
 	QOpenGLBuffer m_ibo = QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
 
-	VolumeDataManager m_volumeData;
+	VolumeDataManager m_volumeManager;
 	QOpenGLTexture m_volumeTexture = QOpenGLTexture(QOpenGLTexture::Target3D);
 
 	QMatrix4x4 m_model;

@@ -13,7 +13,7 @@ public:
 	HistogramWidget(QWidget *parent = nullptr);
 	~HistogramWidget() = default;
 
-	void load(const Histogram& histogram);
+	void load(const SlowHistogram& histogram);
 
 	bool showWindowing() const { return m_windowEnabled; }
 	/// @brief Returns the window level as a fraction [0, 1].

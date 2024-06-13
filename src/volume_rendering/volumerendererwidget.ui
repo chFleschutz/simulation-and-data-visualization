@@ -6,16 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>731</width>
-    <height>400</height>
+    <width>832</width>
+    <height>568</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>VolumeRendererWidget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" rowspan="2">
-    <widget class="VolumeRenderer" name="volume_renderer"/>
+   <item row="1" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item row="0" column="1">
     <widget class="QGroupBox" name="display_groupBox">
@@ -63,18 +73,18 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="1">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
+   <item row="0" column="0" rowspan="2">
+    <widget class="VolumeRenderer" name="volume_renderer"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="TransferFunctionWidget" name="transferFunctionWidget" native="true">
+     <property name="minimumSize">
       <size>
-       <width>20</width>
-       <height>40</height>
+       <width>0</width>
+       <height>200</height>
       </size>
      </property>
-    </spacer>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -84,6 +94,12 @@
    <class>VolumeRenderer</class>
    <extends>QOpenGLWidget</extends>
    <header>volume_rendering/volumerenderer.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TransferFunctionWidget</class>
+   <extends>QWidget</extends>
+   <header>volume_rendering/transferfunctionwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

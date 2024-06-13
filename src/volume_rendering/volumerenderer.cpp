@@ -4,7 +4,6 @@
 
 #include <QMouseEvent>
 #include <QWheelEvent>
-#include <QFileInfo>
 
 VolumeRenderer::VolumeRenderer(QWidget* parent)
 	: QOpenGLWidget(parent)
@@ -24,6 +23,35 @@ VolumeRenderer::~VolumeRenderer()
 	doneCurrent();
 }
 
+void VolumeRenderer::setVolumeData(const VolumeData& volumeData)
+{
+	// Convert the data to floats and normalize to [0, 1]
+	std::vector<float> data(volumeData.data.size());
+	for (size_t i = 0; i < volumeData.data.size(); i++)
+		data[i] = volumeData.data[i] / 4095.0f;
+
+	// Set Dimensions
+	int width = 1;
+	int height = 1;
+	int depth = 1;
+	if (volumeData.dimensions.size() >= 1)
+		width = volumeData.dimensions[0];
+	if (volumeData.dimensions.size() >= 2)
+		height = volumeData.dimensions[1];
+	if (volumeData.dimensions.size() >= 3)
+		depth = volumeData.dimensions[2];
+
+	m_volumeTexture.setFormat(QOpenGLTexture::R32F);
+	m_volumeTexture.setSize(width, height, depth);
+	m_volumeTexture.allocateStorage();
+	m_volumeTexture.setData(QOpenGLTexture::Red, QOpenGLTexture::Float32, data.data());
+
+	float maxDim = static_cast<float>(std::max({ width, height, depth }));
+	m_model.scale(QVector3D(width, height, depth) / maxDim);
+
+	CHECK_GL_ERROR();
+}
+
 void VolumeRenderer::initializeGL()
 {
 	auto glFunctions = OpenGLUtils::initializeOpenGLFunctions();
@@ -34,12 +62,13 @@ void VolumeRenderer::initializeGL()
 	setupShaders();
 	setupGeometry();
 	setupVolumeTexture();
-	loadVolumeData();
 
 	m_view.lookAt(cameraPosition, QVector3D(0.0f, 0.0f, 0.0f), QVector3D(0.0f, 1.0f, 0.0f));
 	m_model.translate(-0.5f, -0.5f, -0.5f);
 
 	CHECK_GL_ERROR();
+
+	emit rendererReady();
 }
 
 void VolumeRenderer::resizeGL(int w, int h)
@@ -106,39 +135,6 @@ void VolumeRenderer::wheelEvent(QWheelEvent* event)
 	cameraPosition.setZ(std::max(m_minZoom, std::min(m_maxZoom, cameraPosition.z())));
 
 	m_view = createViewMatrix();
-}
-
-void VolumeRenderer::loadVolumeData()
-{
-	m_volumeData.load(QFileInfo(":/assets/volume/smallHeart.mhd").absoluteFilePath().toStdString());
-
-	auto& volume = m_volumeData.data();
-
-	// Convert the data to floats and normalize to [0, 1]
-	std::vector<float> data(volume.data.size());
-	for (size_t i = 0; i < volume.data.size(); i++)
-		data[i] = volume.data[i] / 4095.0f;
-
-	// Set Dimensions
-	int width = 1;
-	int height = 1;
-	int depth = 1;
-	if (volume.dimensions.size() >= 1)
-		width = volume.dimensions[0];
-	if (volume.dimensions.size() >= 2)
-		height = volume.dimensions[1];
-	if (volume.dimensions.size() >= 3)
-		depth = volume.dimensions[2];
-
-	m_volumeTexture.setFormat(QOpenGLTexture::R32F);
-	m_volumeTexture.setSize(width, height, depth);
-	m_volumeTexture.allocateStorage();
-	m_volumeTexture.setData(QOpenGLTexture::Red, QOpenGLTexture::Float32, data.data());
-
-	float maxDim = static_cast<float>(std::max({ width, height, depth }));
-	m_model.scale(QVector3D(width, height, depth) / maxDim);
-
-	CHECK_GL_ERROR();
 }
 
 void VolumeRenderer::setupVolumeTexture()

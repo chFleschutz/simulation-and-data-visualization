@@ -1,7 +1,10 @@
 #pragma once
 
-#include <QWidget>
+#include "slice_viewer/volumedata.h"
 #include "ui_volumerendererwidget.h"
+#include "volume_rendering/histogram.h"
+
+#include <QWidget>
 
 class VolumeRendererWidget : public QWidget
 {
@@ -12,6 +15,7 @@ public:
 	~VolumeRendererWidget() = default;
 
 public slots:
+	void onRendererReady();
 	void onRenderModeEntryPoints();
 	void onRenderModeTexture();
 	void onRenderModeVolumeMIP();
@@ -19,4 +23,7 @@ public slots:
 
 private:
 	Ui::VolumeRendererWidgetClass ui;
+
+	VolumeData m_volumeData;
+	Histogram m_histogram;
 };

@@ -11,7 +11,7 @@ HistogramWidget::HistogramWidget(QWidget* parent)
 	m_image.setAspectRatioMode(Qt::IgnoreAspectRatio);
 }
 
-void HistogramWidget::load(const Histogram& histogram)
+void HistogramWidget::load(const SlowHistogram& histogram)
 {
 	m_image.create(QSize(1024, 512));
 	auto& image = m_image.originalImage();

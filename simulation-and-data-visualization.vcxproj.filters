@@ -76,6 +76,9 @@
     <ClCompile Include="src\volume_rendering\volumerenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\volume_rendering\transferfunctionwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\mapvisualization\maprenderer.h">
@@ -112,6 +115,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\volume_rendering\volumerenderer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\volume_rendering\transferfunctionwidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -170,6 +176,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\openglutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\volume_rendering\transferfunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\volume_rendering\histogram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

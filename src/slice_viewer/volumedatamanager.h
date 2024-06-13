@@ -2,7 +2,7 @@
 
 #include "slice_viewer/volumedata.h"
 
-struct Histogram
+struct SlowHistogram
 {
 	std::unordered_map<uint16_t, int> data;
 	uint16_t minValue = std::numeric_limits<uint16_t>::max();
@@ -22,13 +22,13 @@ public:
 	}
 
 	const VolumeData& data() const { return m_data; }
-	const Histogram& histogram() const { return m_histogram; }
+	const SlowHistogram& histogram() const { return m_histogram; }
 
 private:
 	void updateHistogram()
 	{
 		// Reset the histogram
-		m_histogram = Histogram{}; 
+		m_histogram = SlowHistogram{}; 
 
 		for (const auto value : m_data.data)
 		{
@@ -46,5 +46,5 @@ private:
 	}
 
 	VolumeData m_data;
-	Histogram m_histogram;
+	SlowHistogram m_histogram;
 };
