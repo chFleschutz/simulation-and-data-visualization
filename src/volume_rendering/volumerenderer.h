@@ -23,6 +23,7 @@ public:
 		Texture = 1,
 		VolumeMIP = 2,
 		VolumeDRR = 3,
+		VolumeTFN = 4,
 	};
 
 	VolumeRenderer(QWidget* parent = nullptr);
@@ -77,5 +78,5 @@ private:
 	bool m_mousePressed = false;
 	QPoint m_lastMousePos;
 
-	RenderMode m_renderMode = RenderMode::VolumeMIP;
+	RenderMode m_renderMode = RenderMode::VolumeTFN;
 };

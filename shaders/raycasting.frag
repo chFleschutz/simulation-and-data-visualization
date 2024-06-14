@@ -13,8 +13,9 @@ layout(location = 0) out vec4 outColor;
 const int MAX_STEPS = 1024;
 
 
-vec3 raycastingMIP(vec3 entryPos, vec3 rayStep);
-vec3 raycastingDRR(vec3 entryPos, vec3 rayStep);
+vec4 raycastingMIP(vec3 entryPos, vec3 rayStep);
+vec4 raycastingDRR(vec3 entryPos, vec3 rayStep);
+vec4 raycastingTFN(vec3 entryPos, vec3 rayStep);
 
 void main()
 {
@@ -23,31 +24,34 @@ void main()
 	// This could be improved by calculating the actual length needed to traverse one voxel for the ray direction
 	float stepSize = 1.0 / min(min(volumeSize.x, volumeSize.y), volumeSize.z); 
 	vec3 rayStep = normalize(inRayDir) * stepSize; 
+	vec3 rayStart = inEntryPos + (rayStep * 0.5); // Start in the middle of the first voxel to avoid artifacts
 
 	switch (renderMode)
 	{
 	case 0: // Entry points
 		outColor = vec4(inEntryPos, 1.0);
-		outColor = vec4(texture(transferFunction, inEntryPos.z).rrr + 0.1, 1.0);
 		break;
 	case 1: // Texture
 		outColor = vec4(texture(volume, inEntryPos).rrr, 1.0);
 		break;
 	case 2: // Raycasting (MIP)
-		outColor = vec4(raycastingMIP(inEntryPos, rayStep), 1.0);
+		outColor = raycastingMIP(rayStart, rayStep);
 		break;
 	case 3: // Raycasting (DRR)
-		outColor = vec4(raycastingDRR(inEntryPos, rayStep), 1.0);
+		outColor = raycastingDRR(rayStart, rayStep);
+		break;
+	case 4: // Transfer function (TFN)
+		outColor = raycastingTFN(rayStart, rayStep);
 		break;
 	}
 }
 
-vec3 raycastingMIP(vec3 entryPos, vec3 rayStep)
+vec4 raycastingMIP(vec3 entryPos, vec3 rayStep)
 {
 	float value = 0.0;
 	for (int i = 0; i < MAX_STEPS; i++)
 	{
-		vec3 samplePos = inEntryPos + (rayStep * float(i));
+		vec3 samplePos = entryPos + (rayStep * float(i));
 		if (samplePos.x < 0.0 || samplePos.x > 1.0 || samplePos.y < 0.0 || 
 			samplePos.y > 1.0 || samplePos.z < 0.0 || samplePos.z > 1.0)
 			break;
@@ -55,16 +59,16 @@ vec3 raycastingMIP(vec3 entryPos, vec3 rayStep)
 		value = max(value, texture(volume, samplePos).r);
 	}
 
-	return texture(transferFunction, value).rgb;
+	return vec4(value, value, value, 1.0);
 }
 
-vec3 raycastingDRR(vec3 entryPos, vec3 rayStep)
+vec4 raycastingDRR(vec3 entryPos, vec3 rayStep)
 {
 	float value = 0.0;
 	int i;
 	for (i = 0; i < MAX_STEPS; i++)
 	{
-		vec3 samplePos = inEntryPos + (rayStep * float(i));
+		vec3 samplePos = entryPos + (rayStep * float(i));
 		if (samplePos.x < 0.0 || samplePos.x > 1.0 || samplePos.y < 0.0 || 
 			samplePos.y > 1.0 || samplePos.z < 0.0 || samplePos.z > 1.0)
 			break;
@@ -73,5 +77,28 @@ vec3 raycastingDRR(vec3 entryPos, vec3 rayStep)
 	}
 
 	value /= float(i);
-	return texture(transferFunction, value).rgb;
+	return vec4(value, value, value, 1.0);
+}
+
+vec4 raycastingTFN(vec3 entryPos, vec3 rayStep)
+{
+	float value = 0.0;
+	vec4 color = vec4(0.0);
+	for (int i = 0; i < MAX_STEPS; i++)
+	{
+		vec3 samplePos = entryPos + (rayStep * float(i));
+		if (samplePos.x < 0.0 || samplePos.x > 1.0 || samplePos.y < 0.0 || 
+			samplePos.y > 1.0 || samplePos.z < 0.0 || samplePos.z > 1.0)
+			break;
+
+		float intensity = texture(volume, samplePos).r;
+		vec4 transferColor = texture(transferFunction, intensity).rgba;
+
+		color = color + (1.0 - color.a) * transferColor;
+
+		if (color.a >= 0.99)
+			break;
+	}
+
+	return color;
 }

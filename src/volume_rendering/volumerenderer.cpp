@@ -112,6 +112,7 @@ void VolumeRenderer::paintGL()
 	m_raycastShader.setUniformValue("view", m_view);
 	m_raycastShader.setUniformValue("projection", m_projection);
 	m_raycastShader.setUniformValue("renderMode", m_renderMode);
+
 	m_vao.bind();
 
 	glFunctions->glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);

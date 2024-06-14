@@ -4,16 +4,20 @@
 #include <QMouseEvent>
 #include <QColorDialog>
 
-TransferFunctionWidget::TransferFunctionWidget(QWidget *parent)
+TransferFunctionWidget::TransferFunctionWidget(QWidget* parent)
 	: QWidget(parent)
 {
 }
 
 void TransferFunctionWidget::initialize()
 {
-	m_transferFunction.addControlPoint(0.0f, QColor::fromRgbF(0.0f, 0.0f, 0.0f));
-	m_transferFunction.addControlPoint(1.0f, QColor::fromRgbF(1.0f, 1.0f, 1.0f));
-	createTransferFunctionImage();
+	addControlPoint(0.15f, QColor::fromRgbF(0.0f, 0.0f, 0.0f, 0.02f));
+	addControlPoint(0.4f, QColor::fromRgbF(1.0f, 1.0f, 1.0f, 0.98f));
+
+	addControlPoint(0.22f, QColor(255, 85, 0, 200));
+	addControlPoint(0.27f, QColor(255, 0, 0, 140));
+
+	update();
 }
 
 void TransferFunctionWidget::setHistogram(const Histogram& histogram)
@@ -47,6 +51,8 @@ void TransferFunctionWidget::setHistogram(const Histogram& histogram)
 		painter.setPen(QPen(m_logarithmicColor, 1));
 		painter.drawLine(x, linearY, x, logY);
 	}
+
+	update();
 }
 
 void TransferFunctionWidget::paintEvent(QPaintEvent* event)
@@ -60,8 +66,8 @@ void TransferFunctionWidget::paintEvent(QPaintEvent* event)
 	{
 		painter.setBrush(color);
 
-		QPoint center(value * width(), height() / 2);
-		painter.drawEllipse(center, 5, 5);
+		QPoint center(value * width(), color.alphaF() * height());
+		painter.drawEllipse(center, m_controlPointRadius, m_controlPointRadius);
 	}
 }
 
@@ -72,25 +78,91 @@ void TransferFunctionWidget::mouseDoubleClickEvent(QMouseEvent* event)
 		return;
 
 	float t = event->pos().x() / static_cast<float>(width());
-	m_transferFunction.addControlPoint(t, color);
-	createTransferFunctionImage();
+	t = std::clamp(t, 0.0f, 1.0f);
 
+	float alpha = event->pos().y() / static_cast<float>(height());
+	color.setAlphaF(std::clamp(alpha, 0.0f, 1.0f));
+
+	addControlPoint(t, color);
 	update();
 }
 
 void TransferFunctionWidget::mousePressEvent(QMouseEvent* event)
 {
-	if (event->button() != Qt::RightButton)
+	// Left click to select control point
+	if (event->button() == Qt::LeftButton)
+	{
+		for (auto& [value, color] : m_transferFunction.controlPoints())
+		{
+			QPoint center(value * width(), color.alphaF() * height());
+
+			QRect controlPointRect(center.x() - m_controlPointRadius, center.y() - m_controlPointRadius, 2 * m_controlPointRadius, 2 * m_controlPointRadius);
+			if (controlPointRect.contains(event->pos()))
+			{
+				m_selectedKey = { value, color };
+				break;
+			}
+		}
+	}
+
+	// Right click to remove control point
+	if (event->button() == Qt::RightButton)
+	{
+		for (auto& [value, color] : m_transferFunction.controlPoints())
+		{
+			QPoint center(value * width(), color.alphaF() * height());
+
+			QRect controlPointRect(center.x() - m_controlPointRadius, center.y() - m_controlPointRadius, 2 * m_controlPointRadius, 2 * m_controlPointRadius);
+			if (controlPointRect.contains(event->pos()))
+			{
+				m_transferFunction.erase(value);
+				createTransferFunctionImage();
+				update();
+				break;
+			}
+		}
+	}
+}
+
+void TransferFunctionWidget::mouseMoveEvent(QMouseEvent* event)
+{
+	if (!m_selectedKey.has_value())
 		return;
 
-	float t = event->pos().x() / static_cast<float>(width());
+	float alpha = event->pos().y() / static_cast<float>(height());
+	alpha = std::clamp(alpha, 0.0f, 1.0f);
 
-	auto color = m_transferFunction.color(t);
+	float t = event->pos().x() / static_cast<float>(width());
+	t = std::clamp(t, 0.0f, 1.0f);
+
+	// Don't allow duplicate keys
+	if (m_selectedKey->first != t && m_transferFunction.contains(t))
+		return;
+
+	m_transferFunction.erase(m_selectedKey->first);
+	m_selectedKey->first = t;
+	m_selectedKey->second.setAlphaF(alpha);
+	addControlPoint(m_selectedKey->first, m_selectedKey->second);
+
+	qDebug() << "Moving control point to " << t << " with alpha " << alpha;
+
+	update();
+}
+
+void TransferFunctionWidget::mouseReleaseEvent(QMouseEvent* event)
+{
+	m_selectedKey.reset();
+}
+
+void TransferFunctionWidget::addControlPoint(float t, const QColor& color)
+{
+	m_transferFunction.addControlPoint(t, color);
+	createTransferFunctionImage();
 }
 
 void TransferFunctionWidget::createTransferFunctionImage()
 {
-	m_transferFunctionImage = QImage(m_functionWidth, 1, QImage::Format_RGB32);
+	m_transferFunctionImage = QImage(m_functionWidth, 1, QImage::Format_RGBA8888);
 
 	for (int x = 0; x < m_functionWidth; x++)
 	{

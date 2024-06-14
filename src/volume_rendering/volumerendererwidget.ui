@@ -14,7 +14,10 @@
    <string>VolumeRendererWidget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="1">
+   <item row="0" column="0" rowspan="2">
+    <widget class="VolumeRenderer" name="volume_renderer"/>
+   </item>
+   <item row="1" column="1" rowspan="2">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -46,13 +49,6 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QRadioButton" name="texture_radioButton">
-        <property name="text">
-         <string>Texture</string>
-        </property>
-       </widget>
-      </item>
       <item row="4" column="0">
        <widget class="QRadioButton" name="radioButton_2">
         <property name="text">
@@ -62,8 +58,28 @@
       </item>
       <item row="3" column="0">
        <widget class="QRadioButton" name="volume_radioButton">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="text">
          <string>Volume MIP</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QRadioButton" name="texture_radioButton">
+        <property name="text">
+         <string>Texture</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QRadioButton" name="radioButton">
+        <property name="text">
+         <string>Volume TFN</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -72,9 +88,6 @@
       </item>
      </layout>
     </widget>
-   </item>
-   <item row="0" column="0" rowspan="2">
-    <widget class="VolumeRenderer" name="volume_renderer"/>
    </item>
    <item row="2" column="0">
     <widget class="TransferFunctionWidget" name="transferFunctionWidget" native="true">
@@ -111,12 +124,12 @@
    <slot>onRenderModeEntryPoints()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>649</x>
-     <y>51</y>
+     <x>810</x>
+     <y>61</y>
     </hint>
     <hint type="destinationlabel">
-     <x>590</x>
-     <y>48</y>
+     <x>680</x>
+     <y>47</y>
     </hint>
    </hints>
   </connection>
@@ -127,12 +140,12 @@
    <slot>onRenderModeTexture()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>631</x>
-     <y>106</y>
+     <x>810</x>
+     <y>89</y>
     </hint>
     <hint type="destinationlabel">
-     <x>591</x>
-     <y>110</y>
+     <x>679</x>
+     <y>78</y>
     </hint>
    </hints>
   </connection>
@@ -143,12 +156,12 @@
    <slot>onRenderModeVolumeMIP()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>634</x>
-     <y>134</y>
+     <x>810</x>
+     <y>117</y>
     </hint>
     <hint type="destinationlabel">
-     <x>592</x>
-     <y>138</y>
+     <x>679</x>
+     <y>105</y>
     </hint>
    </hints>
   </connection>
@@ -159,12 +172,28 @@
    <slot>onRenderModeVolumeDRR()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>650</x>
-     <y>164</y>
+     <x>810</x>
+     <y>145</y>
     </hint>
     <hint type="destinationlabel">
-     <x>593</x>
-     <y>165</y>
+     <x>678</x>
+     <y>130</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>VolumeRendererWidgetClass</receiver>
+   <slot>onRenderModeVolumeTFN()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>731</x>
+     <y>161</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>693</x>
+     <y>161</y>
     </hint>
    </hints>
   </connection>
@@ -175,5 +204,6 @@
   <slot>onRenderModeTexture()</slot>
   <slot>onRenderModeVolumeMIP()</slot>
   <slot>onRenderModeVolumeDRR()</slot>
+  <slot>onRenderModeVolumeTFN()</slot>
  </slots>
 </ui>

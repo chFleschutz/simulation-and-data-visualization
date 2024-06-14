@@ -16,10 +16,12 @@ public:
 
 public slots:
 	void onRendererReady();
+
 	void onRenderModeEntryPoints();
 	void onRenderModeTexture();
 	void onRenderModeVolumeMIP();
 	void onRenderModeVolumeDRR();
+	void onRenderModeVolumeTFN();
 
 private:
 	Ui::VolumeRendererWidgetClass ui;

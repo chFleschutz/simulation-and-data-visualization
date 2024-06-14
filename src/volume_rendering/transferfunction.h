@@ -5,6 +5,7 @@
 #include <QColor>
 
 #include <map>
+#include <optional>
 
 class TransferFunction
 {
@@ -41,7 +42,22 @@ public:
 		return Utils::lerp(lowerColor, upperColor, t);
 	}
 
+	std::optional<std::pair<float, QColor>> controlPoint(float value) const
+	{
+		Q_ASSERT_X(!m_controlPoints.empty(), "TransferFunction::controlPoint", "No control points added yet");
+
+		auto it = m_controlPoints.find(value);
+		if (it == m_controlPoints.end())
+			return std::nullopt;
+
+		return *it;
+	}
+
 	const std::map<float, QColor>& controlPoints() const { return m_controlPoints; }
+
+	void clear() { m_controlPoints.clear(); }
+	void erase(float value) { m_controlPoints.erase(value); }
+	bool contains(float key) const { return m_controlPoints.contains(key); }
 
 private:
 	std::map<float, QColor> m_controlPoints;

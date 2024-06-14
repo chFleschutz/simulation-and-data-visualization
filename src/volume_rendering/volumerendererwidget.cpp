@@ -14,7 +14,6 @@ VolumeRendererWidget::VolumeRendererWidget(QWidget* parent)
 
 void VolumeRendererWidget::onRendererReady()
 {
-
 	auto path = QFileInfo(":/assets/volume/smallHeart.mhd").absoluteFilePath().toStdString();
 	VolumeFileLoader::load(path, m_volumeData);
 	ui.volume_renderer->setVolumeData(m_volumeData);
@@ -42,4 +41,9 @@ void VolumeRendererWidget::onRenderModeVolumeMIP()
 void VolumeRendererWidget::onRenderModeVolumeDRR()
 {
 	ui.volume_renderer->setRenderMode(VolumeRenderer::RenderMode::VolumeDRR);
+}
+
+void VolumeRendererWidget::onRenderModeVolumeTFN()
+{
+	ui.volume_renderer->setRenderMode(VolumeRenderer::RenderMode::VolumeTFN);
 }
