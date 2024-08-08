@@ -47,3 +47,8 @@ void VolumeRendererWidget::onRenderModeVolumeTFN()
 {
 	ui.volume_renderer->setRenderMode(VolumeRenderer::RenderMode::VolumeTFN);
 }
+
+void VolumeRendererWidget::onRenderModeVolumePhong()
+{
+	ui.volume_renderer->setRenderMode(VolumeRenderer::RenderMode::VolumePhong);
+}

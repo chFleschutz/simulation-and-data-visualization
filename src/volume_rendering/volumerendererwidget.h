@@ -22,6 +22,7 @@ public slots:
 	void onRenderModeVolumeMIP();
 	void onRenderModeVolumeDRR();
 	void onRenderModeVolumeTFN();
+	void onRenderModeVolumePhong();
 
 private:
 	Ui::VolumeRendererWidgetClass ui;

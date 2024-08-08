@@ -24,6 +24,7 @@ public:
 		VolumeMIP = 2,
 		VolumeDRR = 3,
 		VolumeTFN = 4,
+		VolumePhong = 5,
 	};
 
 	VolumeRenderer(QWidget* parent = nullptr);

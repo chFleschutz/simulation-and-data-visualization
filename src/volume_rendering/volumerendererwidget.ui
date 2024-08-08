@@ -49,6 +49,16 @@
         </property>
        </widget>
       </item>
+      <item row="5" column="0">
+       <widget class="QRadioButton" name="radioButton">
+        <property name="text">
+         <string>Volume TFN</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
       <item row="4" column="0">
        <widget class="QRadioButton" name="radioButton_2">
         <property name="text">
@@ -76,13 +86,10 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QRadioButton" name="radioButton">
+      <item row="6" column="0">
+       <widget class="QRadioButton" name="radioButton_3">
         <property name="text">
-         <string>Volume TFN</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
+         <string>Volume Phong</string>
         </property>
        </widget>
       </item>
@@ -197,6 +204,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>radioButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>VolumeRendererWidgetClass</receiver>
+   <slot>onRenderModeVolumePhong()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>746</x>
+     <y>197</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>692</x>
+     <y>195</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onRenderModeEntryPoints()</slot>
@@ -205,5 +228,6 @@
   <slot>onRenderModeVolumeMIP()</slot>
   <slot>onRenderModeVolumeDRR()</slot>
   <slot>onRenderModeVolumeTFN()</slot>
+  <slot>onRenderModeVolumePhong()</slot>
  </slots>
 </ui>
