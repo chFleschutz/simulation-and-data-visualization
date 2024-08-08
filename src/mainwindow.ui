@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>766</width>
-    <height>256</height>
+    <width>856</width>
+    <height>639</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,8 +25,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>766</width>
-     <height>22</height>
+     <width>856</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDebug">
@@ -49,9 +49,10 @@
    </widget>
    <widget class="QMenu" name="menu3D_Visualization">
     <property name="title">
-     <string>3D-Visualization</string>
+     <string>3D Visualization</string>
     </property>
-    <addaction name="actionVolume_Data"/>
+    <addaction name="actionSlice_Viewer"/>
+    <addaction name="actionVolume_Renderer"/>
    </widget>
    <addaction name="menuMap_Visualization"/>
    <addaction name="menu3D_Visualization"/>
@@ -78,9 +79,14 @@
     <string>Pandemic Simulation</string>
    </property>
   </action>
-  <action name="actionVolume_Data">
+  <action name="actionSlice_Viewer">
    <property name="text">
     <string>Slice Viewer</string>
+   </property>
+  </action>
+  <action name="actionVolume_Renderer">
+   <property name="text">
+    <string>Volume Renderer</string>
    </property>
   </action>
  </widget>
@@ -138,10 +144,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionVolume_Data</sender>
+   <sender>actionSlice_Viewer</sender>
    <signal>triggered()</signal>
    <receiver>MainWindowClass</receiver>
-   <slot>onVolumeDataVisualization()</slot>
+   <slot>onSliceViewer()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -153,11 +159,28 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionVolume_Renderer</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>onVolumeRendering()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>427</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onShowDebugOutput()</slot>
   <slot>onMapVisualization()</slot>
   <slot>onPandemicSimulation()</slot>
-  <slot>onVolumeDataVisualization()</slot>
+  <slot>onSliceViewer()</slot>
+  <slot>onVolumeRendering()</slot>
  </slots>
 </ui>
