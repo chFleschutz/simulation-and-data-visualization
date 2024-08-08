@@ -11,8 +11,11 @@ VolumeDataWidget::VolumeDataWidget(QWidget* parent)
 	ui.setupUi(this);
 
 	ui.windowing_checkBox->setChecked(ui.histogram_widget->showWindowing());
-
 	onSliceLevelChanged(0);
+	connect(ui.sliceViewer, &SliceViewerWidget::openGLReady, [this]() 
+		{
+			this->ui.file_comboBox->setCurrentIndex(0);
+		});
 }
 
 void VolumeDataWidget::onUpdateWindowLevel(float level)

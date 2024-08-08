@@ -31,6 +31,7 @@ public:
 
 signals:
 	void sliceLevelChanged(float level);
+	void openGLReady();
 
 protected:
 	void initializeGL() override;

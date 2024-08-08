@@ -12,6 +12,7 @@
 SliceViewerWidget::SliceViewerWidget(QWidget* parent)
 	: QOpenGLWidget(parent)
 {
+
 }
 
 SliceViewerWidget::~SliceViewerWidget()
@@ -89,6 +90,10 @@ void SliceViewerWidget::initializeGL()
 	setupGeometry();
 
 	setupTexture();
+
+	CHECK_GL_ERROR();
+
+	emit openGLReady();
 }
 
 void SliceViewerWidget::resizeGL(int w, int h)
