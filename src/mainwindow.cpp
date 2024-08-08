@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui.setupUi(this);
 
     qInstallMessageHandler(&MainWindow::messageHandler);
+
+    setCentralWidget(new MapVisualization(this));
 }
 
 void MainWindow::messageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)

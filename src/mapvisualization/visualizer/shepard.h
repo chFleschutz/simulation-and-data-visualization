@@ -11,6 +11,8 @@ public:
 protected:
 	void colorPixel(QImage& image, int x, int y, const std::vector<ControlPoint>& controlPoints) override
 	{
+		Q_ASSERT(!controlPoints.empty());
+
 		float r = 0.0f;
 		float g = 0.0f;
 		float b = 0.0f;
@@ -20,24 +22,21 @@ protected:
 		{
 			auto dx = point.pos.x() - x;
 			auto dy = point.pos.y() - y;
-			auto dist = sqrt(dx * dx + dy * dy); 
 
-			auto weight = 1.0f / dist;
+			auto weight = 1.0f;
+			if (dx != 0 || dy != 0) // Avoid division by zero
+				weight = 1.0f / sqrt(dx * dx + dy * dy);
+
 			totalWeight += weight;
-
 			r += weight * point.color.red();
 			g += weight * point.color.green();
 			b += weight * point.color.blue();
 		}
 
-		// Avoid division by zero (or near zero)
-		if (totalWeight < 0.0001f)
-			return;
-
+		Q_ASSERT(totalWeight > 0.0f);
 		r /= totalWeight;
 		g /= totalWeight;
 		b /= totalWeight;
-
 		image.setPixelColor(x, y, QColor(r, g, b));
 	}
 };
