@@ -40,7 +40,7 @@ To get started follow these steps:
 ### Slice Viewer
 
 <div style="display: flex; justify-content: center;">
-   <img src="screenshots/slice-viewer.png" alt="Slice Viewer" style="width: 80%;"/>
+   <img src="screenshots/slice-viewer.png" alt="Slice Viewer" style="width: 97%;"/>
 </div>
 
 ### Direct Volume Renderer
@@ -53,5 +53,5 @@ To get started follow these steps:
 ### Pandemic Simulation
 
 <div style="display: flex; justify-content: center;">
-   <img src="screenshots/pandemic-sim.png" alt="Pandemic Simulation" style="width: 80%;"/>
+   <img src="screenshots/pandemic-sim.png" alt="Pandemic Simulation" style="width: 97%;"/>
 </div>
